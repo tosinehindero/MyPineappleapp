@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LUXY - Exclusive Social Platform",
-  description: "An invitation-only social platform for discerning individuals who value privacy, sophistication, and meaningful connections.",
-  keywords: "luxury social network, exclusive community, high-end networking, private social platform",
+  title: "PineapplePlay - Exclusive Social Platform",
+  description: "Where luxury meets lifestyle. An invitation-only social platform for discerning individuals who value privacy, sophistication, and meaningful connections.",
+  keywords: "luxury social network, exclusive community, high-end networking, private social platform, pineapple play",
 };
 
 export default function RootLayout({

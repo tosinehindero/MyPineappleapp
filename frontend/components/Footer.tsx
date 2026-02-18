@@ -106,7 +106,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gold/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-offWhite/50 text-sm font-body">
-              © {currentYear} LUXY. All rights reserved.
+              © {currentYear} PineapplePlay. All rights reserved.
             </p>
             <p className="text-offWhite/50 text-sm font-body">
               Crafted with excellence for the distinguished
