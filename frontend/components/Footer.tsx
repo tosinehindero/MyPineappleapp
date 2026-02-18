@@ -9,7 +9,15 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <h3 className="text-3xl font-heading text-gold mb-4">LUXY</h3>
+            <div className="flex items-center space-x-3 mb-4">
+              <span 
+                className="text-4xl transform -rotate-45"
+                style={{ display: 'inline-block' }}
+              >
+                🍍
+              </span>
+              <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
+            </div>
             <p className="text-offWhite/70 font-body leading-relaxed max-w-md">
               An exclusive social platform for those who value privacy, authenticity, 
               and meaningful connections with distinguished individuals worldwide.

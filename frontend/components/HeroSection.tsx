@@ -45,10 +45,10 @@ export default function HeroSection() {
           data-testid="hero-heading"
         >
           <span className="text-gold-gradient block mb-2">
-            Where Luxury
+            Where luxury
           </span>
           <span className="text-offWhite">
-            Meets Connection
+            meets Lifestyle
           </span>
         </h1>
 
