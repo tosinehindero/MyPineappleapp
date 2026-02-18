@@ -28,10 +28,18 @@ export default function Navbar() {
           {/* Logo */}
           <Link 
             href="/" 
-            className="text-2xl font-heading text-gold hover:text-gold-light transition-colors"
+            className="flex items-center space-x-2 group"
             data-testid="navbar-logo"
           >
-            LUXY
+            <span 
+              className="text-3xl transform -rotate-45 group-hover:scale-110 transition-transform"
+              style={{ display: 'inline-block' }}
+            >
+              🍍
+            </span>
+            <span className="text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">
+              PineapplePlay
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
