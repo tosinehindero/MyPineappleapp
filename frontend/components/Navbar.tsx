@@ -1,0 +1,81 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'bg-charcoal/95 backdrop-blur-md shadow-lg border-b border-gold/10'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link 
+            href="/" 
+            className="text-2xl font-heading text-gold hover:text-gold-light transition-colors"
+            data-testid="navbar-logo"
+          >
+            LUXY
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link
+              href="#features"
+              className="text-offWhite/80 hover:text-gold transition-colors font-body"
+              data-testid="nav-link-features"
+            >
+              Features
+            </Link>
+            <Link
+              href="#about"
+              className="text-offWhite/80 hover:text-gold transition-colors font-body"
+              data-testid="nav-link-about"
+            >
+              About
+            </Link>
+            <Link
+              href="#contact"
+              className="text-offWhite/80 hover:text-gold transition-colors font-body"
+              data-testid="nav-link-contact"
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex items-center space-x-4">
+            <button
+              className="hidden sm:block px-6 py-2 text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body"
+              data-testid="login-button"
+            >
+              Log In
+            </button>
+            <button
+              className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body"
+              data-testid="apply-button"
+            >
+              Apply for Membership
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
