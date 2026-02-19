@@ -14,6 +14,7 @@ import {
   type Conversation,
   type DecryptedMessage,
 } from '@/lib/messaging';
+import PrivacyProtection from './PrivacyProtection';
 
 export default function SecureMessaging() {
   const [currentUser, setCurrentUser] = useState<any>(null);
