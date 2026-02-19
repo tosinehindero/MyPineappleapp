@@ -309,13 +309,16 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                   style={{ aspectRatio: '1' }}
                 >
                   <div className="absolute inset-0 rounded-lg overflow-hidden border-2 border-gold/20 hover:border-gold/60 transition-colors">
-                    <img
+                    <WatermarkedImage
                       src={url}
                       alt={`Photo ${index + 1}`}
-                      className="w-full h-full object-contain bg-darkBlue"
+                      viewerUsername={viewerUsername || 'Member'}
+                      fill
+                      objectFit="contain"
+                      className="bg-darkBlue"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-lg pointer-events-none"></div>
                 </motion.div>
               ))}
             </div>
