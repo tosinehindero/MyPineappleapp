@@ -59,18 +59,29 @@ export default function Navbar() {
               Discover
             </Link>
             <Link
+              href="/messages"
+              className="text-offWhite/80 hover:text-gold transition-colors font-body flex items-center"
+              data-testid="nav-link-messages"
+            >
+              <svg
+                className="w-4 h-4 mr-1"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Messages
+            </Link>
+            <Link
               href="#about"
               className="text-offWhite/80 hover:text-gold transition-colors font-body"
               data-testid="nav-link-about"
             >
               About
-            </Link>
-            <Link
-              href="#contact"
-              className="text-offWhite/80 hover:text-gold transition-colors font-body"
-              data-testid="nav-link-contact"
-            >
-              Contact
             </Link>
           </div>
 
