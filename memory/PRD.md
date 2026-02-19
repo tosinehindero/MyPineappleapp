@@ -42,7 +42,7 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
 - Edit Profile modal, Favorites toggle
 - Vetting Wall for unverified users (blur + modal)
 
-### 6. Privacy Protection Features ✅ (NEW - Dec 19, 2026)
+### 6. Privacy Protection Features ✅
 - **Screenshot Deterrent**: CSS/JS protection on Profile and Messaging pages
   - `user-select: none` to prevent text selection
   - Privacy overlay on window blur (tab switch, minimize)
@@ -53,19 +53,19 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
   - Timestamp included for traceability
   - Next.js Image optimization for memory efficiency
 
-### 7. Next.js Image Optimization ✅
-- Configured remote patterns for Firebase Storage, Google, Unsplash, Pexels
-- Optimized device/image sizes for better performance
-- WebP format support
+### 7. Community Pulse Sidebar ✅ (NEW - Dec 19, 2026)
+- **Collapsible drawer** sliding in from the right edge
+- **Real-time Firebase subscriptions** for live updates
+- **4 tabs**:
+  - ✨ **New**: Recently joined members (last 7 days)
+  - 🟢 **Online**: Currently online members (verified users only)
+  - 🔥 **Hot/Trending**: Popular profiles based on favorites
+  - 🔔 **Alerts**: Unread messages and notifications
+- **Privacy**: Online status visible only to verified members
+- **Non-authenticated state**: Shows login prompt with "Join Now" CTA
 
-## Firestore Security Rules
-Rules created at `/app/frontend/firestore.rules` - **NEEDS MANUAL DEPLOYMENT**
-
-```bash
-firebase login
-cd /app/frontend
-firebase deploy --only firestore:rules
-```
+## Firestore Security Rules ✅ DEPLOYED
+Rules at `/app/frontend/firestore.rules` - User deployed manually.
 
 ## Database Collections
 - **members**: User profiles with sensitive fields (description, fantasies)
@@ -74,23 +74,25 @@ firebase deploy --only firestore:rules
 - **conversationKeys**: Per-user encrypted conversation keys
 - **favorites**: User favorite relationships
 - **verificationRequests**: Membership verification requests
+- **notifications**: User notifications (new)
 
 ## Key Files
+- `components/CommunityPulse.tsx` - Community Pulse drawer (NEW)
+- `components/ClientProviders.tsx` - Client-side providers wrapper (NEW)
+- `app/pulse/actions.ts` - Pulse server actions (NEW)
 - `components/PrivacyProtection.tsx` - Screenshot deterrent wrapper
 - `components/WatermarkedImage.tsx` - Image watermarking component
 - `components/ProfilePage.tsx` - Full profile with privacy features
 - `components/SecureMessaging.tsx` - Encrypted messaging UI
 - `app/profile/actions.ts` - Profile CRUD with field-level privacy
 - `lib/messaging.ts` - Encryption and message handling
-- `lib/encryption.ts` - AES-256 utilities
 - `firestore.rules` - Firestore security rules
 
 ## Backlog (P1)
-1. **Community Pulse Sidebar** - Activity feed / social notifications
-2. **Verification Request UI** - User-facing verification flow
-3. **Admin Dashboard** - Approve/reject verification requests
-4. **Photo Management** - Add/remove profile photos
-5. **Memory Investigation** - Previous pod crash (unresolved)
+1. **Verification Request UI** - User-facing verification flow
+2. **Admin Dashboard** - Approve/reject verification requests
+3. **Photo Management** - Add/remove profile photos
+4. **Memory Investigation** - Previous pod crash (unresolved)
 
 ## Technical Debt
 - Memory usage monitoring (previous crash unresolved)
@@ -98,4 +100,4 @@ firebase deploy --only firestore:rules
 - Test coverage
 
 ## Last Update
-December 19, 2026 - Added Privacy Protection (Screenshot Deterrent + Watermarks)
+December 19, 2026 - Added Community Pulse Sidebar with real-time Firebase subscriptions
