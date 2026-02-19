@@ -546,5 +546,6 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       {/* Bottom Padding for Action Bar */}
       <div className="h-24"></div>
     </div>
+    </PrivacyProtection>
   );
 }
