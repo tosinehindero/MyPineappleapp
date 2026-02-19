@@ -108,7 +108,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
     }
 
     const result = await toggleFavorite(currentUser.uid, profileId);
-    if (result.success) {
+    if (result.success && result.isFavorite !== undefined) {
       setIsFavorite(result.isFavorite);
     }
   };
