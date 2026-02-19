@@ -10,7 +10,8 @@ import {
   updateProfile,
   toggleFavorite,
   checkIsFavorite,
-} from '../actions';
+  getUserVerificationStatus,
+} from '@/app/profile/actions';
 import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
 import WatermarkedImage from './WatermarkedImage';
