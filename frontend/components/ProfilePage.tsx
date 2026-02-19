@@ -62,6 +62,13 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
         const verificationResult = await getUserVerificationStatus(user.uid);
         setIsVerified(verificationResult.isVerified || false);
         
+        // Get viewer's username for watermark
+        const { getProfile: fetchProfile } = await import('../app/profile/actions');
+        const viewerProfileResult = await fetchProfile(user.uid, user.uid, true);
+        if (viewerProfileResult.success && viewerProfileResult.data) {
+          setViewerUsername(viewerProfileResult.data.username || user.email || 'Member');
+        }
+        
         // Check if favorite
         const favResult = await checkIsFavorite(user.uid, profileId);
         if (favResult.success) {
