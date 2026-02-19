@@ -48,6 +48,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [saving, setSaving] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [isRestricted, setIsRestricted] = useState(false);
+  const [viewerUsername, setViewerUsername] = useState('');
 
   const isOwner = currentUser?.uid === profileId;
   const shouldBlur = isRestricted && !isOwner;
