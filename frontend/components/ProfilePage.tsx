@@ -59,13 +59,11 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       setCurrentUser(user);
       if (user) {
         // Get user's verification status from their profile
-        const { getUserVerificationStatus } = await import('../app/profile/actions');
         const verificationResult = await getUserVerificationStatus(user.uid);
         setIsVerified(verificationResult.isVerified || false);
         
         // Get viewer's username for watermark
-        const { getProfile: fetchProfile } = await import('../app/profile/actions');
-        const viewerProfileResult = await fetchProfile(user.uid, user.uid, true);
+        const viewerProfileResult = await getProfile(user.uid, user.uid, true);
         if (viewerProfileResult.success && viewerProfileResult.data) {
           setViewerUsername(viewerProfileResult.data.username || user.email || 'Member');
         }
