@@ -10,13 +10,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
+              <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
               <span 
-                className="text-4xl transform -rotate-45"
+                className="text-4xl transform rotate-180"
                 style={{ display: 'inline-block' }}
               >
                 🍍
               </span>
-              <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
             </div>
             <p className="text-offWhite/70 font-body leading-relaxed max-w-md">
               An exclusive social platform for those who value privacy, authenticity, 
