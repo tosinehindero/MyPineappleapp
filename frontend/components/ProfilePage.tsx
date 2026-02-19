@@ -12,6 +12,8 @@ import {
   checkIsFavorite,
 } from '../actions';
 import Link from 'next/link';
+import PrivacyProtection from './PrivacyProtection';
+import WatermarkedImage from './WatermarkedImage';
 
 interface ProfileData {
   id: string;
