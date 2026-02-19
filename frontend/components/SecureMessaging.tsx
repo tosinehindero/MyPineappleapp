@@ -422,5 +422,6 @@ export default function SecureMessaging() {
         )}
       </div>
     </div>
+    </PrivacyProtection>
   );
 }
