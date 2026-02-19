@@ -77,7 +77,7 @@ export async function getNearbyUsers(userLat: number, userLng: number, radiusMil
     const users = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    })) as Array<{ id: string; coordinates?: { lat: number; lng: number }; [key: string]: any }>;
 
     // Filter by distance (Haversine formula)
     const nearbyUsers = users.filter(user => {
