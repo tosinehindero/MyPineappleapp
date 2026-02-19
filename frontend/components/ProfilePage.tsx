@@ -66,7 +66,18 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
         // Get viewer's username for watermark
         const viewerProfileResult = await getProfile(user.uid, user.uid, true);
         if (viewerProfileResult.success && viewerProfileResult.data) {
-          setViewerUsername(viewerProfileResult.data.username || user.email || 'Member');
+          const username = viewerProfileResult.data.username || user.email || 'Member';
+          setViewerUsername(username);
+          
+          // Record profile view (only if viewing someone else's profile)
+          if (user.uid !== profileId) {
+            await recordProfileView(
+              user.uid,
+              username,
+              viewerProfileResult.data.photoUrls?.[0] || null,
+              profileId
+            );
+          }
         }
         
         // Check if favorite
