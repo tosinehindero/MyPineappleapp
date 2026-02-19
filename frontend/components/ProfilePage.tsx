@@ -173,62 +173,63 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-charcoal">
-      {/* Full-Width Header with Photo Background */}
-      <div className="relative h-96 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: profile.photoUrls[0]
-              ? `url(${profile.photoUrls[0]})`
-              : 'linear-gradient(135deg, #0F172A 0%, #121212 100%)',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/60 via-charcoal/70 to-charcoal"></div>
+    <PrivacyProtection viewerUsername={viewerUsername} showWarning={!isOwner}>
+      <div className="min-h-screen bg-charcoal">
+        {/* Full-Width Header with Photo Background */}
+        <div className="relative h-96 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: profile.photoUrls[0]
+                ? `url(${profile.photoUrls[0]})`
+                : 'linear-gradient(135deg, #0F172A 0%, #121212 100%)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/60 via-charcoal/70 to-charcoal"></div>
 
-        {/* Profile Header Content */}
-        <div className="relative h-full flex items-end">
-          <div className="w-full px-6 pb-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center space-x-4 mb-4">
-                <h1 className="text-4xl md:text-5xl font-heading text-offWhite">
-                  {profile.username}
-                </h1>
-                {profile.isVerified && (
-                  <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center shadow-gold-glow">
-                    <svg
-                      className="w-6 h-6 text-charcoal"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                )}
-                <span
-                  className={`px-4 py-1.5 border rounded-full text-sm font-semibold ${getExperienceBadgeColor(
-                    profile.experienceLevel
-                  )}`}
-                >
-                  {profile.experienceLevel}
-                </span>
-              </div>
+          {/* Profile Header Content */}
+          <div className="relative h-full flex items-end">
+            <div className="w-full px-6 pb-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="flex items-center space-x-4 mb-4">
+                  <h1 className="text-4xl md:text-5xl font-heading text-offWhite">
+                    {profile.username}
+                  </h1>
+                  {profile.isVerified && (
+                    <div className="w-10 h-10 bg-gold rounded-full flex items-center justify-center shadow-gold-glow">
+                      <svg
+                        className="w-6 h-6 text-charcoal"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                  <span
+                    className={`px-4 py-1.5 border rounded-full text-sm font-semibold ${getExperienceBadgeColor(
+                      profile.experienceLevel
+                    )}`}
+                  >
+                    {profile.experienceLevel}
+                  </span>
+                </div>
 
-              <div className="flex items-center space-x-6 text-offWhite/80">
-                <span className="flex items-center space-x-2">
-                  <span>📍</span>
-                  <span className="font-body">{profile.location}</span>
-                </span>
-                <span className="font-body">{profile.accountType}</span>
+                <div className="flex items-center space-x-6 text-offWhite/80">
+                  <span className="flex items-center space-x-2">
+                    <span>📍</span>
+                    <span className="font-body">{profile.location}</span>
+                  </span>
+                  <span className="font-body">{profile.accountType}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-12">
