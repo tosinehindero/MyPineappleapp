@@ -243,6 +243,7 @@ export default function RegistrationForm() {
               exit="exit"
               transition={{ duration: 0.3 }}
             >
+              {/* @ts-expect-error - initialData type varies by step */}
               <CurrentStepComponent
                 onSubmit={handleStepSubmit}
                 onBack={handleBack}
