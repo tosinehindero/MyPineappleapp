@@ -53,7 +53,7 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
   - Timestamp included for traceability
   - Next.js Image optimization for memory efficiency
 
-### 7. Community Pulse Sidebar ✅ (NEW - Dec 19, 2026)
+### 7. Community Pulse Sidebar ✅
 - **Collapsible drawer** sliding in from the right edge
 - **Real-time Firebase subscriptions** for live updates
 - **4 tabs**:
@@ -63,6 +63,15 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
   - 🔔 **Alerts**: Unread messages and notifications
 - **Privacy**: Online status visible only to verified members
 - **Non-authenticated state**: Shows login prompt with "Join Now" CTA
+
+### 8. Profile View Tracking ✅ (NEW - Dec 19, 2026)
+- **"Someone viewed your profile"** notifications
+- **View recording**: Tracks when users view other profiles
+- **Duplicate prevention**: Only one view per user per day
+- **Real-time notifications**: Shows in Alerts tab with 👁️ icon
+- **Click-through**: Notifications link directly to viewer's profile
+- **Unread indicators**: Gold dot and left border for unread notifications
+- **View stats**: Total views and unique viewers tracked per profile
 
 ## Firestore Security Rules ✅ DEPLOYED
 Rules at `/app/frontend/firestore.rules` - User deployed manually.
