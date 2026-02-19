@@ -29,10 +29,12 @@ interface PulseMember {
 
 interface PulseNotification {
   id: string;
-  type: 'message' | 'favorite' | 'view';
+  type: 'message' | 'favorite' | 'profile_view';
+  fromUserId?: string;
   fromUsername: string;
   fromPhotoUrl?: string;
   createdAt: Date;
+  read?: boolean;
 }
 
 type TabType = 'new' | 'online' | 'trending' | 'notifications';
