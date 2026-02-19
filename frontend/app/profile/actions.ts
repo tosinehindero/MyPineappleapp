@@ -13,18 +13,79 @@ import {
   getDocs,
 } from 'firebase/firestore';
 
-export async function getProfile(userId: string) {
+/**
+ * Get profile with field-level privacy
+ * Returns full profile if verified or owner
+ * Returns limited fields if not verified
+ */
+export async function getProfile(userId: string, requestingUserId?: string, isVerified?: boolean) {
   try {
     const profileDoc = await getDoc(doc(db, 'members', userId));
-    if (profileDoc.exists()) {
+    
+    if (!profileDoc.exists()) {
+      return { success: false, error: 'Profile not found' };
+    }
+
+    const fullProfile = { id: profileDoc.id, ...profileDoc.data() };
+    
+    // Check if requesting user is owner or verified
+    const isOwner = requestingUserId === userId;
+    const canViewPrivate = isOwner || isVerified;
+
+    if (!canViewPrivate) {
+      // Return only public fields for unverified users
+      const publicProfile = {
+        id: fullProfile.id,
+        username: fullProfile.username,
+        accountType: fullProfile.accountType,
+        experienceLevel: fullProfile.experienceLevel,
+        location: fullProfile.location,
+        interests: fullProfile.interests || [],
+        lookingFor: fullProfile.lookingFor || [],
+        isVerified: fullProfile.isVerified,
+        ageRangeMin: fullProfile.ageRangeMin,
+        ageRangeMax: fullProfile.ageRangeMax,
+        // Private fields excluded: description, fantasies, photoUrls
+        description: null, // Explicitly null to indicate restricted
+        fantasies: null,
+        photoUrls: [], // Empty array for restricted photos
+      };
+      
       return {
         success: true,
-        data: { id: profileDoc.id, ...profileDoc.data() },
+        data: publicProfile,
+        restricted: true, // Flag to indicate restricted access
       };
     }
-    return { success: false, error: 'Profile not found' };
+
+    // Return full profile for verified users or owner
+    return {
+      success: true,
+      data: fullProfile,
+      restricted: false,
+    };
   } catch (error: any) {
     return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Get current user's verification status
+ */
+export async function getUserVerificationStatus(userId: string) {
+  try {
+    const userDoc = await getDoc(doc(db, 'members', userId));
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      return {
+        success: true,
+        isVerified: data.status === 'verified',
+        status: data.status || 'pending',
+      };
+    }
+    return { success: false, isVerified: false };
+  } catch (error: any) {
+    return { success: false, error: error.message, isVerified: false };
   }
 }
 
@@ -86,6 +147,23 @@ export async function getUserFavorites(userId: string) {
     const snapshot = await getDocs(favoritesQuery);
     const favorites = snapshot.docs.map((doc) => doc.data());
     return { success: true, data: favorites };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Request verification (for members to submit)
+ */
+export async function requestVerification(userId: string, reason?: string) {
+  try {
+    await setDoc(doc(db, 'verificationRequests', userId), {
+      userId,
+      reason: reason || 'Membership verification request',
+      status: 'pending',
+      createdAt: new Date(),
+    });
+    return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
   }
