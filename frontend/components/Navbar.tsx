@@ -52,6 +52,13 @@ export default function Navbar() {
               Features
             </Link>
             <Link
+              href="/map"
+              className="text-offWhite/80 hover:text-gold transition-colors font-body"
+              data-testid="nav-link-map"
+            >
+              Discover
+            </Link>
+            <Link
               href="#about"
               className="text-offWhite/80 hover:text-gold transition-colors font-body"
               data-testid="nav-link-about"
