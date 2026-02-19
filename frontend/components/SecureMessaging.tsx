@@ -156,7 +156,8 @@ export default function SecureMessaging() {
   };
 
   return (
-    <div className="h-screen bg-charcoal flex">
+    <PrivacyProtection viewerUsername={viewerUsername} showWarning={true}>
+      <div className="h-screen bg-charcoal flex">
       {/* Conversations Sidebar */}
       <div className="w-full md:w-96 bg-darkBlue border-r border-gold/20 flex flex-col">
         {/* Header */}
