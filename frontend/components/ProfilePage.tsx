@@ -44,15 +44,21 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [editDescription, setEditDescription] = useState('');
   const [editFantasies, setEditFantasies] = useState('');
   const [saving, setSaving] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isRestricted, setIsRestricted] = useState(false);
 
   const isOwner = currentUser?.uid === profileId;
-  const isVerified = currentUser?.isVerified || false;
-  const shouldBlur = !isVerified && !isOwner;
+  const shouldBlur = isRestricted && !isOwner;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
+        // Get user's verification status from their profile
+        const { getUserVerificationStatus } = await import('../app/profile/actions');
+        const verificationResult = await getUserVerificationStatus(user.uid);
+        setIsVerified(verificationResult.isVerified || false);
+        
         // Check if favorite
         const favResult = await checkIsFavorite(user.uid, profileId);
         if (favResult.success) {
@@ -66,16 +72,25 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   useEffect(() => {
     const loadProfile = async () => {
       setLoading(true);
-      const result = await getProfile(profileId);
+      const result = await getProfile(
+        profileId,
+        currentUser?.uid,
+        isVerified
+      );
+      
       if (result.success && result.data) {
         setProfile(result.data as ProfileData);
+        setIsRestricted(result.restricted || false);
         setEditDescription(result.data.description || '');
         setEditFantasies(result.data.fantasies || '');
       }
       setLoading(false);
     };
-    loadProfile();
-  }, [profileId]);
+    
+    if (currentUser !== null) {
+      loadProfile();
+    }
+  }, [profileId, currentUser, isVerified]);
 
   const handleToggleFavorite = async () => {
     if (!currentUser) {
