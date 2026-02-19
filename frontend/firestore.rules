@@ -110,5 +110,41 @@ service cloud.firestore {
       // Cannot delete requests
       allow delete: if false;
     }
+    
+    // Profile Views Collection
+    match /profileViews/{viewId} {
+      // Users can read views of their own profile
+      allow read: if isAuthenticated() && 
+                    resource.data.profileOwnerId == request.auth.uid;
+      
+      // Any authenticated user can create a view record
+      allow create: if isAuthenticated() && 
+                      request.resource.data.viewerId == request.auth.uid;
+      
+      // Views can be updated (for view count increment)
+      allow update: if isAuthenticated() && 
+                      resource.data.viewerId == request.auth.uid;
+      
+      // Cannot delete view records
+      allow delete: if false;
+    }
+    
+    // Notifications Collection
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isAuthenticated() && 
+                    resource.data.toUserId == request.auth.uid;
+      
+      // Any authenticated user can create notifications for others
+      allow create: if isAuthenticated() && 
+                      request.resource.data.fromUserId == request.auth.uid;
+      
+      // Users can mark their notifications as read
+      allow update: if isAuthenticated() && 
+                      resource.data.toUserId == request.auth.uid;
+      
+      // Cannot delete notifications
+      allow delete: if false;
+    }
   }
 }
