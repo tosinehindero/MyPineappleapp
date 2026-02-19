@@ -9,8 +9,8 @@ export const identitySchema = z.object({
     'Couple (F/F)',
     'Poly Triad (M/W/M)',
     'Poly Triad (W/M/W)',
-  ], {
-    required_error: 'Please select an account type',
+  ] as const, {
+    message: 'Please select an account type',
   }),
   username: z
     .string()
@@ -39,8 +39,8 @@ export const identitySchema = z.object({
 
 // Step 2: Preferences Schema
 export const preferencesSchema = z.object({
-  experienceLevel: z.enum(['Beginner', 'Intermediate', 'Seasoned/Pro'], {
-    required_error: 'Please select your experience level',
+  experienceLevel: z.enum(['Beginner', 'Intermediate', 'Seasoned/Pro'] as const, {
+    message: 'Please select your experience level',
   }),
   location: z
     .string()
