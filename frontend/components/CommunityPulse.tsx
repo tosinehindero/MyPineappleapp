@@ -329,7 +329,85 @@ export default function CommunityPulse() {
     }
   };
 
-  if (loading || !currentUser) return null;
+  // Show toggle button even for non-logged-in users
+  if (loading) return null;
+
+  // Non-authenticated state - show button with login prompt
+  if (!currentUser) {
+    return (
+      <>
+        {/* Toggle Button for non-authenticated users */}
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gold text-charcoal p-3 rounded-l-xl shadow-gold-glow hover:bg-gold-light transition-all"
+          whileHover={{ x: -4 }}
+          whileTap={{ scale: 0.95 }}
+          data-testid="pulse-toggle-btn"
+        >
+          <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </motion.button>
+
+        {/* Drawer for non-authenticated users */}
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-40"
+              />
+              <motion.div
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed right-0 top-0 bottom-0 w-full max-w-sm bg-darkBlue border-l border-gold/20 z-50 flex flex-col"
+                data-testid="pulse-drawer"
+              >
+                <div className="p-6 border-b border-gold/20">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-heading text-gold">Community Pulse</h2>
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="w-10 h-10 rounded-full hover:bg-gold/10 flex items-center justify-center transition-colors"
+                    >
+                      <svg className="w-6 h-6 text-offWhite" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div className="flex-1 flex items-center justify-center p-6">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-gold/30">
+                      <svg className="w-10 h-10 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-heading text-gold mb-2">Join the Community</h3>
+                    <p className="text-offWhite/70 font-body mb-6">
+                      Sign in to see who's online, discover new members, and connect with trending profiles.
+                    </p>
+                    <Link
+                      href="/register"
+                      className="inline-block px-8 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Join Now
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </>
+    );
+  }
 
   return (
     <>
