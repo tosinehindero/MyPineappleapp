@@ -28,6 +28,7 @@ export default function SecureMessaging() {
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [userSecret, setUserSecret] = useState('');
+  const [viewerUsername, setViewerUsername] = useState('');
 
   // Auth state
   useEffect(() => {
