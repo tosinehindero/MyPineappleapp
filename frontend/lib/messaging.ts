@@ -25,6 +25,9 @@ import {
   type EncryptedMessage,
 } from './encryption';
 
+// Re-export for convenience
+export { deriveUserSecret } from './encryption';
+
 export interface Message {
   id: string;
   conversationId: string;
