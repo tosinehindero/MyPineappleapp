@@ -109,4 +109,4 @@ Rules at `/app/frontend/firestore.rules` - User deployed manually.
 - Test coverage
 
 ## Last Update
-December 19, 2026 - Added Community Pulse Sidebar with real-time Firebase subscriptions
+December 19, 2026 - Added "Someone viewed your profile" notifications with real-time tracking
