@@ -28,7 +28,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link 
             href="/" 
-            className="flex items-center space-x-2 group"
+            className="flex items-center space-x-1 group"
             data-testid="navbar-logo"
           >
             <span className="text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">

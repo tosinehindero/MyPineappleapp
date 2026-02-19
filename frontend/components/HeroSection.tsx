@@ -19,7 +19,7 @@ export default function HeroSection() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1549213783-8284d0336c4f?q=80&w=2070&auto=format&fit=crop)',
+            backgroundImage: 'url(https://images.unsplash.com/photo-1606508976671-18ac39d3d1c6?q=80&w=2070&auto=format&fit=crop)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/80 via-charcoal/70 to-charcoal"></div>

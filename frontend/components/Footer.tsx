@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
+            <div className="flex items-center space-x-1.5 mb-4">
               <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
               <span 
                 className="text-4xl transform rotate-180"
