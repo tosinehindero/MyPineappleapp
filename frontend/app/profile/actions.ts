@@ -26,7 +26,22 @@ export async function getProfile(userId: string, requestingUserId?: string, isVe
       return { success: false, error: 'Profile not found' };
     }
 
-    const fullProfile = { id: profileDoc.id, ...profileDoc.data() };
+    const data = profileDoc.data() as {
+      username?: string;
+      accountType?: string;
+      experienceLevel?: string;
+      location?: string;
+      interests?: string[];
+      lookingFor?: string[];
+      isVerified?: boolean;
+      ageRangeMin?: number;
+      ageRangeMax?: number;
+      description?: string;
+      fantasies?: string;
+      photoUrls?: string[];
+      [key: string]: any;
+    };
+    const fullProfile = { id: profileDoc.id, ...data };
     
     // Check if requesting user is owner or verified
     const isOwner = requestingUserId === userId;
