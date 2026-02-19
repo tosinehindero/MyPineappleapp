@@ -191,7 +191,62 @@ export default function CommunityPulse() {
       });
 
       setUnreadCount(totalUnread);
-      setNotifications(notifs);
+      setNotifications((prev) => {
+        // Merge with existing profile view notifications
+        const messageNotifs = notifs;
+        const viewNotifs = prev.filter(n => n.type === 'profile_view');
+        return [...messageNotifs, ...viewNotifs].sort((a, b) => 
+          (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
+        ).slice(0, 10);
+      });
+    });
+
+    return () => unsubscribe();
+  }, [currentUser]);
+
+  // Real-time subscription for profile view notifications
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const viewNotificationsQuery = query(
+      collection(db, 'notifications'),
+      where('toUserId', '==', currentUser.uid),
+      where('type', '==', 'profile_view'),
+      orderBy('createdAt', 'desc'),
+      limit(10)
+    );
+
+    const unsubscribe = onSnapshot(viewNotificationsQuery, (snapshot) => {
+      const viewNotifs: PulseNotification[] = [];
+      let unreadViewCount = 0;
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (!data.read) unreadViewCount++;
+        viewNotifs.push({
+          id: doc.id,
+          type: 'profile_view',
+          fromUserId: data.fromUserId,
+          fromUsername: data.fromUsername || 'Someone',
+          fromPhotoUrl: data.fromPhotoUrl,
+          createdAt: data.createdAt?.toDate(),
+          read: data.read,
+        });
+      });
+
+      setNotifications((prev) => {
+        // Merge with existing message notifications
+        const messageNotifs = prev.filter(n => n.type === 'message');
+        return [...messageNotifs, ...viewNotifs].sort((a, b) => 
+          (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
+        ).slice(0, 10);
+      });
+
+      // Update unread count to include view notifications
+      setUnreadCount((prev) => {
+        const messageUnread = prev;
+        return messageUnread + unreadViewCount;
+      });
     });
 
     return () => unsubscribe();
