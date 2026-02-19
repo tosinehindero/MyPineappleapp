@@ -12,6 +12,7 @@ import {
   checkIsFavorite,
   getUserVerificationStatus,
 } from '@/app/profile/actions';
+import { recordProfileView } from '@/app/views/actions';
 import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
 import WatermarkedImage from './WatermarkedImage';
