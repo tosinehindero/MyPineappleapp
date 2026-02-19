@@ -295,7 +295,7 @@ export default function MapView() {
                             <p className="text-sm text-gray-600 mb-1">{user.accountType}</p>
                             <p className="text-sm text-gray-600 mb-2">{user.location}</p>
                             {user.interests.length > 0 && (
-                              <div className="flex flex-wrap gap-1">
+                              <div className="flex flex-wrap gap-1 mb-3">
                                 {user.interests.slice(0, 3).map((interest) => (
                                   <span
                                     key={interest}
@@ -306,6 +306,12 @@ export default function MapView() {
                                 ))}
                               </div>
                             )}
+                            <a
+                              href={`/profile/${user.id}`}
+                              className="block w-full text-center px-3 py-2 bg-gold text-charcoal font-semibold text-sm rounded hover:shadow-lg transition-all"
+                            >
+                              View Profile
+                            </a>
                           </div>
                         </Popup>
                       </Marker>
