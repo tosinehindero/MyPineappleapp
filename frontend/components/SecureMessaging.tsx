@@ -39,6 +39,9 @@ export default function SecureMessaging() {
         const secret = deriveUserSecret(user.uid);
         setUserSecret(secret);
         
+        // Get viewer username for privacy protection
+        setViewerUsername(user.displayName || user.email || 'Member');
+        
         // Load conversations
         try {
           const convos = await getUserConversations(user.uid);
