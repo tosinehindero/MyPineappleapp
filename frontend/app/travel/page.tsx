@@ -176,8 +176,54 @@ export default function TravelPage() {
     }
   };
 
+  // Check if destination is saved
+  const isDestinationSaved = (name: string) => {
+    return savedDestinations.some(d => d.name === name);
+  };
+
+  // Handle save/unsave destination
+  const handleSaveDestination = async (destination: DestinationCard) => {
+    if (!currentUser) return;
+    
+    setSavingDestination(destination.name);
+    
+    const isSaved = isDestinationSaved(destination.name);
+    
+    if (isSaved) {
+      // Unsave
+      const savedDest = savedDestinations.find(d => d.name === destination.name);
+      if (savedDest) {
+        const result = await unsaveDestination(savedDest.id);
+        if (result.success) {
+          setSavedDestinations(prev => prev.filter(d => d.id !== savedDest.id));
+          toast.success('Destination removed from saved');
+        }
+      }
+    } else {
+      // Save
+      const result = await saveDestination(currentUser.uid, destination);
+      if (result.success) {
+        const newSaved: SavedDestination = {
+          id: result.id!,
+          userId: currentUser.uid,
+          ...destination,
+          savedAt: new Date(),
+        };
+        setSavedDestinations(prev => [newSaved, ...prev]);
+        toast.success('Destination saved!', {
+          description: 'Find it in your saved destinations',
+        });
+      }
+    }
+    
+    setSavingDestination(null);
+  };
+
   // Render destination card
-  const DestinationCardComponent = ({ destination }: { destination: DestinationCard }) => (
+  const DestinationCardComponent = ({ destination, showActions = true }: { destination: DestinationCard; showActions?: boolean }) => {
+    const isSaved = isDestinationSaved(destination.name);
+    
+    return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
