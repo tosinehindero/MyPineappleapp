@@ -146,5 +146,24 @@ service cloud.firestore {
       // Cannot delete notifications
       allow delete: if false;
     }
+    
+    // Saved Destinations Collection
+    match /savedDestinations/{destinationId} {
+      // Users can read their own saved destinations
+      allow read: if isAuthenticated() && 
+                    resource.data.userId == request.auth.uid;
+      
+      // Users can save destinations for themselves
+      allow create: if isAuthenticated() && 
+                      request.resource.data.userId == request.auth.uid;
+      
+      // Users can update their saved destinations (e.g., add notes)
+      allow update: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own saved destinations
+      allow delete: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+    }
   }
 }
