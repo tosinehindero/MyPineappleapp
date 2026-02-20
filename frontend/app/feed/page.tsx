@@ -321,7 +321,7 @@ export default function FeedPage() {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6"
+                    className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/20"
                   >
                     <Link href={`/profile/${userProfile.uid}`} className="block">
                       <div className="flex items-center space-x-4 mb-4">
