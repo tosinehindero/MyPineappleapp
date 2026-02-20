@@ -3,12 +3,24 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
+
+interface UserProfile {
+  role?: string;
+  isVerified?: boolean;
+  username?: string;
+}
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  // Check if user is admin
+  const isAdmin = userProfile?.role === 'admin' && userProfile?.isVerified === true;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,8 +32,29 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      
+      if (user) {
+        // Fetch user profile from Firestore
+        setProfileLoading(true);
+        try {
+          const userDoc = await getDoc(doc(db, 'members', user.uid));
+          if (userDoc.exists()) {
+            setUserProfile(userDoc.data() as UserProfile);
+          } else {
+            setUserProfile(null);
+          }
+        } catch (error) {
+          console.error('Error fetching user profile:', error);
+          setUserProfile(null);
+        } finally {
+          setProfileLoading(false);
+        }
+      } else {
+        setUserProfile(null);
+        setProfileLoading(false);
+      }
     });
     return () => unsubscribe();
   }, []);
