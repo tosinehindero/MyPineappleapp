@@ -637,5 +637,6 @@ export default function TravelPage() {
         )}
       </AnimatePresence>
     </div>
+    </VettingGuard>
   );
 }
