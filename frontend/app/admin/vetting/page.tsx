@@ -18,6 +18,7 @@ import Link from 'next/link';
 
 export default function AdminVettingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,18 @@ export default function AdminVettingPage() {
   const [stats, setStats] = useState({ pending: 0, verified: 0, rejected: 0 });
   const [rejectReason, setRejectReason] = useState('');
   const [showRejectModal, setShowRejectModal] = useState(false);
+
+  // Check for initialization success message
+  useEffect(() => {
+    if (searchParams.get('initialized') === 'true') {
+      toast.success('Admin Initialized Successfully!', {
+        description: 'Please delete the setup-secret route in code now.',
+        duration: 10000,
+      });
+      // Clean up URL
+      router.replace('/admin/vetting');
+    }
+  }, [searchParams, router]);
 
   // Auth and admin check
   useEffect(() => {
