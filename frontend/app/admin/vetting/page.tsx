@@ -51,8 +51,14 @@ function AdminVettingContent() {
 
       setCurrentUser(user);
       
-      // Check admin role
+      // Check admin role - with debug logging
       const adminStatus = await checkAdminRole(user.uid);
+      console.log('🍍 Admin Check Debug:', {
+        userId: user.uid,
+        email: user.email,
+        isAdmin: adminStatus,
+      });
+      
       if (!adminStatus) {
         toast.error('Access Denied - Admin privileges required');
         router.push('/');
