@@ -37,9 +37,19 @@ export interface PendingProfile {
 export async function checkAdminRole(userId: string): Promise<boolean> {
   try {
     const userDoc = await getDoc(doc(db, 'members', userId));
-    if (!userDoc.exists()) return false;
+    if (!userDoc.exists()) {
+      console.log('🍍 Admin Check: User document not found for', userId);
+      return false;
+    }
     
     const userData = userDoc.data();
+    console.log('🍍 Admin Check - User Data:', {
+      userId,
+      role: userData.role,
+      isVerified: userData.isVerified,
+      isAdmin: userData.role === 'admin',
+    });
+    
     return userData.role === 'admin';
   } catch (error) {
     console.error('Error checking admin role:', error);
