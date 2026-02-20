@@ -141,7 +141,8 @@ export async function getPosts(
     const posts: Post[] = [];
     let hasMore = false;
 
-    snapshot.forEach((docSnap, index) => {
+    const docs = snapshot.docs;
+    docs.forEach((docSnap, index) => {
       if (index < pageSize) {
         const data = docSnap.data();
         posts.push({
