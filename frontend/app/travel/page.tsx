@@ -39,6 +39,9 @@ export default function TravelPage() {
   const [sessionId, setSessionId] = useState('');
   const [userFantasies, setUserFantasies] = useState('');
   const [userInterests, setUserInterests] = useState<string[]>([]);
+  const [savedDestinations, setSavedDestinations] = useState<SavedDestination[]>([]);
+  const [showSavedDrawer, setShowSavedDrawer] = useState(false);
+  const [savingDestination, setSavingDestination] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
