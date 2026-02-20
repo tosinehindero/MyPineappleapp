@@ -186,10 +186,20 @@ function AdminVettingContent() {
       {/* Header */}
       <div className="bg-darkBlue/50 border-b border-gold/20">
         <div className="max-w-7xl mx-auto px-6 py-6">
+          {/* Debug Banner - Remove in production */}
+          <div className="bg-purple-900/30 border border-purple-500/50 rounded-lg p-3 mb-4 text-sm font-mono">
+            <span className="text-purple-300">🔧 Debug Mode:</span>
+            <span className="text-purple-200 ml-2">
+              isAdmin: {isAdmin ? '✅ true' : '❌ false'} | 
+              Pending: {pendingProfiles.length} | 
+              Selected: {selectedProfile ? selectedProfile.username : 'none'}
+            </span>
+          </div>
+          
           <div className="flex items-center justify-between">
             <div>
-              <Link href="/" className="text-gold/60 hover:text-gold text-sm font-body mb-2 inline-block">
-                ← Back to Home
+              <Link href="/feed" className="text-gold/60 hover:text-gold text-sm font-body mb-2 inline-block">
+                ← Back to Feed
               </Link>
               <h1 className="text-3xl font-heading text-gold">Admin Vetting Dashboard</h1>
               <p className="text-offWhite/60 font-body mt-1">Review and approve membership applications</p>
