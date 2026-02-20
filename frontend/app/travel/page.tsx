@@ -363,6 +363,7 @@ export default function TravelPage() {
   }
 
   return (
+    <VettingGuard>
     <div className="min-h-screen bg-charcoal flex flex-col">
       <Toaster
         theme="dark"
