@@ -264,6 +264,36 @@ function AdminVettingContent() {
                         {profile.createdAt?.toLocaleDateString() || 'Recently'}
                       </p>
                     </div>
+                    {/* Quick Action Buttons */}
+                    <div className="flex flex-col space-y-1 ml-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApprove(profile.id);
+                        }}
+                        disabled={processingId === profile.id}
+                        className="p-2 bg-green-600/20 hover:bg-green-600 text-green-400 hover:text-white rounded-lg transition-all disabled:opacity-50"
+                        title="Quick Approve"
+                      >
+                        <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M5 13l4 4L19 7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedProfile(profile);
+                          setShowRejectModal(true);
+                        }}
+                        disabled={processingId === profile.id}
+                        className="p-2 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg transition-all disabled:opacity-50"
+                        title="Deny"
+                      >
+                        <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </motion.button>
               ))}
