@@ -895,7 +895,7 @@ export default function FeedPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6"
+                  className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/20"
                 >
                   <h3 className="text-gold font-heading text-lg mb-4 flex items-center space-x-2">
                     <span>🛍️</span>
