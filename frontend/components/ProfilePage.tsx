@@ -105,10 +105,14 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       setLoading(false);
     };
     
-    if (currentUser !== null) {
+    // If user is logged in, load profile
+    if (currentUser) {
       loadProfile();
+    } else if (currentUser === null) {
+      // User not logged in - redirect to login
+      router.push('/login');
     }
-  }, [profileId, currentUser, isVerified]);
+  }, [profileId, currentUser, isVerified, router]);
 
   const handleToggleFavorite = async () => {
     if (!currentUser) {
