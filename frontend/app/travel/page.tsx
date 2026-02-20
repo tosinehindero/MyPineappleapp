@@ -222,6 +222,7 @@ export default function TravelPage() {
   // Render destination card
   const DestinationCardComponent = ({ destination, showActions = true }: { destination: DestinationCard; showActions?: boolean }) => {
     const isSaved = isDestinationSaved(destination.name);
+    const isSaving = savingDestination === destination.name;
     
     return (
     <motion.div
@@ -236,6 +237,29 @@ export default function TravelPage() {
             <span className="text-6xl">🏝️</span>
             <p className="text-gold/60 text-sm mt-2 font-body">{destination.location}</p>
           </div>
+        </div>
+        <div className="absolute top-4 left-4">
+          <button
+            onClick={() => handleSaveDestination(destination)}
+            disabled={isSaving}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+              isSaved 
+                ? 'bg-gold text-charcoal' 
+                : 'bg-charcoal/80 text-gold hover:bg-gold hover:text-charcoal'
+            }`}
+            title={isSaved ? 'Remove from saved' : 'Save destination'}
+          >
+            {isSaving ? (
+              <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill={isSaved ? 'currentColor' : 'none'} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            )}
+          </button>
         </div>
         <div className="absolute top-4 right-4">
           <span className="px-3 py-1 bg-gold text-charcoal text-xs font-semibold rounded-full">
@@ -268,16 +292,41 @@ export default function TravelPage() {
           </div>
         )}
         
-        <button
-          className="w-full py-3 bg-gold text-charcoal font-semibold rounded-xl hover:shadow-gold-glow transition-all flex items-center justify-center space-x-2"
-          onClick={() => {
-            setInputMessage(`Tell me more about ${destination.name} and help me book it.`);
-            inputRef.current?.focus();
-          }}
-        >
-          <span>Book Now</span>
-          <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-            <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        {showActions && (
+          <div className="flex space-x-3">
+            <button
+              className="flex-1 py-3 bg-gold text-charcoal font-semibold rounded-xl hover:shadow-gold-glow transition-all flex items-center justify-center space-x-2"
+              onClick={() => {
+                setInputMessage(`Tell me more about ${destination.name} and help me book it.`);
+                inputRef.current?.focus();
+              }}
+            >
+              <span>Book Now</span>
+              <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  )};
+
+  // Render message content with destination cards
+  const renderMessageContent = (content: string) => {
+    const { text, destinations } = parseDestinations(content);
+    
+    return (
+      <>
+        {text && (
+          <div className="whitespace-pre-wrap">{text}</div>
+        )}
+        {destinations.map((dest, i) => (
+          <DestinationCardComponent key={i} destination={dest} />
+        ))}
+      </>
+    );
+  };
           </svg>
         </button>
       </div>
