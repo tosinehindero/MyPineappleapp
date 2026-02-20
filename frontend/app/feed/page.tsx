@@ -472,10 +472,10 @@ export default function FeedPage() {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => setNewPostPrivacy('all')}
-                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${
+                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
                               newPostPrivacy === 'all'
-                                ? 'bg-gold text-charcoal'
-                                : 'bg-charcoal border border-gold/30 text-offWhite/60 hover:text-gold'
+                                ? 'bg-gold text-charcoal shadow-lg shadow-gold/20'
+                                : 'bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30'
                             }`}
                             data-testid="privacy-all"
                           >
@@ -483,10 +483,10 @@ export default function FeedPage() {
                           </button>
                           <button
                             onClick={() => setNewPostPrivacy('circle')}
-                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${
+                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
                               newPostPrivacy === 'circle'
-                                ? 'bg-gold text-charcoal'
-                                : 'bg-charcoal border border-gold/30 text-offWhite/60 hover:text-gold'
+                                ? 'bg-gold text-charcoal shadow-lg shadow-gold/20'
+                                : 'bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30'
                             }`}
                             data-testid="privacy-circle"
                           >
@@ -498,7 +498,7 @@ export default function FeedPage() {
                         <select
                           value={newPostCategory}
                           onChange={(e) => setNewPostCategory(e.target.value as FilterCategory)}
-                          className="bg-charcoal border border-gold/30 rounded-lg px-3 py-1.5 text-xs font-body text-offWhite/80 focus:outline-none focus:border-gold"
+                          className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-1.5 text-xs font-body text-offWhite/80 focus:outline-none focus:border-gold/50 backdrop-blur-sm cursor-pointer"
                         >
                           <option value="all">General</option>
                           <option value="travel">Travel</option>
