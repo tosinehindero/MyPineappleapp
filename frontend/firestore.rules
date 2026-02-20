@@ -7,6 +7,12 @@ service cloud.firestore {
       return request.auth != null;
     }
     
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && 
+             get(/databases/$(database)/documents/members/$(request.auth.uid)).data.role == 'admin';
+    }
+    
     // Helper function to check if user is verified
     function isVerified() {
       return isAuthenticated() && 
@@ -20,27 +26,27 @@ service cloud.firestore {
     
     // Members/Profiles Collection
     match /members/{userId} {
-      // Read access: Authenticated users can read
-      // BUT: Application logic will filter fields based on verification
+      // Read access: Authenticated users can read any profile
       allow read: if isAuthenticated();
       
-      // Write access: Only owner can update their own profile
+      // Write access: Owner can update their own profile
       allow update: if isOwner(userId) && 
-                      // Only allow updating specific fields
                       request.resource.data.diff(resource.data).affectedKeys()
                         .hasOnly(['description', 'fantasies', 'updatedAt', 'photoUrls', 
                                  'interests', 'lookingFor', 'location', 'ageRangeMin', 'ageRangeMax']);
       
+      // Admin can update any profile (for verification)
+      allow update: if isAdmin();
+      
       // Create: Can only create own profile during registration
       allow create: if isOwner(userId);
       
-      // Delete: Cannot delete profiles (admin only)
-      allow delete: if false;
+      // Delete: Only admins can delete
+      allow delete: if isAdmin();
     }
     
     // Conversations Collection
     match /conversations/{conversationId} {
-      // Only participants can access
       allow read, write: if isAuthenticated() && 
                             request.auth.uid in resource.data.participants;
       allow create: if isAuthenticated();
@@ -48,84 +54,51 @@ service cloud.firestore {
     
     // Messages Collection (Encrypted)
     match /messages/{messageId} {
-      // All authenticated users can read messages
-      // (They're encrypted, so only those with keys can decrypt)
       allow read: if isAuthenticated();
-      
-      // Users can send messages
       allow create: if isAuthenticated() && 
                       request.resource.data.senderId == request.auth.uid;
-      
-      // Users can update read status
       allow update: if isAuthenticated();
-      
-      // Cannot delete messages
       allow delete: if false;
     }
     
     // Conversation Keys Collection (Encrypted)
     match /conversationKeys/{keyId} {
-      // Only the key owner can read their encrypted key
       allow read: if isAuthenticated() && 
                     resource.data.userId == request.auth.uid;
-      
-      // Keys can be created during conversation initialization
       allow create: if isAuthenticated();
-      
-      // Cannot update or delete keys
       allow update, delete: if false;
     }
     
     // Favorites Collection
     match /favorites/{favoriteId} {
-      // Users can read their own favorites
       allow read: if isAuthenticated() && 
                     resource.data.userId == request.auth.uid;
-      
-      // Users can create their own favorites
       allow create: if isAuthenticated() && 
                       request.resource.data.userId == request.auth.uid;
-      
-      // Users can delete their own favorites
       allow delete: if isAuthenticated() && 
                       resource.data.userId == request.auth.uid;
-      
-      // Cannot update favorites
       allow update: if false;
     }
     
-    // Verification Requests (Optional - for admin approval)
+    // Verification Requests
     match /verificationRequests/{requestId} {
-      // Users can read their own requests
       allow read: if isAuthenticated() && 
                     resource.data.userId == request.auth.uid;
-      
-      // Users can create verification requests
+      allow read: if isAdmin();
       allow create: if isAuthenticated() && 
                       request.resource.data.userId == request.auth.uid;
-      
-      // Only admins can update (approve/reject)
-      allow update: if false; // Set to admin check in production
-      
-      // Cannot delete requests
+      allow update: if isAdmin();
       allow delete: if false;
     }
     
     // Profile Views Collection
     match /profileViews/{viewId} {
-      // Users can read views of their own profile
       allow read: if isAuthenticated() && 
                     resource.data.profileOwnerId == request.auth.uid;
-      
-      // Any authenticated user can create a view record
       allow create: if isAuthenticated() && 
                       request.resource.data.viewerId == request.auth.uid;
-      
-      // Views can be updated (for view count increment)
       allow update: if isAuthenticated() && 
                       resource.data.viewerId == request.auth.uid;
-      
-      // Cannot delete view records
       allow delete: if false;
     }
     
@@ -135,35 +108,53 @@ service cloud.firestore {
       allow read: if isAuthenticated() && 
                     resource.data.toUserId == request.auth.uid;
       
-      // Any authenticated user can create notifications for others
-      allow create: if isAuthenticated() && 
-                      request.resource.data.fromUserId == request.auth.uid;
+      // Any authenticated user can create notifications
+      // System notifications from admin are allowed
+      allow create: if isAuthenticated();
       
       // Users can mark their notifications as read
       allow update: if isAuthenticated() && 
                       resource.data.toUserId == request.auth.uid;
       
-      // Cannot delete notifications
       allow delete: if false;
     }
     
     // Saved Destinations Collection
     match /savedDestinations/{destinationId} {
-      // Users can read their own saved destinations
       allow read: if isAuthenticated() && 
                     resource.data.userId == request.auth.uid;
-      
-      // Users can save destinations for themselves
       allow create: if isAuthenticated() && 
                       request.resource.data.userId == request.auth.uid;
-      
-      // Users can update their saved destinations (e.g., add notes)
       allow update: if isAuthenticated() && 
                       resource.data.userId == request.auth.uid;
-      
-      // Users can delete their own saved destinations
       allow delete: if isAuthenticated() && 
                       resource.data.userId == request.auth.uid;
+    }
+    
+    // Marketplace Listings Collection
+    match /marketplace_listings/{listingId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                      resource.data.sellerId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAuthenticated() && 
+                      resource.data.sellerId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+    
+    // Marketplace Orders Collection
+    match /marketplace_orders/{orderId} {
+      allow read: if isAuthenticated() && 
+                    (resource.data.buyerId == request.auth.uid || 
+                     resource.data.sellerId == request.auth.uid);
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+                      (resource.data.buyerId == request.auth.uid || 
+                       resource.data.sellerId == request.auth.uid);
+      allow update: if isAdmin();
+      allow delete: if false;
     }
   }
 }
