@@ -23,7 +23,7 @@ export default function LoginPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/map'); // Redirect to map/discover page after login
+      router.push('/feed'); // Redirect to feed page after login
     } catch (err: any) {
       console.error('Login error:', err);
       if (err.code === 'auth/user-not-found') {
