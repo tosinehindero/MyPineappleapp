@@ -5,7 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
+import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
+import {
+  saveDestination,
+  unsaveDestination,
+  getSavedDestinations,
+  type SavedDestination,
+} from './actions';
 
 interface Message {
   role: 'user' | 'assistant';
