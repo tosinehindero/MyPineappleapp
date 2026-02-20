@@ -327,27 +327,6 @@ export default function TravelPage() {
       </>
     );
   };
-          </svg>
-        </button>
-      </div>
-    </motion.div>
-  );
-
-  // Render message content with destination cards
-  const renderMessageContent = (content: string) => {
-    const { text, destinations } = parseDestinations(content);
-    
-    return (
-      <>
-        {text && (
-          <div className="whitespace-pre-wrap">{text}</div>
-        )}
-        {destinations.map((dest, i) => (
-          <DestinationCardComponent key={i} destination={dest} />
-        ))}
-      </>
-    );
-  };
 
   if (loading) {
     return (
