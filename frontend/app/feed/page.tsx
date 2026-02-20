@@ -440,7 +440,7 @@ export default function FeedPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6"
+                className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/20"
                 data-testid="whisper-box"
               >
                 <div className="flex items-start space-x-4">
