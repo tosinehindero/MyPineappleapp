@@ -3,191 +3,180 @@ The user wants to build a luxury social web application called PineapplePlay.
 
 **PRODUCT REQUIREMENTS:**
 
-1.  **Initial Setup & Theming (Completed):**
-    *   Configure  and .
-    *   **Colors:** Background: Charcoal (#121212), Cards: Dark Blue (#0F172A), Primary: Gold (#D4AF37), Text: Off-white (#F8FAFC).
-    *   **Typography:** 'Playfair Display' for headings, 'Inter' for body text.
-    *   **Effects:** 'gold-glow' shadow, 'glass-morphism' utility, gold gradient hover for buttons.
-
-2.  **Landing Page & Branding (Completed):**
-    *   Migrate from Create React App to a Next.js 15 application.
-    *   Build a luxury landing page with a Hero Section, Features Section, and a sticky Navbar.
-    *   **Branding:** App name is PineapplePlay with an upside-down pineapple image to the right of the name. Landing page hero text is Where luxury meets Lifestyle.
-    *   **Background Image:** Use an image of a black couple for the hero section.
-
-3.  **Multi-Step Registration Form (Completed):**
-    *   Use Firebase Auth and Firestore.
-    *   Incorporate the charcoal/gold design system with a gold progress bar.
-    *   Use Zod for validation and Framer Motion for transitions.
-    *   **Steps:** Identity (Account Type, Credentials), Preferences (Experience, Location), Lifestyle Interests, Bio & Photo Upload.
-    *   **Functionality:** Create user in Firebase Auth and save data to a 'members' collection in Firestore.
-
-4.  **Map View (Completed):**
-    *   Build a map component using React-Leaflet.
-    *   Integrate a gold radius slider (0-50 miles).
-    *   Fetch and display user locations from Firestore as gold pins.
-    *   Include a 'Who's Online' sidebar showing users with an  status.
-
-5.  **Secure Messaging (Completed):**
-    *   Implement messaging logic with AES-256 encryption for the message body before it's stored in Firebase.
-    *   Only the sender and receiver should hold the keys to decrypt content in the UI.
-
-6.  **Dynamic Member Profile Page (Partially Completed):**
-    *   Create a dynamic route .
-    *   **Layout:** Full-width header with background photo, masonry image gallery, and lifestyle tags.
-    *   **Data:** Display user's name, verified shield, experience badge, interests, etc., from Firestore.
-    *   **Action Bar:** A sticky bottom bar with 'Message' and 'Favorite' buttons.
-    *   **Security:** Implement a Vetting Wall (blur filter and modal) for unverified users viewing profiles.
-    *   **Owner Mode:** Show an 'Edit Profile' button if the user is viewing their own profile.
-
-7.  **Firestore Security Rules (In Progress):**
-    *   Secure the  collection.
-    *   Only authenticated and  users can read the  and  fields.
-    *   Unverified requests should only return  and .
+1.  **Initial Setup & Theming (Completed):** Luxury theme with Charcoal/Gold colors, Playfair Display/Inter fonts.
+2.  **Landing Page & Branding (Completed):** Next.js app with PineapplePlay branding, hero, features, and navbar.
+3.  **Multi-Step Registration Form (Completed):** Firebase Auth/Firestore, Zod validation, multi-step UI.
+4.  **Map View (Completed):** React-Leaflet map to show user locations with a radius slider.
+5.  **Secure Messaging (Completed):** AES-256 encrypted messaging.
+6.  **Dynamic Member Profile Page (Partially Completed):** Dynamic route with user data, action bar. Vetting Wall logic exists, but UI implementation is pending. 'Edit Profile' and 'Favorite' features are not implemented.
+7.  **Firestore Security Rules (Completed):** Rules created and user confirmed manual deployment.
+8.  **Screenshot Prevention & Watermarking (Completed):** Implemented a privacy wrapper to deter screenshots and a watermark component that adds the viewer's username to images.
+9.  **Community Pulse Sidebar (Completed):** A real-time sidebar showing new members, online users, notifications, and trending profiles.
+10. **Profile View Notifications (Completed):** Tracks profile visits and notifies the user.
+11. **Login Feature (Completed):** A dedicated login page and updated navbar logic for authenticated users.
+12. **Admin Vetting Dashboard (Completed):** A secure page for admins to review and approve/reject new members.
+13. **Gemini AI Travel Concierge (Completed):** An AI chat assistant (Sasha) on the  page that gives personalized travel recommendations based on user profile data. Includes a feature to save destinations.
+14. **Member Marketplace (In Progress):** A marketplace for users to list and sell Lifestyle Gear, with Stripe Connect integration for payments.
 
 **User's preferred language**: English
 
 **what currently exists?**
-A Next.js 15 application for a luxury social app named PineapplePlay. The app uses Firebase for authentication, database (Firestore), and storage. It features a fully-branded landing page, a multi-step registration form, a map view for users, an encrypted messaging system, and the basic structure for dynamic member profile pages. The entire application is styled with a custom luxury theme (Charcoal/Gold) using Tailwind CSS.
+The project is a sophisticated full-stack application with a Next.js 15 frontend and a newly introduced FastAPI backend. The frontend uses Firebase for authentication and some data storage (profiles, messaging), while the backend handles more complex integrations like the Gemini AI Travel Concierge and Stripe payments. The application has numerous completed features, including a luxury-themed UI, user registration, secure messaging, a map view, an admin dashboard, and an AI travel planner. The backend server is located at .
 
 **Last working item**:
-- **Last item agent was working:** Implementing Firestore Security Rules to restrict access to sensitive fields in user profiles based on their verification status. The agent created the  file and then implemented a server-side filtering logic in  to enforce these rules at the application layer. It updated the  component to use this new data-fetching action.
+- **Last item agent was working:** Building the Member Marketplace. The agent set up the initial backend infrastructure for Stripe Connect in , including creating a Payment Intent endpoint with a 3% application fee. It also created the basic frontend page at  and added the Stripe API key to the backend's  file.
 - **Status:** IN PROGRESS
 - **Agent Testing Done:** N
-- **Which testing method agent to use?** both. The server action () should be tested by passing mock user objects (verified and unverified) to ensure correct data filtering. The frontend UI should be tested with the screenshot tool to verify that the Vetting Wall appears for unverified users and all data is visible for verified users.
+- **Which testing method agent to use?** both. The backend requires  testing for the Stripe endpoints (). The frontend requires the screenshot tool or manual testing to verify the marketplace grid layout, listing creation form, and the purchase flow.
 - **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
--   **Issue 1: Firestore rules are not deployed.** (Priority: P0)
-    -   **Description:** The agent created a  file but never executed the command to deploy these rules to the Firebase project. The security rules are currently not active on the database.
-    -   **Next debug checklist:**
-        1.  Install the Firebase CLI (
-added 747 packages in 17s
+- **Issue 1:** Firebase Storage Upload Permission Error (Priority: P0)
+  - **Description:** A user reported a  error during photo upload in the registration process. The agent correctly identified this as a missing Firebase Storage security rule. It created  and  and instructed the user to deploy them.
+  - **Attempted fixes:** The agent created the necessary configuration files.
+  - **Next debug checklist:**
+    1.  Ask the user to confirm they have deployed the storage rules using .
+    2.  If the issue persists, review the rules in  to ensure they correctly match the upload path used in .
+    3.  Verify the user is authenticated in the client-side code before the upload is attempted.
+  - **Why fix this issue and what will be achieved with the fix?** This is a critical blocker for the user registration flow. Fixing it will allow new users to complete their profiles.
+  - **Status:** USER VERIFICATION PENDING
+  - **Is recurring issue?** N
+  - **Should Test frontend/backend/both after fix?** Frontend (by completing the registration flow and uploading a photo).
 
-93 packages are looking for funding
-  run `npm fund` for details).
-        2.  Run 
-Error: Not in a Firebase app directory (could not locate firebase.json) to apply the rules defined in .
-    -   **Why fix this issue and what will be achieved with the fix?** This is a critical security task. Without deploying the rules, the sensitive user data in the  collection remains exposed and does not adhere to the user's privacy requirements.
-    -   **Status:** NOT STARTED
-    -   **Is recurring issue?** N
-    -   **Should Test backend/both after fix?** Backend (by attempting to fetch data with different mock authentication states).
+- **Issue 2:** Potential High Memory Usage (Priority: P1)
+  - **Description:** The initial handoff summary noted that the pod had previously crashed due to a memory limit error. The root cause was never investigated.
+  - **Next debug checklist:**
+    1.  Monitor application memory while interacting with resource-intensive components like  (React-Leaflet) and the real-time subscriptions in .
+    2.  Review these components for common memory leak sources like un-cleared intervals, unterminated event listeners, or large datasets being held in state without cleanup.
+  - **Why fix this issue and what will be achieved with the fix?** To ensure application stability and prevent future crashes during user sessions.
+  - **Status:** NOT STARTED
+  - **Is recurring issue?** Y
+  - **Should Test frontend/backend/both after fix?** Both.
 
 **In progress Task List**:
--   **Task 1: Complete and Verify Profile Page Security Logic** (Priority: P0)
-    -   **Where to resume:** The agent has created the server action and updated . The next steps are to implement the UI for the Vetting Wall and thoroughly test the entire flow.
-    -   **What will be achieved with this?** This will complete the user story for secure, field-level profile visibility, ensuring unverified members cannot see private details.
-    -   **Status:** IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?** Both.
-    -   **Blocked on something:**  must be resolved for the backend rules to be effective.
+- **Task 1:** Complete Member Marketplace (Priority: P0)
+  - **Where to resume:** The backend endpoints and frontend page file are created. The next step is to build out the UI in . This includes:
+    1.  A grid layout to display listings.
+    2.  A form/modal to create a new listing.
+    3.  A detailed view for a single listing.
+    4.  Implementing the client-side logic to call the  endpoint.
+    5.  Integrating Stripe.js on the frontend to handle the payment flow.
+    6.  Adding the 'Report Listing' button and 'Escrow' status UI elements.
+  - **What will be achieved with this?** A fully functional marketplace where members can buy and sell goods, generating revenue for the platform via a 3% fee.
+  - **Status:** IN PROGRESS
+  - **Should Test frontend/backend/both after fix?** Both.
+  - **Blocked on something:** None.
 
 **Upcoming and Future Tasks**
--   **Upcoming Tasks:**
-    -   **Implement 'Edit Profile' Functionality (P1):** The 'Edit Profile' button on the owner's profile page is currently a placeholder. It needs to be connected to a form/modal that allows users to update their  and  fields in Firestore. (Files: , ).
-    -   **Implement 'Favorite/Heart' Functionality (P1):** The 'Favorite' button on the profile page's action bar is a placeholder. It needs to toggle a follow relationship in a  Firestore collection. (Files: , ).
-    -   **Implement 'Vetting Wall' UI (P1):** The logic for the  (applying a  filter and showing a modal) needs to be implemented in  based on the data received.
+- **Upcoming Tasks:**
+  - **Implement 'Edit Profile' Functionality (P1):** Connect the 'Edit Profile' button on  to a form/modal allowing users to update their profile data in Firestore. (Files: , ).
+  - **Implement 'Favorite/Heart' Functionality (P1):** The 'Favorite' button on the profile page needs to be implemented to create/delete a document in a  collection in Firestore. (Files: , ).
+  - **Implement 'Vetting Wall' UI (P2):** The server action in  already filters sensitive profile data for unverified users. The UI in  needs to render the blur filter and modal when this filtered data is received.
 
 **Completed work in this session**
-- **Architecture:** Migrated the entire application from Create React App to Next.js 15 with an App Router structure.
-- **Styling:** Configured a luxury theme (colors, fonts, effects) in Tailwind CSS.
-- **Landing Page:** Built the main landing page with Hero, Features, and Navbar components.
-- **Branding:** Applied PineapplePlay branding, including logo and specific text.
-- **Registration:** Created a multi-step user registration form using Firebase, Zod, and Framer Motion.
-- **Map View:** Implemented a  component using React-Leaflet to show user locations.
-- **Messaging:** Built a secure messaging feature with end-to-end AES-256 encryption.
-- **Profile Page:** Created the dynamic member profile page structure ().
-- **Refactoring:** Removed all dependencies and references to a non-existent FastAPI/MongoDB backend, making the app purely a Next.js/Firebase stack.
+- **Architecture:** Introduced a FastAPI backend () to run alongside the Next.js frontend, creating a hybrid architecture.
+- **Security:** Implemented a screenshot deterrent () and dynamic image watermarking () on profile and messaging pages.
+- **Firebase Rules:** Created  and  to fix a critical file upload permission error. The user has manually deployed the .
+- **Authentication:** Built a complete login page () and updated the main navbar to reflect authentication status (Login/Logout, user menu).
+- **Admin:** Created a secure Admin Vetting Dashboard () for approving new members, complete with security checks, data fetching, and approval/rejection actions.
+- **AI Integration:** Integrated Google Gemini to create the Sasha AI Travel Concierge, which uses the user's profile to make personalized suggestions.
+- **Feature Enhancement:** Added a Save Destination feature to the Travel Concierge.
+- **Bug Fixes:** Resolved multiple TypeScript and Zod validation errors in the registration form components that were causing build failures.
 
 **Earlier issues found/mentioned but not fixed**
--   **Issue 1: Potential High Memory Usage**
-    -   **Description:** The pod was terminated due to a memory limit error shortly after the messaging feature was implemented. The agent recovered the session but did not investigate the root cause of the memory spike.
-    -   **Debug checklist:**
-        1.  Monitor application memory usage during user actions, especially when using the messaging and map components.
-        2.  Review the implementation of  and  for potential memory leaks, such as un-cleared intervals, large state objects, or inefficient data fetching loops.
-    -   **Why to solve this issue and what will be achieved with this?** To ensure application stability and prevent future crashes.
-    -   **Should Test frontend/backend/both after fix:** Both.
-    -   **Is recurring issue?** Y
+- **Issue 1: Potential High Memory Usage**
+  - **Debug checklist:** Monitor memory usage during intensive operations (maps, real-time messaging). Review  and  for leaks.
+  - **Why to solve this issue and what will be achieved with this?** Prevents application crashes and ensures stability.
+  - **Should Test frontend/backend/both after fix:** Both.
+  - **Is recurring issue?** Y
 
 **Known issue recurrence from previous fork**
 - **Issue recurrence in previous fork:** The pod was terminated due to a Memory Limit exceeded error.
 - **Recurrence count:** 1
-- **Status:** NOT STARTED (The root cause was not investigated).
+- **Status:** NOT STARTED
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- **Framework:** Next.js 15 (App Router)
+- **Frameworks:** Next.js 15 (App Router), FastAPI
 - **Styling:** Tailwind CSS
 - **Database:** Firebase Firestore
 - **Authentication:** Firebase Auth
 - **File Storage:** Firebase Storage
+- **AI:** Google Gemini
+- **Payments:** Stripe Connect
 - **Schema Validation:** Zod
 - **Animations:** Framer Motion
-- **Encryption:** crypto-js (AES-256)
-- **Mapping:** React-Leaflet
 
 **key DB schema**
 -   **members:** 
 -   **messages:** 
--   **favorites:** (Upcoming) 
+-   **profileViews:** 
+-   **notifications:** 
+-   **savedDestinations:** 
+-   **(Upcoming) marketplace_listings:** 
+-   **(Upcoming) marketplace_orders:** 
+
+**changes in tech stack**
+-   The application has evolved from a pure Next.js/Firebase stack into a hybrid model. A FastAPI backend () has been introduced to handle server-side logic for 3rd party integrations like Gemini and Stripe, which are not suitable for client-side or Next.js Server Actions execution.
 
 **All files of reference**
--   : Contains Next.js Server Actions for interacting with Firebase, including the new  function for filtered profile data.
--   : The dynamic route for displaying user profiles. Recently updated to use the  action.
--   : The UI component for the profile page. Needs implementation for the Vetting Wall, Edit Profile, and Favorite features.
--   : Contains the security rules for the Firestore database. **Needs to be deployed.**
--   : Supervisor configuration file to run the Next.js development server.
+-   : The new FastAPI server handling API endpoints for Gemini and Stripe.
+-   : The new frontend page for the Member Marketplace.
+-   : The frontend for the Gemini AI Travel Concierge.
+-   : The UI for the Admin Vetting Dashboard.
+-   : The user login page.
+-   : The screenshot and context-menu blocking component.
+-   : The component that adds dynamic watermarks to images.
+-   : The component for the real-time sidebar.
+-    & : Files created to fix the Firebase Storage permission error. **Deployment by user is pending verification.**
 
 **Critical Info for New Agent**
--   The application is a pure Next.js and Firebase stack. Ignore any past references to a separate backend or MongoDB.
--   You **MUST** deploy the  file using the Firebase CLI for the security rules to take effect. The previous agent created the file but did not deploy it.
--   A memory limit crash occurred previously. Be mindful of resource usage, especially in the messaging and map components, as the root cause was not identified.
--   The Edit Profile and Favorite functionalities are part of the user's request for the profile page but have not been implemented yet. They are critical upcoming tasks.
+-   **Hybrid Architecture:** The app now uses both a Next.js frontend and a FastAPI backend. The backend is managed by supervisor and its logs are in . All API calls to this backend must be prefixed with .
+-   **Firebase Rules Deployment:** The user has reported a file upload error. You created  and instructed the user on how to deploy them. You must verify with the user if this deployment was successful before closing the issue.
+-   **Stripe Integration:** A test Stripe secret key has been added to . The marketplace implementation should use this key. The core logic involves creating a PaymentIntent with a 3% .
+-   **Gemini Integration:** The travel concierge uses the Emergent LLM Key. The API for this is in .
 
 **documents and test reports created in this job**
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
+-  (updated multiple times)
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **User (Msg 236):** Requested Firestore security rules to protect  and  fields in profiles, making them visible only to verified users. (IN PROGRESS)
-2.  **User (Msg 221):** Requested a dynamic member profile page with specific layout, data logic, and security features like a Vetting Wall. (Partially Completed)
-3.  **User (Msg 208):** Instructed the agent to ignore FastAPI/MongoDB and keep all logic within Firebase/Next.js. (Completed)
-4.  **User (Msg 176):** Requested AES-256 encryption for the messaging system. (Completed)
-5.  **User (Msg 161):** Requested a Map View component with a radius slider and online status sidebar. (Completed)
-6.  **User (Msg 136 & 133):** Provided Firebase config and requested a multi-step membership application form. (Completed)
-7.  **User (Msg 126):** Requested to close the gap between the brand name and logo and change the background image. (Completed)
-8.  **User (Msg 119):** Requested the pineapple logo be upside down and on the right side of the text. (Completed)
-9.  **User (Msg 104):** Requested to change the landing page text and add the app name PineapplePlay with a pineapple logo. (Completed)
-10. **User (Msg 42):** Requested the initial build of a Next.js landing page with a luxury aesthetic. (Completed)
+1.  **User:** Requested a Member Marketplace with Stripe Connect and a 3% application fee. (IN PROGRESS)
+2.  **User:** yes please - confirmed wanting the Save Destination feature for the travel page. (Completed)
+3.  **User:** Requested a Gemini AI Travel Concierge named 'Sasha' that gives personalized recommendations. (Completed)
+4.  **User:** Requested an Admin Vetting Dashboard to approve/reject new users. (Completed)
+5.  **User:** Requested a login feature for registered members. (Completed)
+6.  **User:** Reported a Firebase Storage permission error during registration. (FIX PROPOSED, PENDING USER VERIFICATION)
+7.  **User:** yes - confirmed to proceed with the Community Pulse Sidebar. (Completed)
+8.  **User:** Provided detailed requirements for the Community Pulse Sidebar (new members, online status, notifications, etc.). (Completed)
+9.  **User:** Requested a Someone viewed your profile notification feature. (Completed)
+10. **User:** Clarified screenshot prevention requirements: focus on CSS deterrents and adding a dynamic watermark for traceability. (Completed)
 
 **Project Health Check:**
--   **Functional:** The application is running, and major features are in place.
--   **Broken:** The security model is incomplete until the Firestore rules are deployed and the application logic is fully tested. Core profile features like Edit and Favorite are missing.
+-   **Broken:**
+    -   User registration is likely broken for new users due to the unconfirmed fix for the Firebase Storage permission error.
+    -   The Member Marketplace is incomplete and non-functional.
+-   **Mocked:**
+    -   Stripe integration is scaffolded but not fully implemented or tested end-to-end.
 
 **3rd Party Integrations**
--   **Firebase:** Authentication, Firestore, Storage. User-provided keys are in use.
+-   **Firebase:** Authentication, Firestore, Storage (requires user-provided keys).
 -   **React-Leaflet:** For the map view.
 -   **Framer Motion:** For UI animations.
 -   **Zod:** For schema validation.
+-   **Google Gemini (via ):** AI Travel Concierge — uses Emergent LLM Key.
+-   **Stripe Connect:** For marketplace payments — requires User API Key (test key provided in environment).
 
 **Testing status**
 -   **Testing agent used after significant changes:** NO
 -   **Troubleshoot agent used after agent stuck in loop:** NO
 -   **Test files created:** []
--   **Known regressions:** None explicitly identified, but the cause of the memory crash is unknown and could represent a regression.
+-   **Known regressions:** None identified, but the unresolved memory crash is a major risk.
 
 **Credentials to test flow:**
-Firebase credentials have been provided by the user and are integrated into . The application should work using the standard Firebase login/auth flow.
+Use the registration and login flows. For the admin dashboard, you will need to manually edit a user document in the Firestore  collection and add the field .
 
 **What agent forgot to execute**
--   **Deploy :** The agent created the rules file but never ran the Firebase CLI command to deploy them to the server.
--   **Implement Profile 'Favorite' feature:** Requested as part of the profile page but not built.
--   **Implement Profile 'Edit' feature:** Requested as part of the profile page but not built.
--   **Implement UI for 'Vetting Wall':** The data filtering logic was added, but the corresponding UI (blur filter, modal) was not implemented in .</analysis>
+-   The agent has not yet implemented the **'Edit Profile'** and **'Favorite'** features, which were part of the original product requirements for the profile page.
+-   The UI for the **'Vetting Wall'** (blur filter/modal for unverified users viewing profiles) was requested but its implementation status is unclear and should be verified.</analysis>
