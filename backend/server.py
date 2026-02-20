@@ -85,6 +85,138 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Store active chat sessions
+chat_sessions = {}
+
+# Sasha's system prompt - Luxury Travel Concierge
+SASHA_SYSTEM_PROMPT = """You are Sasha, a high-end luxury travel concierge for PineapplePlay, an exclusive lifestyle community. 
+
+Your personality:
+- Discreet and sophisticated - never judgmental
+- Warm but professional, like a trusted confidante
+- Knowledgeable about luxury destinations worldwide
+- Attentive to subtle preferences and desires
+
+Your expertise includes:
+- Clothing-optional and lifestyle-friendly resorts
+- Private villas and exclusive retreats
+- Adults-only luxury experiences
+- Couples and group travel arrangements
+- Discreet booking services
+
+IMPORTANT: When suggesting destinations, ALWAYS format them as JSON blocks that can be rendered as cards. Use this exact format:
+
+```destination
+{
+  "name": "Resort or Destination Name",
+  "location": "City, Country",
+  "type": "Resort Type (e.g., 'Clothing-Optional Resort', 'Private Villa', 'Luxury Retreat')",
+  "description": "A compelling 2-3 sentence description",
+  "highlights": ["Highlight 1", "Highlight 2", "Highlight 3"],
+  "priceRange": "$$$$ or $$$$$ (luxury tier)",
+  "imageQuery": "search term for destination image"
+}
+```
+
+Always be helpful, make personalized recommendations based on the user's preferences and fantasies when provided, and maintain absolute discretion. Never be explicit - keep descriptions tasteful and sophisticated.
+
+If the user shares their fantasies or preferences, acknowledge them tactfully and use them to personalize recommendations without being crude."""
+
+
+class ChatMessage(BaseModel):
+    role: str  # 'user' or 'assistant'
+    content: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class ChatRequest(BaseModel):
+    session_id: str
+    message: str
+    user_fantasies: Optional[str] = None
+    user_interests: Optional[List[str]] = None
+
+
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+
+
+@api_router.post("/travel/chat", response_model=ChatResponse)
+async def travel_chat(request: ChatRequest):
+    """Chat with Sasha, the AI travel concierge"""
+    try:
+        session_id = request.session_id
+        
+        # Build personalized system prompt
+        system_prompt = SASHA_SYSTEM_PROMPT
+        if request.user_fantasies:
+            system_prompt += f"\n\nUser's preferences and desires (use to personalize recommendations, be tactful):\n{request.user_fantasies}"
+        if request.user_interests:
+            system_prompt += f"\n\nUser's interests: {', '.join(request.user_interests)}"
+        
+        # Get or create chat session
+        if session_id not in chat_sessions:
+            api_key = os.environ.get('EMERGENT_LLM_KEY')
+            if not api_key:
+                raise ValueError("EMERGENT_LLM_KEY not configured")
+            
+            chat = LlmChat(
+                api_key=api_key,
+                session_id=session_id,
+                system_message=system_prompt
+            ).with_model("gemini", "gemini-2.5-flash")
+            
+            chat_sessions[session_id] = chat
+            logger.info(f"Created new chat session: {session_id}")
+        else:
+            chat = chat_sessions[session_id]
+        
+        # Send message and get response
+        user_message = UserMessage(text=request.message)
+        response = await chat.send_message(user_message)
+        
+        # Store in MongoDB for persistence
+        chat_doc = {
+            "session_id": session_id,
+            "user_message": request.message,
+            "assistant_response": response,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        await db.travel_chats.insert_one(chat_doc)
+        
+        return ChatResponse(response=response, session_id=session_id)
+        
+    except Exception as e:
+        logger.error(f"Chat error: {str(e)}")
+        raise
+
+
+@api_router.get("/travel/chat/history/{session_id}")
+async def get_chat_history(session_id: str):
+    """Get chat history for a session"""
+    try:
+        history = await db.travel_chats.find(
+            {"session_id": session_id},
+            {"_id": 0}
+        ).sort("timestamp", 1).to_list(100)
+        return {"history": history}
+    except Exception as e:
+        logger.error(f"Error fetching chat history: {str(e)}")
+        return {"history": []}
+
+
+@api_router.delete("/travel/chat/{session_id}")
+async def clear_chat_session(session_id: str):
+    """Clear a chat session"""
+    try:
+        if session_id in chat_sessions:
+            del chat_sessions[session_id]
+        await db.travel_chats.delete_many({"session_id": session_id})
+        return {"success": True, "message": "Session cleared"}
+    except Exception as e:
+        logger.error(f"Error clearing session: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
