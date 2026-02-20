@@ -461,7 +461,7 @@ export default function FeedPage() {
                       onChange={(e) => setNewPostContent(e.target.value)}
                       placeholder="Share a whisper with the community..."
                       rows={3}
-                      className="w-full bg-charcoal/50 border border-gold/20 rounded-xl px-4 py-3 text-offWhite font-body placeholder-offWhite/40 focus:outline-none focus:border-gold transition-colors resize-none"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-offWhite font-body placeholder-offWhite/30 focus:outline-none focus:border-gold/50 focus:bg-white/[0.05] transition-all resize-none"
                       data-testid="whisper-input"
                     />
 
