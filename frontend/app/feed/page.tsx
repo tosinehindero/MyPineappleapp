@@ -666,10 +666,10 @@ export default function FeedPage() {
                             {/* Fire Reaction */}
                             <button
                               onClick={() => handleReaction(post.id, 'fire')}
-                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all ${
+                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all backdrop-blur-sm ${
                                 userReactions[post.id]?.fire
-                                  ? 'bg-orange-500/20 text-orange-400'
-                                  : 'bg-charcoal/50 text-offWhite/60 hover:bg-orange-500/10 hover:text-orange-400'
+                                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+                                  : 'bg-white/[0.03] text-offWhite/60 hover:bg-orange-500/10 hover:text-orange-400 border border-white/10'
                               }`}
                               data-testid={`reaction-fire-${post.id}`}
                             >
@@ -680,10 +680,10 @@ export default function FeedPage() {
                             {/* Pineapple Reaction */}
                             <button
                               onClick={() => handleReaction(post.id, 'pineapple')}
-                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all ${
+                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all backdrop-blur-sm ${
                                 userReactions[post.id]?.pineapple
-                                  ? 'bg-gold/20 text-gold'
-                                  : 'bg-charcoal/50 text-offWhite/60 hover:bg-gold/10 hover:text-gold'
+                                  ? 'bg-gold/20 text-gold border border-gold/30'
+                                  : 'bg-white/[0.03] text-offWhite/60 hover:bg-gold/10 hover:text-gold border border-white/10'
                               }`}
                               data-testid={`reaction-pineapple-${post.id}`}
                             >
@@ -694,10 +694,10 @@ export default function FeedPage() {
                             {/* Comments Toggle */}
                             <button
                               onClick={() => toggleComments(post.id)}
-                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all ${
+                              className={`flex items-center space-x-2 px-3 py-1.5 rounded-full transition-all backdrop-blur-sm ${
                                 expandedComments[post.id]
-                                  ? 'bg-gold/20 text-gold'
-                                  : 'bg-charcoal/50 text-offWhite/60 hover:bg-gold/10 hover:text-gold'
+                                  ? 'bg-gold/20 text-gold border border-gold/30'
+                                  : 'bg-white/[0.03] text-offWhite/60 hover:bg-gold/10 hover:text-gold border border-white/10'
                               }`}
                               data-testid={`comments-toggle-${post.id}`}
                             >
