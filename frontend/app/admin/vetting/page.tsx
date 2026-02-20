@@ -550,3 +550,19 @@ function AdminVettingContent() {
     </div>
   );
 }
+
+// Wrapper component with Suspense for useSearchParams
+export default function AdminVettingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-charcoal flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-offWhite/60 font-body">Loading admin dashboard...</p>
+        </div>
+      </div>
+    }>
+      <AdminVettingContent />
+    </Suspense>
+  );
+}
