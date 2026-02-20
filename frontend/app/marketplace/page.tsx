@@ -156,6 +156,7 @@ export default function MarketplacePage() {
   }
 
   return (
+    <VettingGuard>
     <div className="min-h-screen bg-charcoal">
       <Toaster
         theme="dark"
