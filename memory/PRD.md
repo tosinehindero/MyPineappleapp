@@ -132,5 +132,12 @@ Rules at `/app/frontend/firestore.rules` - User deployed manually.
 - TypeScript strict mode fixes
 - Test coverage
 
+## 3rd Party Integrations
+- **Firebase**: Auth, Firestore, Storage
+- **Gemini AI**: Travel concierge chat (via Emergent integrations)
+- **React-Leaflet**: Map view
+- **Framer Motion**: Animations
+- **Sonner**: Toast notifications
+
 ## Last Update
-December 19, 2026 - Added "Someone viewed your profile" notifications with real-time tracking
+December 20, 2026 - Added Gemini AI Travel Concierge with personalized recommendations
