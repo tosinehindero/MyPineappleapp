@@ -183,7 +183,65 @@ export default function MapView() {
 
   return (
     <div className="min-h-screen bg-charcoal">
-      <div className="flex flex-col lg:flex-row h-screen">
+      {/* Top Navigation Bar */}
+      <div className="bg-darkBlue/95 backdrop-blur-md border-b border-gold/20 px-6 py-4 sticky top-0 z-[1001]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <Link href="/feed" className="flex items-center space-x-2 group">
+            <span className="text-xl font-heading text-gold group-hover:text-gold-light transition-colors">
+              PineapplePlay
+            </span>
+            <span className="text-2xl">🍍</span>
+          </Link>
+          
+          <nav className="flex items-center space-x-6">
+            <Link
+              href="/feed"
+              className="text-offWhite/70 hover:text-gold transition-colors font-body text-sm flex items-center space-x-1"
+            >
+              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+              <span>Feed</span>
+            </Link>
+            <span className="text-gold font-body text-sm flex items-center space-x-1">
+              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>Discover</span>
+            </span>
+            <Link
+              href="/marketplace"
+              className="text-offWhite/70 hover:text-gold transition-colors font-body text-sm flex items-center space-x-1"
+            >
+              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span>Marketplace</span>
+            </Link>
+            <Link
+              href="/travel"
+              className="text-offWhite/70 hover:text-gold transition-colors font-body text-sm flex items-center space-x-1"
+            >
+              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+              </svg>
+              <span>Travel</span>
+            </Link>
+            <Link
+              href="/messages"
+              className="text-offWhite/70 hover:text-gold transition-colors font-body text-sm flex items-center space-x-1"
+            >
+              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+              <span>Messages</span>
+            </Link>
+          </nav>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row" style={{ height: 'calc(100vh - 72px)' }}>
         {/* Main Map Area */}
         <div className="flex-1 relative">
           {/* Header */}
