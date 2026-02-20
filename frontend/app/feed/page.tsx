@@ -760,7 +760,7 @@ export default function FeedPage() {
                                           }
                                         }}
                                         placeholder="Write a comment..."
-                                        className="flex-1 bg-charcoal/50 border border-gold/20 rounded-full px-4 py-2 text-sm text-offWhite font-body placeholder-offWhite/40 focus:outline-none focus:border-gold"
+                                        className="flex-1 bg-white/[0.03] border border-white/10 rounded-full px-4 py-2 text-sm text-offWhite font-body placeholder-offWhite/30 focus:outline-none focus:border-gold/50 focus:bg-white/[0.05] backdrop-blur-sm transition-all"
                                       />
                                       <button
                                         onClick={() => handleAddComment(post.id)}
