@@ -789,7 +789,7 @@ export default function FeedPage() {
                                             </div>
                                           )}
                                         </Link>
-                                        <div className="flex-1 bg-charcoal/30 rounded-xl px-4 py-2">
+                                        <div className="flex-1 bg-white/[0.03] backdrop-blur-sm rounded-xl px-4 py-2 border border-white/5">
                                           <div className="flex items-center space-x-2">
                                             <Link
                                               href={`/profile/${comment.authorId}`}
