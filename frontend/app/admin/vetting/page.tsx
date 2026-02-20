@@ -441,7 +441,7 @@ function AdminVettingContent() {
                       <button
                         onClick={() => handleApprove(selectedProfile.id)}
                         disabled={processingId === selectedProfile.id}
-                        className="flex-1 py-4 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                        className="flex-1 py-4 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-green-600/30 hover:shadow-green-500/40"
                         data-testid="approve-btn"
                       >
                         {processingId === selectedProfile.id ? (
@@ -450,13 +450,11 @@ function AdminVettingContent() {
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                             </svg>
-                            <span>Processing...</span>
+                            <span>Approving...</span>
                           </>
                         ) : (
                           <>
-                            <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <span className="text-lg">🍍</span>
                             <span>Approve & Welcome</span>
                           </>
                         )}
@@ -464,13 +462,13 @@ function AdminVettingContent() {
                       <button
                         onClick={() => setShowRejectModal(true)}
                         disabled={processingId === selectedProfile.id}
-                        className="flex-1 py-4 bg-red-600/20 hover:bg-red-600/30 text-red-400 font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 border border-red-600/30"
+                        className="flex-1 py-4 bg-gradient-to-r from-red-600/80 to-red-500/80 hover:from-red-500 hover:to-red-400 text-white font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg shadow-red-600/20 hover:shadow-red-500/30"
                         data-testid="reject-btn"
                       >
                         <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                           <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Reject</span>
+                        <span>Deny</span>
                       </button>
                     </div>
                   </div>
