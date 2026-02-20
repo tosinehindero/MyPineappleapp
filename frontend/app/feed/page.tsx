@@ -423,10 +423,10 @@ export default function FeedPage() {
                   <button
                     key={filter.key}
                     onClick={() => setActiveFilter(filter.key)}
-                    className={`px-4 py-2 rounded-full text-sm font-body transition-all flex items-center space-x-2 ${
+                    className={`px-4 py-2 rounded-full text-sm font-body transition-all flex items-center space-x-2 backdrop-blur-md ${
                       activeFilter === filter.key
-                        ? 'bg-gold text-charcoal'
-                        : 'bg-darkBlue/60 text-offWhite/70 hover:bg-gold/20 hover:text-gold border border-gold/20'
+                        ? 'bg-gold text-charcoal shadow-lg shadow-gold/20'
+                        : 'bg-white/5 text-offWhite/70 hover:bg-white/10 hover:text-gold border border-white/10'
                     }`}
                     data-testid={`filter-${filter.key}`}
                   >
