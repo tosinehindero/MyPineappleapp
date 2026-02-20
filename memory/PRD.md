@@ -64,7 +64,7 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
 - **Privacy**: Online status visible only to verified members
 - **Non-authenticated state**: Shows login prompt with "Join Now" CTA
 
-### 8. Profile View Tracking ✅ (NEW - Dec 19, 2026)
+### 8. Profile View Tracking ✅
 - **"Someone viewed your profile"** notifications
 - **View recording**: Tracks when users view other profiles
 - **Duplicate prevention**: Only one view per user per day
@@ -72,6 +72,30 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
 - **Click-through**: Notifications link directly to viewer's profile
 - **Unread indicators**: Gold dot and left border for unread notifications
 - **View stats**: Total views and unique viewers tracked per profile
+
+### 9. Login System ✅
+- **Login page** at `/login` with email/password authentication
+- **Forgot password** flow with email reset
+- **Navbar updates** dynamically based on auth state
+- **User dropdown menu** with profile, messages, and sign out
+- **Redirects** to Map page after successful login
+
+### 10. Admin Vetting Dashboard ✅
+- **Route**: `/admin/vetting`
+- **Security**: Checks `user.role === 'admin'`, redirects non-admins
+- **VIP Review Card** UI with Live Selfie, ID Upload, Fantasies
+- **`approveUser(uid)`**: Sets `isVerified: true`, adds `verifiedAt`, sends welcome notification
+- **`rejectUser(uid, reason)`**: With rejection modal and notification
+- **Stats display**: Pending/Verified/Rejected counts
+
+### 11. Gemini AI Travel Concierge ✅ (NEW)
+- **Route**: `/travel`
+- **AI Persona**: "Sasha" - high-end luxury travel concierge
+- **Gemini API Integration** via Emergent integrations
+- **Personalized recommendations** using user's Fantasies and Interests
+- **Travel Cards**: High-end UI cards with "Book Now" buttons
+- **Quick suggestions**: Pre-built prompts for common queries
+- **Chat persistence**: MongoDB storage for conversation history
 
 ## Firestore Security Rules ✅ DEPLOYED
 Rules at `/app/frontend/firestore.rules` - User deployed manually.
