@@ -542,7 +542,7 @@ export default function FeedPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 overflow-hidden"
+                      className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/20 hover:border-white/20 hover:bg-white/[0.05] transition-all duration-300"
                       data-testid={`post-${post.id}`}
                     >
                       {/* Post Header */}
