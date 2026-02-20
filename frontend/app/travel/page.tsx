@@ -363,6 +363,18 @@ export default function TravelPage() {
 
   return (
     <div className="min-h-screen bg-charcoal flex flex-col">
+      <Toaster
+        theme="dark"
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#0F172A',
+            border: '1px solid rgba(212, 175, 55, 0.3)',
+            color: '#F8FAFC',
+          },
+        }}
+      />
+
       {/* Header */}
       <div className="bg-darkBlue/50 border-b border-gold/20 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -383,9 +395,23 @@ export default function TravelPage() {
             </div>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span className="text-green-400 text-sm font-body">Online</span>
+          <div className="flex items-center space-x-4">
+            {/* Saved Destinations Button */}
+            <button
+              onClick={() => setShowSavedDrawer(true)}
+              className="flex items-center space-x-2 px-4 py-2 bg-gold/10 border border-gold/30 rounded-full hover:bg-gold/20 transition-colors"
+              data-testid="saved-destinations-btn"
+            >
+              <svg className="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+              <span className="text-gold text-sm font-body">{savedDestinations.length}</span>
+            </button>
+            
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="text-green-400 text-sm font-body">Online</span>
+            </div>
           </div>
         </div>
       </div>
