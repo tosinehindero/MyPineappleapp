@@ -113,11 +113,15 @@ export async function approveUser(uid: string): Promise<{
       return { success: false, error: 'User not found' };
     }
 
+    const userData = userDoc.data();
+
     // Update verification status
     await updateDoc(userRef, {
       isVerified: true,
       status: 'verified',
+      role: userData.role || 'member', // Set role to 'member' if not already set
       verifiedAt: serverTimestamp(),
+      approvedAt: serverTimestamp(),
     });
 
     // Create a welcome notification for the user
@@ -127,7 +131,7 @@ export async function approveUser(uid: string): Promise<{
       fromUserId: 'system',
       fromUsername: 'PineapplePlay',
       type: 'verification_approved',
-      message: 'Welcome to the Inner Circle! Your membership has been verified.',
+      message: '🍍 Welcome to the Inner Circle! Your membership has been verified. You now have full access to all exclusive features.',
       createdAt: serverTimestamp(),
       read: false,
     });
