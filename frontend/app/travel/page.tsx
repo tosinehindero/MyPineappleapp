@@ -517,6 +517,123 @@ export default function TravelPage() {
           </div>
         </div>
       </div>
+
+      {/* Saved Destinations Drawer */}
+      <AnimatePresence>
+        {showSavedDrawer && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowSavedDrawer(false)}
+              className="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-40"
+            />
+
+            {/* Drawer */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-darkBlue border-l border-gold/20 z-50 flex flex-col"
+            >
+              {/* Header */}
+              <div className="p-6 border-b border-gold/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-heading text-gold">Saved Destinations</h2>
+                    <p className="text-offWhite/60 text-sm font-body">{savedDestinations.length} saved</p>
+                  </div>
+                  <button
+                    onClick={() => setShowSavedDrawer(false)}
+                    className="w-10 h-10 rounded-full hover:bg-gold/10 flex items-center justify-center transition-colors"
+                  >
+                    <svg className="w-6 h-6 text-offWhite" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {savedDestinations.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-gold/60" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-heading text-gold/60 mb-2">No saved destinations</h3>
+                    <p className="text-offWhite/40 text-sm font-body">
+                      Ask Sasha for recommendations and save your favorites!
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {savedDestinations.map((destination) => (
+                      <motion.div
+                        key={destination.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-charcoal rounded-xl border border-gold/20 overflow-hidden"
+                      >
+                        {/* Mini header */}
+                        <div className="h-24 bg-gradient-to-br from-gold/20 to-gold/5 relative flex items-center justify-center">
+                          <span className="text-4xl">🏝️</span>
+                          <div className="absolute top-2 right-2">
+                            <span className="px-2 py-0.5 bg-gold text-charcoal text-xs font-semibold rounded-full">
+                              {destination.priceRange}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="p-4">
+                          <h3 className="text-lg font-heading text-gold mb-1">{destination.name}</h3>
+                          <p className="text-offWhite/60 text-sm font-body mb-2">{destination.location}</p>
+                          <p className="text-offWhite/70 text-sm font-body line-clamp-2 mb-3">
+                            {destination.description}
+                          </p>
+                          
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => {
+                                setInputMessage(`Tell me more about ${destination.name}`);
+                                setShowSavedDrawer(false);
+                                inputRef.current?.focus();
+                              }}
+                              className="flex-1 py-2 bg-gold text-charcoal text-sm font-semibold rounded-lg hover:shadow-gold-glow transition-all"
+                            >
+                              Ask Sasha
+                            </button>
+                            <button
+                              onClick={() => handleSaveDestination(destination)}
+                              className="px-3 py-2 bg-red-500/10 text-red-400 text-sm rounded-lg hover:bg-red-500/20 transition-colors"
+                              title="Remove"
+                            >
+                              <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </div>
+                          
+                          {destination.savedAt && (
+                            <p className="text-offWhite/30 text-xs font-body mt-3">
+                              Saved {destination.savedAt.toLocaleDateString()}
+                            </p>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
