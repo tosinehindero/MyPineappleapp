@@ -7,6 +7,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
+import VettingGuard from '@/components/VettingGuard';
 
 interface Listing {
   listing_id: string;
