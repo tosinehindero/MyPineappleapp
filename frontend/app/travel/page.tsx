@@ -67,6 +67,12 @@ export default function TravelPage() {
             setUserFantasies(userData.fantasies || '');
             setUserInterests(userData.interests || []);
           }
+          
+          // Load saved destinations
+          const savedResult = await getSavedDestinations(user.uid);
+          if (savedResult.success) {
+            setSavedDestinations(savedResult.data);
+          }
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
