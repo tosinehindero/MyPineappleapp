@@ -84,8 +84,8 @@ function AdminVettingContent() {
     const result = await approveUser(uid);
     
     if (result.success) {
-      toast.success('Welcome to the Inner Circle!', {
-        description: 'User has been verified and notified.',
+      toast.success('🍍 Welcome to the Inner Circle!', {
+        description: `${pendingProfiles.find(p => p.id === uid)?.username || 'User'} has been verified and welcomed to the community.`,
         duration: 5000,
       });
       
