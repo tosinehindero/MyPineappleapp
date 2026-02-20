@@ -192,9 +192,31 @@ export default function Navbar() {
                   <div className="absolute right-0 mt-2 w-56 bg-darkBlue border border-gold/20 rounded-xl shadow-xl overflow-hidden z-50">
                     <div className="p-4 border-b border-gold/10">
                       <p className="text-offWhite font-body text-sm truncate">{currentUser.email}</p>
-                      <p className="text-offWhite/50 text-xs font-body">Member</p>
+                      <div className="flex items-center space-x-2">
+                        <p className="text-offWhite/50 text-xs font-body">
+                          {profileLoading ? 'Loading...' : (isAdmin ? 'Administrator' : 'Member')}
+                        </p>
+                        {!profileLoading && isAdmin && (
+                          <span className="text-xs px-1.5 py-0.5 bg-gold/20 text-gold rounded-full">Admin</span>
+                        )}
+                      </div>
                     </div>
                     <div className="py-2">
+                      {/* Admin Dashboard Link - Only visible for verified admins */}
+                      {!profileLoading && isAdmin && (
+                        <Link
+                          href="/admin/vetting"
+                          className="flex items-center px-4 py-2 text-gold hover:bg-gold/10 transition-colors font-body text-sm font-medium"
+                          onClick={() => setShowUserMenu(false)}
+                          data-testid="admin-dashboard-link"
+                        >
+                          <span className="mr-2">🍍</span>
+                          <svg className="w-4 h-4 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                          </svg>
+                          Admin Dashboard
+                        </Link>
+                      )}
                       <Link
                         href={`/profile/${currentUser.uid}`}
                         className="flex items-center px-4 py-2 text-offWhite/80 hover:bg-gold/10 hover:text-gold transition-colors font-body text-sm"
@@ -226,6 +248,16 @@ export default function Navbar() {
                           <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         Discover
+                      </Link>
+                      <Link
+                        href="/marketplace"
+                        className="flex items-center px-4 py-2 text-offWhite/80 hover:bg-gold/10 hover:text-gold transition-colors font-body text-sm"
+                        onClick={() => setShowUserMenu(false)}
+                      >
+                        <svg className="w-4 h-4 mr-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Marketplace
                       </Link>
                     </div>
                     <div className="py-2 border-t border-gold/10">
