@@ -13,7 +13,7 @@ import {
   rejectUser,
   getVerificationStats,
   type PendingProfile,
-} from '../actions';
+} from '@/lib/admin';
 import Link from 'next/link';
 
 export default function AdminVettingPage() {
