@@ -949,7 +949,7 @@ export default function FeedPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="bg-gradient-to-br from-gold/10 to-gold/5 backdrop-blur-md rounded-2xl border border-gold/30 p-6 text-center"
+                  className="bg-gradient-to-br from-gold/[0.08] to-gold/[0.02] backdrop-blur-xl rounded-2xl border border-gold/20 p-6 text-center shadow-2xl shadow-black/20"
                 >
                   <span className="text-4xl block mb-2">🍍</span>
                   <h3 className="text-gold font-heading text-sm">Premium Community</h3>
