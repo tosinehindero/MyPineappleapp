@@ -88,7 +88,7 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
 - **`rejectUser(uid, reason)`**: With rejection modal and notification
 - **Stats display**: Pending/Verified/Rejected counts
 
-### 11. Gemini AI Travel Concierge ✅ (NEW)
+### 11. Gemini AI Travel Concierge ✅
 - **Route**: `/travel`
 - **AI Persona**: "Sasha" - high-end luxury travel concierge
 - **Gemini API Integration** via Emergent integrations
@@ -96,6 +96,9 @@ Build a luxury social web application called "PineapplePlay" - an exclusive soci
 - **Travel Cards**: High-end UI cards with "Book Now" buttons
 - **Quick suggestions**: Pre-built prompts for common queries
 - **Chat persistence**: MongoDB storage for conversation history
+- **Save Destinations**: Bookmark favorites to saved drawer
+- **Saved Drawer**: Side panel showing all saved destinations
+- **Firestore rules**: Added for savedDestinations collection
 
 ## Firestore Security Rules ✅ DEPLOYED
 Rules at `/app/frontend/firestore.rules` - User deployed manually.
