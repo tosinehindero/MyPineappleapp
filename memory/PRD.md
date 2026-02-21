@@ -8,47 +8,34 @@ Restore existing codebase from fork EMTba46ab and ensure:
 ## Architecture
 - **Frontend**: Next.js 16 with TypeScript, Tailwind CSS
 - **Backend**: Firebase (Auth + Firestore + Storage)
-- **Database**: Firestore collections: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`
+- **Database**: Firestore collections: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`, `profileViews`, `comments`, `postReactions`
 
-## Current Status (Jan 2026)
+## Current Status (Feb 21, 2026)
 - ✅ Codebase restored from zip file
-- ✅ All code uses `members` collection (verified via grep)
+- ✅ All code uses `members` collection
 - ✅ App running on Next.js dev server
-- ✅ Homepage, Login, Feed pages working
-- ⚠️ Admin role requires Firestore document update
+- ✅ Fixed Server Actions origin mismatch (allowedOrigins config)
+- ✅ Fixed Firestore permission errors in CommunityPulse.tsx (added auth checks)
+- ✅ Fixed profile page loading (converted to client-side Firebase calls)
+- ✅ Admin UID configured: `48VUvApl8PWC8KhcKEqgfVS87wB2`
 
-## Admin Configuration
-Admin check is done via `checkAdminRole()` in `/app/frontend/lib/admin.ts`:
-- Reads `role` field from `members/{userId}` document
-- Returns true if `role === 'admin'`
+## Key Fixes Applied This Session
+1. **Server Actions Origin Mismatch**: Added `allowedOrigins` in `next.config.ts`
+2. **Firestore Permission Errors**: Added `if (!currentUser) return;` guards to all `onSnapshot` calls
+3. **Profile Page Not Loading**: Converted server actions to client-side functions (`lib/profile-client.ts`)
+4. **Missing Firestore Rules**: User added rules for `posts`, `postReactions`, `comments`
 
-**To set Admin UID `48VUvApl8PWC8KhcKEqgfVS87wB2` as admin:**
-Update Firestore document `members/48VUvApl8PWC8KhcKEqgfVS87wB2`:
-```json
-{
-  "role": "admin",
-  "isVerified": true
-}
-```
+## Key Files Modified
+- `/app/frontend/next.config.ts` - Added allowedOrigins for server actions
+- `/app/frontend/components/CommunityPulse.tsx` - Fixed auth checks on subscriptions
+- `/app/frontend/components/ProfilePage.tsx` - Using client-side profile functions
+- `/app/frontend/lib/profile-client.ts` - NEW: Client-side profile operations
+- `/app/frontend/app/views/actions.ts` - Converted to client-side
 
-## Key Files
-- `/app/frontend/lib/firebase.ts` - Firebase configuration
-- `/app/frontend/lib/admin.ts` - Admin role checking, verification management
-- `/app/frontend/app/admin/` - Admin dashboard pages
-- `/app/frontend/app/feed/` - Feed page
-- `/app/frontend/app/profile/` - Profile pages
-- `/app/frontend/components/` - Reusable components
+## Firestore Rules Required
+- members, posts, postReactions, comments, conversations, messages, favorites, notifications, profileViews, verificationRequests, savedDestinations, marketplace_listings, marketplace_orders
 
-## Collections Used
-All code uses `members` collection:
-- `/app/frontend/app/actions.ts`
-- `/app/frontend/app/admin/actions.ts`
-- `/app/frontend/app/profile/actions.ts`
-- `/app/frontend/app/feed/actions.ts`
-- `/app/frontend/app/pulse/actions.ts`
-- `/app/frontend/lib/admin.ts`
-
-## Next Steps
-1. Update Firestore to set admin role for UID 48VUvApl8PWC8KhcKEqgfVS87wB2
-2. Test admin dashboard functionality
-3. Verify user vetting workflow
+## Next Tasks
+- Test full user flow (registration, feed, messaging)
+- Admin vetting dashboard testing
+- Performance optimization
