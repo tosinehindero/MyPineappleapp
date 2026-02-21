@@ -192,12 +192,63 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
     }
   };
 
+  // Loading state with timeout message
   if (loading) {
     return (
       <div className="min-h-screen bg-charcoal flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-offWhite font-body">Loading profile...</p>
+          <p className="text-offWhite/40 font-body text-sm mt-2">This should only take a moment</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state with back button
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <span className="text-5xl mb-4 block">😕</span>
+          <h2 className="text-2xl font-heading text-gold mb-4">Unable to Load Profile</h2>
+          <p className="text-offWhite/70 font-body mb-6">{loadError}</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-gold/20 text-gold border border-gold/40 rounded-full hover:bg-gold/30 transition-all font-body"
+            >
+              Try Again
+            </button>
+            <Link
+              href="/feed"
+              className="px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+            >
+              Back to Feed
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center p-6">
+        <div className="text-center">
+          <span className="text-5xl mb-4 block">🍍</span>
+          <h2 className="text-2xl font-heading text-gold mb-4">Profile Not Found</h2>
+          <p className="text-offWhite/70 font-body mb-6">This profile doesn't exist or may have been removed.</p>
+          <Link
+            href="/feed"
+            className="inline-block px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+          >
+            Back to Feed
+          </Link>
+        </div>
+      </div>
+    );
+  }
         </div>
       </div>
     );
