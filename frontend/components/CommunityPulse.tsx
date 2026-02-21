@@ -134,6 +134,9 @@ export default function CommunityPulse() {
 
   // Real-time subscription for trending profiles
   useEffect(() => {
+    // Only subscribe if user is authenticated
+    if (!currentUser) return;
+
     const trendingQuery = query(
       collection(db, 'members'),
       orderBy('lastSeen', 'desc'),
@@ -153,10 +156,12 @@ export default function CommunityPulse() {
         });
       });
       setTrendingMembers(members);
+    }, (error) => {
+      console.error('Error fetching trending members:', error);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   // Real-time subscription for notifications
   useEffect(() => {
