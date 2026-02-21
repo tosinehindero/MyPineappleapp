@@ -102,7 +102,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
         // For own profile, always allow loading (bypass verification check)
         const isOwnProfile = currentUser?.uid === profileId;
         
-        const result = await getProfile(
+        const result = await getProfileClient(
           profileId,
           currentUser?.uid,
           isOwnProfile ? true : isVerified // Bypass verification for own profile
