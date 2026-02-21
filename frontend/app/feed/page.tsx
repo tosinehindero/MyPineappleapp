@@ -875,10 +875,30 @@ export default function FeedPage() {
 
                 {/* Empty State */}
                 {posts.length === 0 && !loading && (
-                  <div className="text-center py-16">
+                  <div className="text-center py-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10">
                     <span className="text-6xl mb-4 block">🍍</span>
                     <h3 className="text-xl font-heading text-gold mb-2">No whispers yet</h3>
-                    <p className="text-offWhite/60 font-body">Be the first to share something with the community!</p>
+                    <p className="text-offWhite/60 font-body mb-6">Be the first to share something with the community!</p>
+                    <button
+                      onClick={handleCreateWelcomePost}
+                      disabled={posting}
+                      className="px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 inline-flex items-center space-x-2"
+                    >
+                      {posting ? (
+                        <>
+                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          <span>Creating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>🍍</span>
+                          <span>Create Welcome Post</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 )}
 
