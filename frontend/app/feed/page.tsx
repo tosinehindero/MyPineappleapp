@@ -485,57 +485,57 @@ export default function FeedPage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/20"
+                className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-4 sm:p-6 shadow-2xl shadow-black/20"
                 data-testid="whisper-box"
               >
-                <div className="flex items-start space-x-4">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                   {userProfile?.photoUrl ? (
                     <img
                       src={userProfile.photoUrl}
                       alt={userProfile.username}
-                      className="w-12 h-12 rounded-full border-2 border-gold/40 object-cover"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gold/40 object-cover flex-shrink-0"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full border-2 border-gold/40 bg-gold/20 flex items-center justify-center text-gold font-heading">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gold/40 bg-gold/20 flex items-center justify-center text-gold font-heading flex-shrink-0">
                       {userProfile?.username?.[0]?.toUpperCase() || '?'}
                     </div>
                   )}
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <textarea
                       value={newPostContent}
                       onChange={(e) => setNewPostContent(e.target.value)}
                       placeholder="Share a whisper with the community..."
                       rows={3}
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-offWhite font-body placeholder-offWhite/30 focus:outline-none focus:border-gold/50 focus:bg-white/[0.05] transition-all resize-none"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-3 sm:px-4 py-3 text-offWhite font-body placeholder-offWhite/30 focus:outline-none focus:border-gold/50 focus:bg-white/[0.05] transition-all resize-none text-sm sm:text-base"
                       data-testid="whisper-input"
                     />
 
                     {/* Post Options */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-4">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         {/* Privacy Toggle */}
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center gap-1 sm:gap-2">
                           <button
                             onClick={() => setNewPostPrivacy('all')}
-                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
+                            className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
                               newPostPrivacy === 'all'
                                 ? 'bg-gold text-charcoal shadow-lg shadow-gold/20'
                                 : 'bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30'
                             }`}
                             data-testid="privacy-all"
                           >
-                            All Members
+                            All
                           </button>
                           <button
                             onClick={() => setNewPostPrivacy('circle')}
-                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
+                            className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-body transition-all backdrop-blur-sm ${
                               newPostPrivacy === 'circle'
                                 ? 'bg-gold text-charcoal shadow-lg shadow-gold/20'
                                 : 'bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30'
                             }`}
                             data-testid="privacy-circle"
                           >
-                            My Circle
+                            Circle
                           </button>
                         </div>
 
@@ -543,7 +543,7 @@ export default function FeedPage() {
                         <select
                           value={newPostCategory}
                           onChange={(e) => setNewPostCategory(e.target.value as FilterCategory)}
-                          className="bg-white/[0.03] border border-white/10 rounded-lg px-3 py-1.5 text-xs font-body text-offWhite/80 focus:outline-none focus:border-gold/50 backdrop-blur-sm cursor-pointer"
+                          className="bg-white/[0.03] border border-white/10 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-body text-offWhite/80 focus:outline-none focus:border-gold/50 backdrop-blur-sm cursor-pointer"
                         >
                           <option value="all">General</option>
                           <option value="travel">Travel</option>
@@ -555,7 +555,7 @@ export default function FeedPage() {
                       <button
                         onClick={handleCreatePost}
                         disabled={posting || !newPostContent.trim()}
-                        className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                        className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                         data-testid="whisper-submit"
                       >
                         {posting ? (
