@@ -155,7 +155,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       return;
     }
 
-    const result = await toggleFavorite(currentUser.uid, profileId);
+    const result = await toggleFavoriteClient(currentUser.uid, profileId);
     if (result.success && result.isFavorite !== undefined) {
       setIsFavorite(result.isFavorite);
     }
@@ -163,7 +163,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
 
   const handleSaveProfile = async () => {
     setSaving(true);
-    const result = await updateProfile(profileId, {
+    const result = await updateProfileClient(profileId, {
       description: editDescription,
       fantasies: editFantasies,
     });
