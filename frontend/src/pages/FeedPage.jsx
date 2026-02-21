@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePosts } from '@/hooks/usePosts';
+import { toast } from 'sonner';
 import { 
   Send, 
   Loader2, 
@@ -8,13 +9,14 @@ import {
   Clock, 
   MessageCircle,
   Heart,
-  User
+  User,
+  AlertCircle
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 const FeedPage = () => {
   const { user, profile } = useAuth();
-  const { posts, loading, createPost } = usePosts();
+  const { posts, loading, error, createPost } = usePosts();
   const [newPost, setNewPost] = useState('');
   const [posting, setPosting] = useState(false);
 
@@ -26,8 +28,10 @@ const FeedPage = () => {
     try {
       await createPost(newPost.trim(), user.uid, profile);
       setNewPost('');
+      toast.success('Post created successfully!');
     } catch (err) {
       console.error('Failed to create post:', err);
+      toast.error('Failed to create post. Please try again.');
     } finally {
       setPosting(false);
     }
@@ -35,8 +39,12 @@ const FeedPage = () => {
 
   const formatDate = (timestamp) => {
     if (!timestamp) return 'Just now';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return formatDistanceToNow(date, { addSuffix: true });
+    try {
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      return formatDistanceToNow(date, { addSuffix: true });
+    } catch {
+      return 'Just now';
+    }
   };
 
   return (
