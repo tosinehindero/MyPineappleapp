@@ -12,6 +12,7 @@ import {
   approveUser,
   rejectUser,
   getVerificationStats,
+  createTestPendingUser,
   type PendingProfile,
 } from '@/lib/admin';
 import Link from 'next/link';
