@@ -1,6 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useMembers } from '@/hooks/useMembers';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { 
   Users, 
   ShieldCheck, 
@@ -22,11 +23,13 @@ const AdminPage = () => {
     return <Navigate to="/feed" replace />;
   }
 
-  const handleToggleVerification = async (memberId, currentStatus) => {
+  const handleToggleVerification = async (memberId, currentStatus, memberName) => {
     try {
       await toggleVerification(memberId, currentStatus);
+      toast.success(`${memberName || 'Member'} ${!currentStatus ? 'verified' : 'unverified'} successfully!`);
     } catch (err) {
       console.error('Failed to toggle verification:', err);
+      toast.error('Failed to update verification status');
     }
   };
 
