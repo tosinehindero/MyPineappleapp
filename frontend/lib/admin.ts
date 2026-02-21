@@ -122,10 +122,50 @@ export async function getPendingVerifications(): Promise<{
       });
     });
 
+    console.log('🍍 Vetting Query: Found', profiles.length, 'pending profiles');
     return { success: true, data: profiles };
   } catch (error: any) {
     console.error('Error fetching pending verifications:', error);
     return { success: false, data: [], error: error.message };
+  }
+}
+
+/**
+ * Create a test pending user for admin dashboard testing
+ */
+export async function createTestPendingUser(): Promise<{
+  success: boolean;
+  userId?: string;
+  error?: string;
+}> {
+  try {
+    const testUserId = `test_user_${Date.now()}`;
+    
+    await setDoc(doc(db, 'members', testUserId), {
+      uid: testUserId,
+      email: `test_${Date.now()}@pineappleplay.com`,
+      username: `TestUser_${Math.random().toString(36).substr(2, 5)}`,
+      accountType: 'Single',
+      experienceLevel: 'Beginner',
+      location: 'Miami, FL',
+      interests: ['Luxury Travel', 'Fine Dining', 'Mixology'],
+      lookingFor: ['Networking', 'Events', 'Friendships'],
+      description: 'This is a test profile created for admin dashboard testing. Feel free to approve or reject this user to test the functionality.',
+      fantasies: 'Testing the admin approval workflow.',
+      photoUrls: [],
+      isVerified: false,
+      status: 'pending',
+      role: 'member',
+      ageRangeMin: 25,
+      ageRangeMax: 45,
+      createdAt: serverTimestamp(),
+    });
+
+    console.log('🍍 Created test pending user:', testUserId);
+    return { success: true, userId: testUserId };
+  } catch (error: any) {
+    console.error('Error creating test user:', error);
+    return { success: false, error: error.message };
   }
 }
 
