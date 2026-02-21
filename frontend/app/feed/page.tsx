@@ -338,8 +338,6 @@ export default function FeedPage() {
           </div>
         </div>
       </VettingGuard>
-        </div>
-      </div>
     );
   }
 
