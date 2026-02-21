@@ -89,32 +89,36 @@ export default function FeedPage() {
     const loadInitialData = async () => {
       setLoading(true);
       
-      const [postsResult, eventsResult, listingsResult] = await Promise.all([
-        getPosts(currentUser?.uid || '', activeFilter),
-        getUpcomingEvents(),
-        getFeaturedListings(),
-      ]);
+      try {
+        const [postsResult, eventsResult, listingsResult] = await Promise.all([
+          getPosts(currentUser?.uid || '', activeFilter),
+          getUpcomingEvents(),
+          getFeaturedListings(),
+        ]);
 
-      if (postsResult.success) {
-        setPosts(postsResult.posts);
-        setHasMore(postsResult.hasMore);
+        if (postsResult.success) {
+          setPosts(postsResult.posts);
+          setHasMore(postsResult.hasMore);
 
-        // Load user reactions
-        if (currentUser && postsResult.posts.length > 0) {
-          const reactions = await getUserReactions(
-            currentUser.uid,
-            postsResult.posts.map((p) => p.id)
-          );
-          setUserReactions(reactions);
+          // Load user reactions
+          if (currentUser && postsResult.posts.length > 0) {
+            const reactions = await getUserReactions(
+              currentUser.uid,
+              postsResult.posts.map((p) => p.id)
+            );
+            setUserReactions(reactions);
+          }
         }
-      }
 
-      if (eventsResult.success) {
-        setUpcomingEvents(eventsResult.events);
-      }
+        if (eventsResult.success) {
+          setUpcomingEvents(eventsResult.events);
+        }
 
-      if (listingsResult.success) {
-        setFeaturedListings(listingsResult.listings);
+        if (listingsResult.success) {
+          setFeaturedListings(listingsResult.listings);
+        }
+      } catch (error) {
+        console.error('Error loading feed data:', error);
       }
 
       setLoading(false);
