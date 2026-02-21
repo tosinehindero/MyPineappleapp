@@ -94,29 +94,60 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   useEffect(() => {
     const loadProfile = async () => {
       setLoading(true);
-      const result = await getProfile(
-        profileId,
-        currentUser?.uid,
-        isVerified
-      );
+      setLoadError(null);
       
-      if (result.success && result.data) {
-        setProfile(result.data as ProfileData);
-        setIsRestricted(result.restricted || false);
-        setEditDescription(result.data.description || '');
-        setEditFantasies(result.data.fantasies || '');
+      try {
+        console.log('🍍 Loading profile:', profileId, '| Current user:', currentUser?.uid);
+        
+        // For own profile, always allow loading (bypass verification check)
+        const isOwnProfile = currentUser?.uid === profileId;
+        
+        const result = await getProfile(
+          profileId,
+          currentUser?.uid,
+          isOwnProfile ? true : isVerified // Bypass verification for own profile
+        );
+        
+        console.log('🍍 Profile load result:', result.success, result.data?.username);
+        
+        if (result.success && result.data) {
+          setProfile(result.data as ProfileData);
+          // Don't blur own profile
+          setIsRestricted(isOwnProfile ? false : (result.restricted || false));
+          setEditDescription(result.data.description || '');
+          setEditFantasies(result.data.fantasies || '');
+        } else {
+          setLoadError(result.error || 'Profile not found');
+        }
+      } catch (error: any) {
+        console.error('Profile load error:', error);
+        setLoadError(error.message || 'Failed to load profile');
       }
+      
       setLoading(false);
     };
+
+    // Add loading timeout
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        console.log('🍍 Profile loading timeout');
+        setLoading(false);
+        setLoadError('Loading timed out. Please try again.');
+      }
+    }, 5000);
     
-    // If user is logged in, load profile
-    if (currentUser) {
-      loadProfile();
-    } else if (currentUser === null) {
-      // User not logged in - redirect to login
-      router.push('/login');
+    // Load profile if auth is checked
+    if (authChecked) {
+      if (currentUser) {
+        loadProfile();
+      } else {
+        // Not logged in - redirect after short delay
+        setTimeout(() => router.push('/login'), 100);
+      }
     }
-  }, [profileId, currentUser, isVerified, router]);
+
+    return () => clearTimeout(timeoutId);
+  }, [profileId, currentUser, isVerified, router, authChecked]);
 
   const handleToggleFavorite = async () => {
     if (!currentUser) {
