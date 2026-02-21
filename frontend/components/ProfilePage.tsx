@@ -42,6 +42,7 @@ interface ProfilePageProps {
 
 export default function ProfilePage({ profileId }: ProfilePageProps) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [profile, setProfile] = useState<ProfileData | null>(null);
@@ -50,13 +51,24 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showVettingModal, setShowVettingModal] = useState(false);
-  const [editDescription, setEditDescription] = useState('');
-  const [editFantasies, setEditFantasies] = useState('');
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [isRestricted, setIsRestricted] = useState(false);
   const [viewerUsername, setViewerUsername] = useState('');
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  
+  // Edit form state
+  const [editUsername, setEditUsername] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [editFantasies, setEditFantasies] = useState('');
+  const [editLocation, setEditLocation] = useState('');
+  const [editInterests, setEditInterests] = useState<string[]>([]);
+  const [editLookingFor, setEditLookingFor] = useState<string[]>([]);
+  const [editAgeMin, setEditAgeMin] = useState(18);
+  const [editAgeMax, setEditAgeMax] = useState(99);
+  const [newInterest, setNewInterest] = useState('');
+  const [newLookingFor, setNewLookingFor] = useState('');
 
   const isOwner = currentUser?.uid === profileId;
   const shouldBlur = isRestricted && !isOwner;
