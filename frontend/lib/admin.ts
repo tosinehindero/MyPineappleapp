@@ -59,6 +59,7 @@ export async function checkAdminRole(userId: string): Promise<boolean> {
 
 /**
  * Fetch all profiles pending verification (client-side)
+ * Handles cases where isVerified is false OR missing/null
  */
 export async function getPendingVerifications(): Promise<{
   success: boolean;
@@ -66,19 +67,40 @@ export async function getPendingVerifications(): Promise<{
   error?: string;
 }> {
   try {
-    const pendingQuery = query(
+    // Query ALL members and filter client-side
+    // This handles cases where isVerified is false, null, or missing entirely
+    const membersQuery = query(
       collection(db, 'members'),
-      where('isVerified', '==', false),
       orderBy('createdAt', 'desc')
     );
 
-    const snapshot = await getDocs(pendingQuery);
+    const snapshot = await getDocs(membersQuery);
     const profiles: PendingProfile[] = [];
+
+    console.log('🍍 Vetting Query: Found', snapshot.size, 'total members in collection');
 
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
+      
+      // Skip if already verified
+      if (data.isVerified === true) {
+        console.log('🍍 Skipping verified user:', data.username || docSnap.id);
+        return;
+      }
+      
       // Skip rejected profiles
-      if (data.status === 'rejected') return;
+      if (data.status === 'rejected') {
+        console.log('🍍 Skipping rejected user:', data.username || docSnap.id);
+        return;
+      }
+
+      // Skip admin accounts
+      if (data.role === 'admin') {
+        console.log('🍍 Skipping admin user:', data.username || docSnap.id);
+        return;
+      }
+
+      console.log('🍍 Adding pending user:', data.username || docSnap.id, '| isVerified:', data.isVerified);
       
       profiles.push({
         id: docSnap.id,
