@@ -249,26 +249,6 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       </div>
     );
   }
-        </div>
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-charcoal flex items-center justify-center p-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-heading text-gold mb-4">Profile Not Found</h2>
-          <Link
-            href="/map"
-            className="inline-block px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
-          >
-            Back to Discovery
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   // Get cover and profile photos
   const coverPhoto = profile.photoUrls[0] || null;
