@@ -1,34 +1,66 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.App {
+  min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Heading font class */
+.font-heading {
+  font-family: 'Outfit', sans-serif;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* Body font class */
+.font-body {
+  font-family: 'Manrope', sans-serif;
 }
 
-.App-link {
-    color: #61dafb;
+/* Mono font class */
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Text colors */
+.text-foreground {
+  color: #f8fafc;
+}
+
+.text-muted-foreground {
+  color: #94a3b8;
+}
+
+/* Background colors */
+.bg-background {
+  background-color: #020617;
+}
+
+.bg-primary {
+  background-color: #6366f1;
+}
+
+.text-primary {
+  color: #6366f1;
+}
+
+.text-primary-foreground {
+  color: #ffffff;
+}
+
+/* Accent colors */
+.text-accent-cyan {
+  color: #06b6d4;
+}
+
+.text-accent-pink {
+  color: #ec4899;
+}
+
+/* Gradient utilities */
+.from-primary {
+  --tw-gradient-from: #6366f1;
+}
+
+.to-accent-pink {
+  --tw-gradient-to: #ec4899;
+}
+
+.to-accent-cyan {
+  --tw-gradient-to: #06b6d4;
 }
