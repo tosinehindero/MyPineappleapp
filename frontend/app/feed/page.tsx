@@ -124,9 +124,22 @@ export default function FeedPage() {
       setLoading(false);
     };
 
+    // Add timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        console.log('Feed loading timeout - forcing load complete');
+        setLoading(false);
+      }
+    }, 8000);
+
     if (currentUser !== undefined) {
       loadInitialData();
+    } else {
+      // If no user after 3 seconds, stop loading
+      setTimeout(() => setLoading(false), 3000);
     }
+
+    return () => clearTimeout(timeoutId);
   }, [currentUser, activeFilter]);
 
   // Infinite scroll observer
