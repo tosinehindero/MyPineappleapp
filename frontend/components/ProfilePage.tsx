@@ -164,6 +164,21 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
     return () => clearTimeout(timeoutId);
   }, [profileId, currentUser, isVerified, router, authChecked]);
 
+  // Initialize edit form when opening modal
+  const openEditModal = () => {
+    if (profile) {
+      setEditUsername(profile.username || '');
+      setEditDescription(profile.description || '');
+      setEditFantasies(profile.fantasies || '');
+      setEditLocation(profile.location || '');
+      setEditInterests(profile.interests || []);
+      setEditLookingFor(profile.lookingFor || []);
+      setEditAgeMin(profile.ageRangeMin || 18);
+      setEditAgeMax(profile.ageRangeMax || 99);
+    }
+    setShowEditModal(true);
+  };
+
   const handleToggleFavorite = async () => {
     if (!currentUser) {
       router.push('/register');
@@ -179,19 +194,110 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const handleSaveProfile = async () => {
     setSaving(true);
     const result = await updateProfileClient(profileId, {
+      username: editUsername,
       description: editDescription,
       fantasies: editFantasies,
+      location: editLocation,
+      interests: editInterests,
+      lookingFor: editLookingFor,
+      ageRangeMin: editAgeMin,
+      ageRangeMax: editAgeMax,
     });
 
     if (result.success) {
       setProfile((prev) =>
         prev
-          ? { ...prev, description: editDescription, fantasies: editFantasies }
+          ? { 
+              ...prev, 
+              username: editUsername,
+              description: editDescription, 
+              fantasies: editFantasies,
+              location: editLocation,
+              interests: editInterests,
+              lookingFor: editLookingFor,
+              ageRangeMin: editAgeMin,
+              ageRangeMax: editAgeMax,
+            }
           : null
       );
       setShowEditModal(false);
     }
     setSaving(false);
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !currentUser) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image must be less than 5MB');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const fileName = `${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, `profiles/${currentUser.uid}/${fileName}`);
+      
+      await uploadBytes(storageRef, file);
+      const downloadUrl = await getDownloadURL(storageRef);
+      
+      const result = await addPhotoToGallery(currentUser.uid, downloadUrl);
+      
+      if (result.success && result.photoUrls) {
+        setProfile((prev) => prev ? { ...prev, photoUrls: result.photoUrls } : null);
+      }
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      alert('Failed to upload photo. Please try again.');
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleRemovePhoto = async (photoUrl: string) => {
+    if (!currentUser || !confirm('Remove this photo from your gallery?')) return;
+
+    try {
+      const result = await removePhotoFromGallery(currentUser.uid, photoUrl);
+      if (result.success && result.photoUrls) {
+        setProfile((prev) => prev ? { ...prev, photoUrls: result.photoUrls } : null);
+      }
+    } catch (error: any) {
+      console.error('Remove photo error:', error);
+    }
+  };
+
+  const addInterest = () => {
+    if (newInterest.trim() && !editInterests.includes(newInterest.trim())) {
+      setEditInterests([...editInterests, newInterest.trim()]);
+      setNewInterest('');
+    }
+  };
+
+  const removeInterest = (interest: string) => {
+    setEditInterests(editInterests.filter(i => i !== interest));
+  };
+
+  const addLookingForItem = () => {
+    if (newLookingFor.trim() && !editLookingFor.includes(newLookingFor.trim())) {
+      setEditLookingFor([...editLookingFor, newLookingFor.trim()]);
+      setNewLookingFor('');
+    }
+  };
+
+  const removeLookingForItem = (item: string) => {
+    setEditLookingFor(editLookingFor.filter(i => i !== item));
   };
 
   const getExperienceBadgeColor = (level: string) => {
