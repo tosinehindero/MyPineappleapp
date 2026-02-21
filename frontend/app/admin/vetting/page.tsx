@@ -249,7 +249,19 @@ function AdminVettingContent() {
               </svg>
             </div>
             <h2 className="text-2xl font-heading text-gold mb-2">All Caught Up!</h2>
-            <p className="text-offWhite/60 font-body">No pending verification requests at this time.</p>
+            <p className="text-offWhite/60 font-body mb-6">No pending verification requests at this time.</p>
+            
+            {/* Create Test User Button */}
+            <button
+              onClick={handleCreateTestUser}
+              className="px-6 py-3 bg-purple-600/20 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/40 rounded-full transition-all font-body text-sm inline-flex items-center space-x-2"
+            >
+              <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              <span>Create Test Pending User</span>
+            </button>
+            <p className="text-offWhite/40 text-xs font-body mt-3">For testing the approval workflow</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
