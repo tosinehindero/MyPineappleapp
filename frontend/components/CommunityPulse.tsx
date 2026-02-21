@@ -262,6 +262,8 @@ export default function CommunityPulse() {
         const messageUnread = prev;
         return messageUnread + unreadViewCount;
       });
+    }, (error) => {
+      console.error('Error fetching view notifications:', error);
     });
 
     return () => unsubscribe();
