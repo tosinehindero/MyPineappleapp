@@ -66,7 +66,7 @@ const Navbar = () => {
                   {isAdmin() ? 'Admin' : 'Member'}
                 </p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-pink flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent-pink flex items-center justify-center flex-shrink-0">
                 {profile?.photoURL ? (
                   <img 
                     src={profile.photoURL} 
