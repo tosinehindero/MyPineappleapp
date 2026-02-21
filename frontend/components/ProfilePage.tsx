@@ -496,7 +496,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowEditModal(true)}
+                    onClick={() => openEditModal()}
                     className="px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all flex items-center space-x-2"
                     data-testid="edit-profile-btn"
                   >
