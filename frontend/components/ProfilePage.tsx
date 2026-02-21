@@ -40,8 +40,10 @@ interface ProfilePageProps {
 export default function ProfilePage({ profileId }: ProfilePageProps) {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showVettingModal, setShowVettingModal] = useState(false);
@@ -58,6 +60,8 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
+      setAuthChecked(true);
       setCurrentUser(user);
       if (user) {
         const verificationResult = await getUserVerificationStatus(user.uid);
