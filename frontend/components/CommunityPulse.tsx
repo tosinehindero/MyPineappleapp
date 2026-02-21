@@ -212,6 +212,8 @@ export default function CommunityPulse() {
           (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)
         ).slice(0, 10);
       });
+    }, (error) => {
+      console.error('Error fetching notifications:', error);
     });
 
     return () => unsubscribe();
