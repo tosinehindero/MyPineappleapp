@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import {
-  getProfile,
-  updateProfile,
-  toggleFavorite,
-  checkIsFavorite,
-  getUserVerificationStatus,
-} from '@/app/profile/actions';
+  getProfileClient,
+  updateProfileClient,
+  toggleFavoriteClient,
+  checkIsFavoriteClient,
+  getUserVerificationStatusClient,
+} from '@/lib/profile-client';
 import { recordProfileView } from '@/app/views/actions';
 import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
