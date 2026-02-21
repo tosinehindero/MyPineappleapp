@@ -128,7 +128,7 @@ const AdminPage = () => {
                       key={member.id} 
                       member={member} 
                       formatDate={formatDate}
-                      onToggleVerification={handleToggleVerification}
+                      onToggleVerification={(id, status) => handleToggleVerification(id, status, member.displayName)}
                     />
                   ))}
                 </tbody>
