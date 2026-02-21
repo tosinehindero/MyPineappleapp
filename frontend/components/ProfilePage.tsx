@@ -809,7 +809,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-charcoal/90 backdrop-blur-md flex items-center justify-center z-50 p-6 overflow-y-auto"
+              className="fixed inset-0 bg-charcoal/90 backdrop-blur-md flex items-start justify-center z-50 p-4 sm:p-6 overflow-y-auto"
               onClick={() => setShowEditModal(false)}
             >
               <motion.div
@@ -817,55 +817,190 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-darkBlue/90 backdrop-blur-xl rounded-2xl p-8 max-w-2xl w-full my-8 border border-gold/20"
+                className="bg-darkBlue/90 backdrop-blur-xl rounded-2xl p-4 sm:p-8 max-w-2xl w-full my-4 sm:my-8 border border-gold/20"
               >
-                <h3 className="text-2xl font-heading text-gold mb-6">Edit Profile</h3>
+                <h3 className="text-xl sm:text-2xl font-heading text-gold mb-6">Edit Profile</h3>
 
-                <div className="space-y-6">
+                <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-2">
+                  {/* Username */}
                   <div>
-                    <label className="block text-gold font-body mb-2">About Me / Bio</label>
+                    <label className="block text-gold font-body mb-2 text-sm">Display Name</label>
+                    <input
+                      type="text"
+                      value={editUsername}
+                      onChange={(e) => setEditUsername(e.target.value)}
+                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                      placeholder="Your display name"
+                    />
+                  </div>
+
+                  {/* Location */}
+                  <div>
+                    <label className="block text-gold font-body mb-2 text-sm">Location</label>
+                    <input
+                      type="text"
+                      value={editLocation}
+                      onChange={(e) => setEditLocation(e.target.value)}
+                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                      placeholder="City, Country"
+                    />
+                  </div>
+
+                  {/* Age Range */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-gold font-body mb-2 text-sm">Min Age Preference</label>
+                      <input
+                        type="number"
+                        min={18}
+                        max={99}
+                        value={editAgeMin}
+                        onChange={(e) => setEditAgeMin(Number(e.target.value))}
+                        className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-gold font-body mb-2 text-sm">Max Age Preference</label>
+                      <input
+                        type="number"
+                        min={18}
+                        max={99}
+                        value={editAgeMax}
+                        onChange={(e) => setEditAgeMax(Number(e.target.value))}
+                        className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Interests */}
+                  <div>
+                    <label className="block text-gold font-body mb-2 text-sm">Interests</label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {editInterests.map((interest, idx) => (
+                        <span 
+                          key={idx} 
+                          className="px-3 py-1 bg-gold/20 text-gold rounded-full text-xs flex items-center gap-2"
+                        >
+                          {interest}
+                          <button 
+                            onClick={() => removeInterest(interest)}
+                            className="hover:text-red-400 transition-colors"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newInterest}
+                        onChange={(e) => setNewInterest(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInterest())}
+                        className="flex-1 px-4 py-2 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                        placeholder="Add interest..."
+                      />
+                      <button
+                        onClick={addInterest}
+                        className="px-4 py-2 bg-gold/20 text-gold rounded-xl hover:bg-gold/30 transition-colors text-sm"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Looking For */}
+                  <div>
+                    <label className="block text-gold font-body mb-2 text-sm">Looking For</label>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {editLookingFor.map((item, idx) => (
+                        <span 
+                          key={idx} 
+                          className="px-3 py-1 bg-pink-500/20 text-pink-400 rounded-full text-xs flex items-center gap-2"
+                        >
+                          {item}
+                          <button 
+                            onClick={() => removeLookingForItem(item)}
+                            className="hover:text-red-400 transition-colors"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newLookingFor}
+                        onChange={(e) => setNewLookingFor(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addLookingForItem())}
+                        className="flex-1 px-4 py-2 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body text-sm"
+                        placeholder="Add what you're looking for..."
+                      />
+                      <button
+                        onClick={addLookingForItem}
+                        className="px-4 py-2 bg-pink-500/20 text-pink-400 rounded-xl hover:bg-pink-500/30 transition-colors text-sm"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* About Me / Bio */}
+                  <div>
+                    <label className="block text-gold font-body mb-2 text-sm">About Me / Bio</label>
                     <textarea
                       value={editDescription}
                       onChange={(e) => setEditDescription(e.target.value)}
-                      rows={5}
-                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none"
+                      rows={4}
+                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none text-sm"
                       placeholder="Tell us about yourself..."
                     />
                   </div>
 
+                  {/* Fantasies */}
                   <div>
-                    <label className="block text-gold font-body mb-2">
+                    <label className="block text-gold font-body mb-2 text-sm">
                       Fantasies & Experiences
                     </label>
                     <textarea
                       value={editFantasies}
                       onChange={(e) => setEditFantasies(e.target.value)}
-                      rows={5}
-                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none"
+                      rows={4}
+                      className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-xl text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none text-sm"
                       placeholder="Share your desires and experiences..."
                     />
                   </div>
+                </div>
 
-                  <div className="flex space-x-4 pt-4">
-                    <button
-                      onClick={() => setShowEditModal(false)}
-                      className="flex-1 px-6 py-3 border-2 border-gold/40 text-gold rounded-full hover:bg-gold/10 transition-all font-semibold"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleSaveProfile}
-                      disabled={saving}
-                      className="flex-1 px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50"
-                    >
-                      {saving ? 'Saving...' : 'Save Changes'}
-                    </button>
-                  </div>
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-6 mt-4 border-t border-gold/10">
+                  <button
+                    onClick={() => setShowEditModal(false)}
+                    className="flex-1 px-6 py-3 border-2 border-gold/40 text-gold rounded-full hover:bg-gold/10 transition-all font-semibold text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveProfile}
+                    disabled={saving}
+                    className="flex-1 px-6 py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 text-sm"
+                  >
+                    {saving ? 'Saving...' : 'Save Changes'}
+                  </button>
                 </div>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Hidden File Input for Photo Upload */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handlePhotoUpload}
+          className="hidden"
+        />
       </div>
     </PrivacyProtection>
   );
