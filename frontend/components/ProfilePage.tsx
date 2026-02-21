@@ -64,10 +64,10 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       setAuthChecked(true);
       setCurrentUser(user);
       if (user) {
-        const verificationResult = await getUserVerificationStatus(user.uid);
+        const verificationResult = await getUserVerificationStatusClient(user.uid);
         setIsVerified(verificationResult.isVerified || false);
         
-        const viewerProfileResult = await getProfile(user.uid, user.uid, true);
+        const viewerProfileResult = await getProfileClient(user.uid, user.uid, true);
         if (viewerProfileResult.success && viewerProfileResult.data) {
           const username = viewerProfileResult.data.username || user.email || 'Member';
           setViewerUsername(username);
@@ -82,7 +82,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           }
         }
         
-        const favResult = await checkIsFavorite(user.uid, profileId);
+        const favResult = await checkIsFavoriteClient(user.uid, profileId);
         if (favResult.success) {
           setIsFavorite(favResult.isFavorite);
         }
