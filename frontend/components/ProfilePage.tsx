@@ -533,8 +533,8 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
 
             {/* Right Column - Vibe Gallery */}
             <div className="lg:col-span-2">
-              <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6" data-testid="gallery-section">
-                <h2 className="text-lg font-heading text-gold mb-6 flex items-center space-x-2">
+              <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-4 sm:p-6" data-testid="gallery-section">
+                <h2 className="text-lg font-heading text-gold mb-4 sm:mb-6 flex items-center space-x-2">
                   <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -542,7 +542,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                 </h2>
 
                 {profile.photoUrls.length > 0 ? (
-                  <div className={`grid grid-cols-2 md:grid-cols-3 gap-4 ${shouldBlur ? 'filter blur-lg' : ''}`}>
+                  <div className={`grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 ${shouldBlur ? 'filter blur-lg' : ''}`}>
                     {profile.photoUrls.map((url, index) => (
                       <motion.div
                         key={index}
@@ -552,7 +552,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                         className="relative aspect-square group cursor-pointer"
                         onClick={() => !shouldBlur && setSelectedPhoto(url)}
                       >
-                        <div className="absolute inset-0 rounded-xl overflow-hidden border-2 border-gold/20 hover:border-gold/60 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-gold/20">
+                        <div className="absolute inset-0 rounded-lg sm:rounded-xl overflow-hidden border-2 border-gold/20 hover:border-gold/60 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-gold/20">
                           <WatermarkedImage
                             src={url}
                             alt={`${profile.username}'s photo ${index + 1}`}
@@ -564,7 +564,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                         </div>
                         
                         {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl flex items-end justify-center pb-4">
+                        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg sm:rounded-xl flex items-end justify-center pb-4">
                           <span className="text-offWhite/80 text-sm font-body">View</span>
                         </div>
                       </motion.div>
