@@ -1,0 +1,54 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Member photos - users can upload to their own folder
+    match /member-photos/{userId}/{allPaths=**} {
+      // Anyone authenticated can read member photos
+      allow read: if isAuthenticated();
+      
+      // Users can only write to their own folder
+      allow write: if isOwner(userId);
+      
+      // Validate file type and size
+      allow create: if isOwner(userId)
+                    && request.resource.size < 10 * 1024 * 1024 // Max 10MB
+                    && request.resource.contentType.matches('image/.*');
+      
+      // Allow updates and deletes for owners
+      allow update, delete: if isOwner(userId);
+    }
+    
+    // Profile photos (alternative path)
+    match /profiles/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId)
+                   && request.resource.size < 10 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+    
+    // Verification documents (private - only owner and admins)
+    match /verification/{userId}/{allPaths=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId)
+                   && request.resource.size < 20 * 1024 * 1024;
+    }
+    
+    // Message attachments
+    match /messages/{conversationId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+                   && request.resource.size < 10 * 1024 * 1024;
+    }
+  }
+}

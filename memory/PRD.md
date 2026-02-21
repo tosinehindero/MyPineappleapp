@@ -1,85 +1,146 @@
-# Bells & Whistles - Firebase Social Platform
+# PineapplePlay - Product Requirements Document
 
 ## Original Problem Statement
-Build a Firebase-powered social platform with:
-- Firestore using `members` collection (NOT profiles)
-- Admin UID: `48VUvApl8PWC8KhcKEqgfVS87wB2`
-- Feed page with post creation and scrollable posts
-- Admin Dashboard for user verification management
-- Dark Mode + Glassmorphism UI
+Build a luxury social web application called "PineapplePlay" - an exclusive social platform for discerning individuals who value privacy, sophistication, and meaningful connections.
 
 ## Architecture
-- **Frontend**: React 19 with Tailwind CSS
-- **Backend**: Firebase (Auth + Firestore)
-- **Database**: Firestore collections: `members`, `posts`
-- **Styling**: Dark mode with glassmorphism effects
+- **Framework**: Next.js 16 (App Router)
+- **Database**: Firebase Firestore
+- **Authentication**: Firebase Auth
+- **Storage**: Firebase Storage
+- **Styling**: Tailwind CSS with custom luxury theme (Charcoal/Gold)
+- **Encryption**: AES-256 (crypto-js)
+- **Validation**: Zod
+- **Animations**: Framer Motion
+- **Mapping**: React-Leaflet
 
-## User Personas
-1. **Members**: Regular users who can view feed, create posts
-2. **Admin** (UID: 48VUvApl8PWC8KhcKEqgfVS87wB2): Can access admin dashboard, verify/unverify members
+## Core Features (Completed)
 
-## Core Requirements (Static)
-- [x] Firebase Auth integration (email/password)
-- [x] `members` collection for user profiles (NOT profiles)
-- [x] `posts` collection for feed content
-- [x] Admin role check via UID matching
-- [x] Real-time data sync with Firestore
+### 1. Landing Page & Branding ✅
+- Luxury themed landing page with Hero, Features, and Navbar
+- "PineapplePlay" branding with upside-down pineapple logo
+- Charcoal (#121212) background, Gold (#D4AF37) accents
 
-## What's Been Implemented (Jan 2026)
-- [x] **Authentication System**: Login/Signup with Firebase Auth
-- [x] **useProfile Hook**: Fetches from `members` collection
-- [x] **usePosts Hook**: Real-time posts with author profiles from `members`
-- [x] **useMembers Hook**: Admin view of all members
-- [x] **Feed Page** (`/feed`): Post creation box, scrollable posts list
-- [x] **Admin Dashboard** (`/admin`): Stats cards, member table with verification toggle
-- [x] **Navbar**: Responsive, shows Admin link for admin users only
-- [x] **Dark Mode + Glassmorphism UI**: Cyberpunk aesthetic
-- [x] **Toast Notifications**: Sonner for user feedback
-- [x] **Route Protection**: Auth-based redirects
+### 2. Multi-Step Registration Form ✅
+- 4-step form: Identity → Preferences → Lifestyle → Bio
+- Firebase Auth integration
+- Zod validation + Framer Motion transitions
+
+### 3. Map View ✅
+- React-Leaflet map with gold radius slider (0-50 miles)
+- Displays user locations as gold pins
+- "Who's Online" sidebar
+
+### 4. Secure Messaging ✅
+- AES-256 encrypted message content
+- Real-time message subscription
+- End-to-end encryption per conversation
+
+### 5. Dynamic Member Profile Page ✅
+- Route: `/profile/[id]`
+- Full-width header, masonry photo gallery, lifestyle tags
+- Edit Profile modal, Favorites toggle
+- Vetting Wall for unverified users (blur + modal)
+
+### 6. Privacy Protection Features ✅
+- **Screenshot Deterrent**: CSS/JS protection on Profile and Messaging pages
+  - `user-select: none` to prevent text selection
+  - Privacy overlay on window blur (tab switch, minimize)
+  - Right-click disabled
+  - Keyboard shortcut blocking (PrintScreen, Ctrl+P)
+- **Watermarked Images**: Profile photos display viewing user's username
+  - Semi-transparent diagonal watermark pattern
+  - Timestamp included for traceability
+  - Next.js Image optimization for memory efficiency
+
+### 7. Community Pulse Sidebar ✅
+- **Collapsible drawer** sliding in from the right edge
+- **Real-time Firebase subscriptions** for live updates
+- **4 tabs**:
+  - ✨ **New**: Recently joined members (last 7 days)
+  - 🟢 **Online**: Currently online members (verified users only)
+  - 🔥 **Hot/Trending**: Popular profiles based on favorites
+  - 🔔 **Alerts**: Unread messages and notifications
+- **Privacy**: Online status visible only to verified members
+- **Non-authenticated state**: Shows login prompt with "Join Now" CTA
+
+### 8. Profile View Tracking ✅
+- **"Someone viewed your profile"** notifications
+- **View recording**: Tracks when users view other profiles
+- **Duplicate prevention**: Only one view per user per day
+- **Real-time notifications**: Shows in Alerts tab with 👁️ icon
+- **Click-through**: Notifications link directly to viewer's profile
+- **Unread indicators**: Gold dot and left border for unread notifications
+- **View stats**: Total views and unique viewers tracked per profile
+
+### 9. Login System ✅
+- **Login page** at `/login` with email/password authentication
+- **Forgot password** flow with email reset
+- **Navbar updates** dynamically based on auth state
+- **User dropdown menu** with profile, messages, and sign out
+- **Redirects** to Map page after successful login
+
+### 10. Admin Vetting Dashboard ✅
+- **Route**: `/admin/vetting`
+- **Security**: Checks `user.role === 'admin'`, redirects non-admins
+- **VIP Review Card** UI with Live Selfie, ID Upload, Fantasies
+- **`approveUser(uid)`**: Sets `isVerified: true`, adds `verifiedAt`, sends welcome notification
+- **`rejectUser(uid, reason)`**: With rejection modal and notification
+- **Stats display**: Pending/Verified/Rejected counts
+
+### 11. Gemini AI Travel Concierge ✅
+- **Route**: `/travel`
+- **AI Persona**: "Sasha" - high-end luxury travel concierge
+- **Gemini API Integration** via Emergent integrations
+- **Personalized recommendations** using user's Fantasies and Interests
+- **Travel Cards**: High-end UI cards with "Book Now" buttons
+- **Quick suggestions**: Pre-built prompts for common queries
+- **Chat persistence**: MongoDB storage for conversation history
+- **Save Destinations**: Bookmark favorites to saved drawer
+- **Saved Drawer**: Side panel showing all saved destinations
+- **Firestore rules**: Added for savedDestinations collection
+
+## Firestore Security Rules ✅ DEPLOYED
+Rules at `/app/frontend/firestore.rules` - User deployed manually.
+
+## Database Collections
+- **members**: User profiles with sensitive fields (description, fantasies)
+- **conversations**: Chat threads with participant info
+- **messages**: Encrypted message content
+- **conversationKeys**: Per-user encrypted conversation keys
+- **favorites**: User favorite relationships
+- **verificationRequests**: Membership verification requests
+- **notifications**: User notifications (new)
 
 ## Key Files
-- `/app/frontend/src/lib/firebase.js` - Firebase config + ADMIN_UID
-- `/app/frontend/src/contexts/AuthContext.js` - Auth state management
-- `/app/frontend/src/hooks/useProfile.js` - Members collection hook
-- `/app/frontend/src/hooks/usePosts.js` - Posts with author profiles
-- `/app/frontend/src/hooks/useMembers.js` - Admin members management
-- `/app/frontend/src/pages/FeedPage.jsx` - Main feed
-- `/app/frontend/src/pages/AdminPage.jsx` - Admin dashboard
-- `/app/frontend/src/pages/LoginPage.jsx` - Auth page
+- `components/CommunityPulse.tsx` - Community Pulse drawer (NEW)
+- `components/ClientProviders.tsx` - Client-side providers wrapper (NEW)
+- `app/pulse/actions.ts` - Pulse server actions (NEW)
+- `components/PrivacyProtection.tsx` - Screenshot deterrent wrapper
+- `components/WatermarkedImage.tsx` - Image watermarking component
+- `components/ProfilePage.tsx` - Full profile with privacy features
+- `components/SecureMessaging.tsx` - Encrypted messaging UI
+- `app/profile/actions.ts` - Profile CRUD with field-level privacy
+- `lib/messaging.ts` - Encryption and message handling
+- `firestore.rules` - Firestore security rules
 
-## Firebase Configuration
-- Project: `pineappleplayapp`
-- Collections: `members`, `posts`
-- Security Rules: Authenticated read/write enabled
+## Backlog (P1)
+1. **Verification Request UI** - User-facing verification flow
+2. **Admin Dashboard** - Approve/reject verification requests
+3. **Photo Management** - Add/remove profile photos
+4. **Memory Investigation** - Previous pod crash (unresolved)
 
-## Prioritized Backlog
+## Technical Debt
+- Memory usage monitoring (previous crash unresolved)
+- TypeScript strict mode fixes
+- Test coverage
 
-### P0 (Critical) - DONE
-- [x] Firebase Auth integration
-- [x] Members collection migration from profiles
-- [x] Feed page loading
-- [x] Admin dashboard access
+## 3rd Party Integrations
+- **Firebase**: Auth, Firestore, Storage
+- **Gemini AI**: Travel concierge chat (via Emergent integrations)
+- **React-Leaflet**: Map view
+- **Framer Motion**: Animations
+- **Sonner**: Toast notifications
 
-### P1 (High Priority)
-- [ ] User profile page with edit capability
-- [ ] Post likes functionality
-- [ ] Post comments system
-- [ ] Conversations/messaging
-
-### P2 (Medium Priority)
-- [ ] Image uploads for posts
-- [ ] Profile photo uploads
-- [ ] Post search/filter
-- [ ] Member search in admin
-
-### P3 (Nice to Have)
-- [ ] Push notifications
-- [ ] Email notifications for verification
-- [ ] Analytics dashboard for admin
-- [ ] Dark/Light mode toggle
-
-## Next Tasks
-1. Test admin login with UID `48VUvApl8PWC8KhcKEqgfVS87wB2`
-2. Verify member verification toggle works
-3. Add user profile editing feature
-4. Implement post interactions (likes, comments)
+## Last Update
+December 20, 2026 - Added Gemini AI Travel Concierge with personalized recommendations

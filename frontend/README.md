@@ -1,70 +1,250 @@
-# Getting Started with Create React App
+# LUXY - Luxury Social Platform Landing Page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A stunning Next.js 15 landing page with a luxury aesthetic, featuring high-end design elements, smooth animations, and a sophisticated color palette inspired by onluxy.com.
 
-## Available Scripts
+## 🎨 Design Features
 
-In the project directory, you can run:
+### Color Palette
+- **Charcoal** (#121212) - Deep, sophisticated background
+- **Dark Blue** (#0F172A) - Premium card backgrounds
+- **Gold** (#D4AF37) - Luxurious accent color
+- **Off-White** (#F8FAFC) - Elegant text color
 
-### `npm start`
+### Typography
+- **Playfair Display** - Elegant serif font for headings
+- **Inter** - Clean, modern sans-serif for body text
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Custom Effects
+- ✨ Glass-morphism cards with backdrop blur
+- 🌟 Gold glow shadows for premium feel
+- 🎯 Smooth scroll-based navbar transition
+- 💫 Fade-in animations on scroll
+- 🎨 Gold gradient text effects
+- ⚡ Interactive hover states
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📦 Tech Stack
 
-### `npm test`
+- **Next.js 16.1.6** (Latest) with App Router
+- **React 19.2.3** - Latest React features
+- **Tailwind CSS v4** - CSS-based configuration
+- **TypeScript** - Type-safe development
+- **Turbopack** - Ultra-fast bundler
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Project Structure
 
-### `npm run build`
+```
+/app/frontend/
+├── app/
+│   ├── layout.tsx        # Root layout with metadata
+│   ├── page.tsx          # Main landing page
+│   └── globals.css       # Luxury theme styles
+├── components/
+│   ├── Navbar.tsx        # Sticky navbar with scroll effect
+│   ├── HeroSection.tsx   # Hero with CTA
+│   ├── FeaturesSection.tsx # Feature cards
+│   └── Footer.tsx        # Footer with links
+├── public/               # Static assets
+├── package.json
+└── .env.local           # Environment variables
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🎯 Sections
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Navbar
+- **Sticky positioning** with smooth scroll-based transitions
+- **Transparent** → **Charcoal background** on scroll
+- **Desktop navigation** with hover effects
+- **CTA Buttons**: "Log In" and "Apply for Membership"
+- Fully responsive with mobile optimization
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Hero Section
+- **High-resolution background image** with gradient overlays
+- **Large, impactful typography** with gold gradient text
+- **Dual CTA buttons**:
+  - Primary: "Join the Inner Circle" (Gold)
+  - Secondary: "Learn More" (Outlined)
+- **Animated entrance** on page load
+- **Scroll indicator** with bounce animation
 
-### `npm run eject`
+### 3. Features Section
+- **Three premium feature cards**:
+  1. ✓ **Verified Community** - Vetted membership
+  2. ✈ **Global Travel** - Worldwide connections
+  3. 🔒 **Secure Encrypted Messaging** - Privacy-first
+- **Glass-morphism design** with backdrop blur
+- **Staggered animations** on scroll into view
+- **Interactive hover effects** with gold glow
+- **Bottom CTA**: "Request an Invitation"
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 4. Footer
+- **Multi-column layout** with brand, links, and legal
+- **Social media links** with hover animations
+- **Responsive grid** for mobile/tablet/desktop
+- **Gold accent colors** throughout
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🎨 Custom Utility Classes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Glass Morphism
+```jsx
+className="glass-morphism"        // Dark frosted glass
+className="glass-morphism-light"  // Light frosted glass
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Gold Effects
+```jsx
+className="text-gold-gradient"    // Gold gradient text
+className="bg-gold-gradient"      // Gold gradient background
+className="gold-shimmer"          // Animated shimmer effect
+```
 
-## Learn More
+### Color Classes
+```jsx
+className="bg-charcoal"           // #121212
+className="bg-darkBlue"           // #0F172A
+className="bg-gold"               // #D4AF37
+className="text-offWhite"         // #F8FAFC
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Shadow Effects
+```jsx
+className="shadow-[0_0_20px_rgba(212,175,55,0.5)]"  // Gold glow
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🛠️ Development
 
-### Code Splitting
+### Running Locally
+```bash
+cd /app/frontend
+yarn dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The app runs on **http://localhost:3000**
 
-### Analyzing the Bundle Size
+### Building for Production
+```bash
+yarn build
+yarn start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Linting
+```bash
+yarn lint
+```
 
-### Making a Progressive Web App
+## 🌐 Environment Variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```env
+NEXT_PUBLIC_BACKEND_URL=https://your-backend-url.com
+```
 
-### Advanced Configuration
+## ✨ Key Features Implemented
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Navbar
+- [x] Sticky positioning
+- [x] Transparent to charcoal transition on scroll
+- [x] Responsive design
+- [x] "Log In" button
+- [x] "Apply for Membership" CTA
 
-### Deployment
+### Hero
+- [x] High-resolution dark background
+- [x] Gold gradient text
+- [x] "Join the Inner Circle" CTA button
+- [x] Animated entrance
+- [x] Responsive typography
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Features
+- [x] Three sleek cards
+- [x] Glass-morphism effect
+- [x] Icon integration
+- [x] Hover animations
+- [x] Scroll-triggered entrance
 
-### `npm run build` fails to minify
+### Overall
+- [x] Minimalist, high-end vibe
+- [x] Smooth animations
+- [x] Luxury color palette
+- [x] Typography hierarchy
+- [x] Mobile responsive
+- [x] Fast loading with Turbopack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📱 Responsive Design
+
+- **Mobile** (< 768px): Stacked layout, hamburger menu ready
+- **Tablet** (768px - 1024px): Optimized spacing
+- **Desktop** (> 1024px): Full feature layout
+
+## 🎭 Animations
+
+- Fade-in on scroll (Intersection Observer)
+- Smooth scroll behavior
+- Hover transformations
+- Button hover effects
+- Navbar scroll transitions
+- Shimmer effects
+
+## 🔧 Customization
+
+### Changing Colors
+Edit `/app/frontend/app/globals.css`:
+```css
+@theme {
+  --color-charcoal: #121212;
+  --color-darkBlue: #0F172A;
+  --color-gold: #D4AF37;
+  --color-offWhite: #F8FAFC;
+}
+```
+
+### Changing Fonts
+Update font imports in `globals.css`:
+```css
+@import url('https://fonts.googleapis.com/css2?family=YOUR_FONT');
+```
+
+### Adding Sections
+Create new components in `/components` and import in `app/page.tsx`
+
+## 📊 Performance
+
+- ⚡ **Turbopack** for fast builds
+- 🎨 **CSS-in-CSS** with Tailwind v4
+- 📦 **Code splitting** with Next.js
+- 🖼️ **Optimized images** with next/image (when integrated)
+- 🔄 **Fast refresh** during development
+
+## 🎨 Design Inspiration
+
+Inspired by **onluxy.com** - minimalist, high-end luxury aesthetic with:
+- Dark, sophisticated color scheme
+- Premium typography
+- Subtle animations
+- Glass-morphism effects
+- Gold accent colors
+- Clean, spacious layouts
+
+## 📝 Test IDs
+
+All major elements include `data-testid` attributes for testing:
+- `navbar-logo`
+- `hero-section`
+- `hero-cta-button`
+- `features-section`
+- `feature-card-{index}`
+- `footer`
+
+## 🚀 Deployment
+
+The app is configured to run on port 3000 and is compatible with:
+- Vercel
+- Netlify
+- Docker
+- Any Node.js hosting platform
+
+## 📄 License
+
+This project is part of a luxury social platform MVP.
+
+---
+
+**Built with** ❤️ **using Next.js 15, React 19, and Tailwind CSS v4**
