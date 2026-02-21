@@ -143,6 +143,21 @@ function AdminVettingContent() {
     setProcessingId(null);
   };
 
+  const handleCreateTestUser = async () => {
+    const result = await createTestPendingUser();
+    if (result.success) {
+      toast.success('Test user created!', {
+        description: 'Refresh the page to see the new pending user.',
+      });
+      // Reload data
+      await loadData();
+    } else {
+      toast.error('Failed to create test user', {
+        description: result.error,
+      });
+    }
+  };
+
   // Loading state
   if (loading) {
     return (
