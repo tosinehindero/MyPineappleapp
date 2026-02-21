@@ -67,7 +67,11 @@ export default function CommunityPulse() {
   }, []);
 
   // Real-time subscription for new members
+  // Real-time subscription for new members
   useEffect(() => {
+    // Only subscribe if user is authenticated
+    if (!currentUser) return;
+
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -92,10 +96,12 @@ export default function CommunityPulse() {
         });
       });
       setNewMembers(members);
+    }, (error) => {
+      console.error('Error fetching new members:', error);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 
   // Real-time subscription for online members (verified only)
   useEffect(() => {
