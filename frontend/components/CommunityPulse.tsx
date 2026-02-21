@@ -105,7 +105,7 @@ export default function CommunityPulse() {
 
   // Real-time subscription for online members (verified only)
   useEffect(() => {
-    if (!isVerified) {
+    if (!isVerified || !currentUser) {
       setOnlineMembers([]);
       return;
     }
@@ -133,10 +133,12 @@ export default function CommunityPulse() {
         });
       });
       setOnlineMembers(members);
+    }, (error) => {
+      console.error('Error fetching online members:', error);
     });
 
     return () => unsubscribe();
-  }, [isVerified]);
+  }, [isVerified, currentUser]);
 
   // Real-time subscription for trending profiles
   useEffect(() => {
