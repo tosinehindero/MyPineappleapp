@@ -119,6 +119,12 @@ const FeedPage = () => {
             <div className="flex justify-center py-12">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
             </div>
+          ) : error ? (
+            <div className="glass-card p-12 text-center">
+              <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+              <h3 className="text-xl font-medium text-foreground mb-2">Error loading posts</h3>
+              <p className="text-muted-foreground">{error.message || 'Please try refreshing the page'}</p>
+            </div>
           ) : posts.length === 0 ? (
             <div className="glass-card p-12 text-center">
               <MessageCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
