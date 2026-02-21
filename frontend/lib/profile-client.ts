@@ -104,7 +104,17 @@ export async function getUserVerificationStatusClient(userId: string) {
 
 export async function updateProfileClient(
   userId: string,
-  updates: { description?: string; fantasies?: string }
+  updates: { 
+    description?: string; 
+    fantasies?: string;
+    username?: string;
+    location?: string;
+    interests?: string[];
+    lookingFor?: string[];
+    ageRangeMin?: number;
+    ageRangeMax?: number;
+    photoUrls?: string[];
+  }
 ) {
   try {
     await updateDoc(doc(db, 'members', userId), {
@@ -112,6 +122,48 @@ export async function updateProfileClient(
       updatedAt: new Date(),
     });
     return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function addPhotoToGallery(userId: string, photoUrl: string) {
+  try {
+    const userDoc = await getDoc(doc(db, 'members', userId));
+    if (!userDoc.exists()) {
+      return { success: false, error: 'User not found' };
+    }
+    
+    const currentPhotos = userDoc.data().photoUrls || [];
+    const updatedPhotos = [...currentPhotos, photoUrl];
+    
+    await updateDoc(doc(db, 'members', userId), {
+      photoUrls: updatedPhotos,
+      updatedAt: new Date(),
+    });
+    
+    return { success: true, photoUrls: updatedPhotos };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function removePhotoFromGallery(userId: string, photoUrl: string) {
+  try {
+    const userDoc = await getDoc(doc(db, 'members', userId));
+    if (!userDoc.exists()) {
+      return { success: false, error: 'User not found' };
+    }
+    
+    const currentPhotos = userDoc.data().photoUrls || [];
+    const updatedPhotos = currentPhotos.filter((url: string) => url !== photoUrl);
+    
+    await updateDoc(doc(db, 'members', userId), {
+      photoUrls: updatedPhotos,
+      updatedAt: new Date(),
+    });
+    
+    return { success: true, photoUrls: updatedPhotos };
   } catch (error: any) {
     return { success: false, error: error.message };
   }
