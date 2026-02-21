@@ -612,30 +612,27 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-charcoal/95 backdrop-blur-md flex items-center justify-center z-50 p-6"
+              className="fixed inset-0 bg-charcoal/95 backdrop-blur-md flex items-center justify-center z-50 p-4 sm:p-6"
               onClick={() => setSelectedPhoto(null)}
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="relative max-w-4xl w-full max-h-[80vh] rounded-2xl overflow-hidden"
+                className="relative w-full max-w-4xl max-h-[85vh] sm:max-h-[80vh] rounded-xl sm:rounded-2xl overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
-                <WatermarkedImage
+                <img
                   src={selectedPhoto}
                   alt="Full size photo"
-                  viewerUsername={viewerUsername || 'Member'}
-                  width={1200}
-                  height={800}
-                  objectFit="contain"
-                  className="rounded-2xl"
+                  className="w-full h-full object-contain rounded-xl sm:rounded-2xl"
+                  style={{ maxHeight: '85vh' }}
                 />
                 <button
                   onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-4 right-4 w-10 h-10 bg-charcoal/80 rounded-full flex items-center justify-center text-offWhite hover:text-gold transition-colors"
+                  className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 bg-charcoal/80 rounded-full flex items-center justify-center text-offWhite hover:text-gold transition-colors"
                 >
-                  <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
