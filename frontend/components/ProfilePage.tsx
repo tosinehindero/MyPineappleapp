@@ -1,16 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, storage } from '@/lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
   getProfileClient,
   updateProfileClient,
   toggleFavoriteClient,
   checkIsFavoriteClient,
   getUserVerificationStatusClient,
+  addPhotoToGallery,
+  removePhotoFromGallery,
 } from '@/lib/profile-client';
 import { recordProfileView } from '@/app/views/actions';
 import Link from 'next/link';
