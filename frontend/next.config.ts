@@ -1,6 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Allow server actions from forwarded requests (proxy environment)
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000',
+        'auth-members-sync.preview.emergentagent.com',
+        'auth-members-sync.cluster-5.preview.emergentcf.cloud',
+        '*.preview.emergentagent.com',
+        '*.preview.emergentcf.cloud',
+      ],
+    },
+  },
   images: {
     remotePatterns: [
       {
