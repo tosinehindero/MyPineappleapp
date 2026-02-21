@@ -1,0 +1,159 @@
+{
+  "design_system": {
+    "identity": {
+      "name": "E1_Social_Glass",
+      "tone": "Sleek, Mysterious, Connected, Exclusive",
+      "visual_archetype": "Electric Glass"
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Outfit, sans-serif",
+        "body": "Manrope, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scale": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tight",
+        "h2": "text-4xl md:text-5xl font-semibold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-medium",
+        "body_lg": "text-lg leading-relaxed",
+        "body": "text-base leading-relaxed",
+        "caption": "text-sm text-muted-foreground uppercase tracking-widest"
+      },
+      "imports": [
+        "@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap');"
+      ]
+    },
+    "colors": {
+      "palette": {
+        "background": {
+          "default": "#020617",
+          "glass": "rgba(2, 6, 23, 0.7)"
+        },
+        "foreground": {
+          "default": "#f8fafc",
+          "muted": "#94a3b8"
+        },
+        "primary": {
+          "default": "#6366f1",
+          "hover": "#4f46e5",
+          "gradient": "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+          "foreground": "#ffffff"
+        },
+        "secondary": {
+          "default": "#1e293b",
+          "foreground": "#f8fafc"
+        },
+        "accent": {
+          "cyan": "#06b6d4",
+          "pink": "#ec4899",
+          "glass_border": "rgba(255, 255, 255, 0.08)"
+        },
+        "status": {
+          "success": "#10b981",
+          "error": "#ef4444",
+          "warning": "#f59e0b"
+        }
+      },
+      "glassmorphism": {
+        "card": "bg-slate-950/40 backdrop-blur-xl border border-white/10 shadow-2xl",
+        "nav": "bg-slate-950/60 backdrop-blur-2xl border-t border-white/5",
+        "input": "bg-white/5 border border-white/10 focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300"
+      }
+    },
+    "layout": {
+      "grid_system": {
+        "dashboard": "grid grid-cols-1 md:grid-cols-12 gap-6",
+        "feed": "max-w-2xl mx-auto flex flex-col gap-8",
+        "bento": "grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]"
+      },
+      "spacing": {
+        "section": "py-24 md:py-32",
+        "container": "px-6 md:px-12",
+        "card_padding": "p-6 md:p-8"
+      },
+      "radius": {
+        "default": "rounded-2xl",
+        "button": "rounded-full",
+        "card": "rounded-3xl"
+      }
+    },
+    "components": {
+      "buttons": {
+        "primary": "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]",
+        "ghost": "hover:bg-white/5 text-foreground transition-colors",
+        "outline": "border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20"
+      },
+      "cards": {
+        "glass": "relative overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 backdrop-blur-md rounded-3xl p-6 shadow-xl hover:shadow-2xl hover:border-white/20 transition-all duration-500 group"
+      },
+      "inputs": {
+        "default": "bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+      }
+    },
+    "animations": {
+      "hover": "transition-all duration-300 ease-out",
+      "enter": "animate-in fade-in zoom-in-95 duration-500",
+      "float": "animate-float"
+    }
+  },
+  "assets": {
+    "images": [
+      {
+        "category": "background_abstract",
+        "url": "https://images.unsplash.com/photo-1748466694158-3e172aac0968?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMDNkJTIwZ2xhc3MlMjBzaGFwZXMlMjBkYXJrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzE2Mzk2NTd8MA&ixlib=rb-4.1.0&q=85",
+        "usage": "Hero section background or login page overlay"
+      },
+      {
+        "category": "card_accent",
+        "url": "https://images.pexels.com/photos/28428584/pexels-photo-28428584.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "usage": "Decorative element for premium/admin cards"
+      },
+      {
+        "category": "cyber_city",
+        "url": "https://images.unsplash.com/photo-1728330458318-70438beffc44?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDR8MHwxfHNlYXJjaHwzfHxjeWJlcnB1bmslMjBjaXR5JTIwbmlnaHQlMjBuZW9ufGVufDB8fHx8MTc3MTYzOTY1Nnww&ixlib=rb-4.1.0&q=85",
+        "usage": "Login page background or 'Explore' section header"
+      }
+    ],
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-1 md:stroke-[1.5]",
+      "instructions": "Use Lucide React icons. Keep stroke width thin (1.5px) for elegance."
+    }
+  },
+  "tech_stack": {
+    "framework": "React (Create React App structure)",
+    "styling": "Tailwind CSS",
+    "components": "Shadcn UI (customized)",
+    "icons": "lucide-react",
+    "animations": "framer-motion (recommended for complex transitions) or Tailwind Animate"
+  },
+  "implementation_rules": {
+    "universal": [
+      "Use 'sonner' for toast notifications.",
+      "DO NOT use gradients for dark colors. Use solid deep colors with noise/texture.",
+      "Never center align main containers. Use asymmetry.",
+      "Use 12-column grid for dashboard, single stream for feed.",
+      "All interactive elements must have 'data-testid'.",
+      "Use 'backdrop-blur-xl' for all floating elements.",
+      "Ensure text contrast meets APCA standards.",
+      "Add micro-interactions (hover, active) to everything."
+    ],
+    "file_structure": {
+      "extensions": "Use .js and .jsx for files as per project setup.",
+      "components": "Place reusable UI in /src/components/ui",
+      "pages": "Place page views in /src/pages"
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. INSTALL FONTS: Add the Google Fonts import to index.css immediately.",
+    "2. SETUP THEME: Update tailwind.config.js with the 'colors' and 'borderRadius' defined in 'design_system'.",
+    "3. GLOBAL STYLES: Update index.css to set the dark background (#020617) as default body background.",
+    "4. GLASS COMPONENTS: Create a reusable 'GlassCard' component that implements the glassmorphism styles defined.",
+    "5. PAGES:",
+    "   - Login: Use the 'cyber_city' image as a full-screen background with a glass login form centered.",
+    "   - Feed: Create a central stream. Post input box at top (glass). Posts below (glass). Right sidebar for 'Trending' or 'Profile Summary'.",
+    "   - Admin: Use a Bento Grid layout. Stats cards on top. User list in a large glass table container.",
+    "6. INTERACTIONS: Add hover glow effects to all cards.",
+    "7. VERIFICATION: Make the verify toggle a distinct, satisfying interaction (e.g., a neon switch)."
+  ]
+}
