@@ -295,6 +295,30 @@ export default function FeedPage() {
     return `${days}d ago`;
   };
 
+  const handleCreateWelcomePost = async () => {
+    if (!currentUser || !userProfile) return;
+    
+    setPosting(true);
+    const result = await createPost(
+      currentUser.uid,
+      '🍍 Welcome to the Inner Circle! This is the first post in our exclusive community. Share your experiences, connect with like-minded individuals, and explore the lifestyle together.',
+      [],
+      'all',
+      'general'
+    );
+
+    if (result.success) {
+      toast.success('Welcome post created!');
+      // Reload posts
+      const postsResult = await getPosts(currentUser.uid, activeFilter);
+      if (postsResult.success) {
+        setPosts(postsResult.posts);
+        setHasMore(postsResult.hasMore);
+      }
+    }
+    setPosting(false);
+  };
+
   const filterOptions: { key: FilterCategory; label: string; icon: string }[] = [
     { key: 'all', label: 'All', icon: '🌟' },
     { key: 'travel', label: 'Travel', icon: '✈️' },
@@ -302,12 +326,18 @@ export default function FeedPage() {
     { key: 'marketplace', label: 'Marketplace', icon: '🛍️' },
   ];
 
+  // Show loading only for first 5 seconds max
   if (loading && posts.length === 0) {
     return (
-      <div className="min-h-screen bg-charcoal flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-offWhite/60 font-body">Loading feed...</p>
+      <VettingGuard>
+        <div className="min-h-screen bg-charcoal flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-offWhite/60 font-body">Loading feed...</p>
+            <p className="text-offWhite/40 font-body text-sm mt-2">This should only take a moment</p>
+          </div>
+        </div>
+      </VettingGuard>
         </div>
       </div>
     );
