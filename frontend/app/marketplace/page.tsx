@@ -423,16 +423,82 @@ function CreateListingModal({
     category: 'Other',
     condition: 'new',
   });
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length + images.length > 5) {
+      toast.error('Maximum 5 images allowed');
+      return;
+    }
+
+    // Validate file sizes (max 5MB each)
+    const validFiles = files.filter(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(`${file.name} is too large. Max 5MB per image.`);
+        return false;
+      }
+      return true;
+    });
+
+    setImages(prev => [...prev, ...validFiles]);
+    
+    // Create previews
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviews(prev => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadImages = async (): Promise<string[]> => {
+    if (images.length === 0) return [];
+
+    const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+    const { storage } = await import('@/lib/firebase');
+    
+    const uploadedUrls: string[] = [];
+    const totalImages = images.length;
+
+    for (let i = 0; i < images.length; i++) {
+      const file = images[i];
+      const fileName = `marketplace/${currentUser.uid}/${Date.now()}_${i}.${file.name.split('.').pop()}`;
+      const storageRef = ref(storage, fileName);
+      
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      uploadedUrls.push(url);
+      
+      setUploadProgress(Math.round(((i + 1) / totalImages) * 100));
+    }
+
+    return uploadedUrls;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser) return;
 
     setSubmitting(true);
+    setUploadProgress(0);
+    
     try {
+      // Upload images first
+      const imageUrls = await uploadImages();
+
       const response = await fetch(`${BACKEND_URL}/api/marketplace/listings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -441,7 +507,7 @@ function CreateListingModal({
           price: parseFloat(formData.price),
           seller_id: currentUser.uid,
           seller_username: userProfile?.username || currentUser.email,
-          images: [],
+          images: imageUrls,
         }),
       });
 
@@ -449,11 +515,15 @@ function CreateListingModal({
       if (data.success) {
         onSuccess();
         setFormData({ title: '', description: '', price: '', category: 'Other', condition: 'new' });
+        setImages([]);
+        setImagePreviews([]);
       }
     } catch (error) {
       console.error('Error creating listing:', error);
+      toast.error('Failed to create listing');
     } finally {
       setSubmitting(false);
+      setUploadProgress(0);
     }
   };
 
