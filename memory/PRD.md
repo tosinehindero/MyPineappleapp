@@ -57,13 +57,13 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - ✅ My Listings page (edit/delete with image management)
 - ✅ Image upload for listings (up to 5 per listing)
 - ✅ Success/confirmation page after purchase
-- ❌ Transaction history page
+- ✅ Transaction history page (purchases & sales)
 
 ## P0 Tasks (Current Priority)
-- Transaction history page (view purchases/sales)
+- Marketplace fully complete! All core features implemented.
 
 ## P1 Tasks (Next)
-- Messaging feature verification
+- Messaging feature verification (Firestore rules pending)
 - Full E2E testing with authenticated user account
 
 ## P2 Tasks (Backlog)
