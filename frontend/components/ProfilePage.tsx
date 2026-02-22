@@ -453,7 +453,9 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                   {/* Gold Pineapple Verification Badge */}
                   {profile.isVerified && (
                     <div className="absolute -bottom-1 -right-1 w-10 h-10 md:w-12 md:h-12 bg-gold rounded-full flex items-center justify-center shadow-lg border-2 border-charcoal" data-testid="verification-badge">
-                      <img src={pineappleLogo} alt="Verified" className="h-6 w-6 md:h-8 md:w-8 object-cover rounded-lg" />
+                      <svg className="w-5 h-5 md:w-6 md:h-6 text-charcoal" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
                     </div>
                   )}
                 </div>
