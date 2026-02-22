@@ -9,7 +9,15 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-12 h-12 rounded-full overflow-hidden border border-gold/30">
+                <img
+                  src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                  alt="PineapplePlay Logo"
+                  className="w-full h-full object-cover"
+                  data-testid="footer-pineapple-logo"
+                />
+              </div>
               <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
             </div>
             <p className="text-offWhite/70 font-body leading-relaxed max-w-md">
