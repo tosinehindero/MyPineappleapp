@@ -17,6 +17,7 @@ import {
   getComments,
   getUpcomingEvents,
   getFeaturedListings,
+  subscribeToPostsRealtime,
   type Post,
   type Comment,
 } from './actions';
