@@ -17,6 +17,7 @@ import {
   serverTimestamp,
   increment,
   Timestamp,
+  onSnapshot,
 } from 'firebase/firestore';
 
 export interface Post {
