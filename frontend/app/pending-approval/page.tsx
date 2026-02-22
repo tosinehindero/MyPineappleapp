@@ -300,9 +300,9 @@ export default function PendingApprovalPage() {
           className="mt-12"
         >
           <div className="flex items-center justify-center space-x-2 text-offWhite/30 text-xs font-body">
-            <span>🍍</span>
+            <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain opacity-50" />
             <span>Exclusive • Elite • Elevated</span>
-            <span>🍍</span>
+            <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain opacity-50" />
           </div>
         </motion.div>
       </motion.div>
