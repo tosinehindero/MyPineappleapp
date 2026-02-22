@@ -720,7 +720,8 @@ function EditListingModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors font-body"
+                disabled={submitting}
+                className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors font-body disabled:opacity-50"
               >
                 Cancel
               </button>
@@ -735,7 +736,7 @@ function EditListingModal({
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
-                    Updating...
+                    {uploadProgress > 0 ? `Uploading ${uploadProgress}%` : 'Saving...'}
                   </>
                 ) : (
                   'Save Changes'
