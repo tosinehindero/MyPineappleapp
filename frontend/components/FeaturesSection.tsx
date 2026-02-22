@@ -102,8 +102,16 @@ export default function FeaturesSection() {
                 <div className="relative z-10">
                   {/* Icon */}
                   <div className="mb-6">
-                    <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center border border-gold/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
-                      <span className="text-3xl">{feature.icon}</span>
+                    <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center border border-gold/20 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 overflow-hidden">
+                      {feature.icon === 'pineapple' ? (
+                        <img 
+                          src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                          alt="Verified"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-3xl">{feature.icon}</span>
+                      )}
                     </div>
                   </div>
 
