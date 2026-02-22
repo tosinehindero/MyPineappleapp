@@ -571,6 +571,50 @@ function CreateListingModal({
               />
             </div>
 
+            {/* Image Upload */}
+            <div>
+              <label className="block text-offWhite/80 text-sm font-body mb-2">Photos (up to 5)</label>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+                accept="image/*"
+                multiple
+                className="hidden"
+              />
+              
+              <div className="grid grid-cols-5 gap-2 mb-2">
+                {imagePreviews.map((preview, index) => (
+                  <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-gold/20">
+                    <img src={preview} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs hover:bg-red-600"
+                    >
+                      <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+                
+                {images.length < 5 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="aspect-square rounded-lg border-2 border-dashed border-gold/30 flex flex-col items-center justify-center text-gold/60 hover:border-gold/60 hover:text-gold transition-colors"
+                  >
+                    <svg className="w-6 h-6 mb-1" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span className="text-xs">Add</span>
+                  </button>
+                )}
+              </div>
+              <p className="text-offWhite/40 text-xs font-body">JPG, PNG, WebP. Max 5MB each.</p>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-offWhite/80 text-sm font-body mb-2">Price (USD)</label>
