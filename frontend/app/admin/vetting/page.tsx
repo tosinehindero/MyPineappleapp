@@ -530,7 +530,7 @@ function AdminVettingContent() {
                           </>
                         ) : (
                           <>
-                            <img src={pineappleLogo} alt="" className="w-5 h-6 object-contain" />
+                            <img src={pineappleLogo} alt="" className="h-5 w-5 object-cover rounded" />
                             <span>Approve & Welcome</span>
                           </>
                         )}
