@@ -488,6 +488,170 @@ export default function SecureMessaging() {
               </p>
             </form>
           </>
+        ) : newConversationTarget ? (
+          // New conversation UI when coming from a profile
+          <div className="flex-1 flex flex-col">
+            {/* Header for new conversation */}
+            <div className="p-6 bg-darkBlue border-b border-gold/20">
+              <div className="flex items-center space-x-3">
+                {newConversationTarget.photoUrl ? (
+                  <img
+                    src={newConversationTarget.photoUrl}
+                    alt={newConversationTarget.username}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-gold"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-xl">
+                    {newConversationTarget.username[0]?.toUpperCase()}
+                  </div>
+                )}
+                <div>
+                  <h2 className="font-heading text-xl text-gold">{newConversationTarget.username}</h2>
+                  <p className="text-offWhite/60 text-sm">New conversation</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Empty messages area with prompt */}
+            <div className="flex-1 flex items-center justify-center p-6">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg
+                    className="w-10 h-10 text-gold"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-heading text-gold mb-2">
+                  Start a conversation with {newConversationTarget.username}
+                </h3>
+                <p className="text-offWhite/60 font-body text-sm mb-6">
+                  Send your first encrypted message below
+                </p>
+              </div>
+            </div>
+
+            {/* Message Input for new conversation */}
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!messageInput.trim() || initializingConvo) return;
+                
+                // First initialize the conversation, then send the message
+                setInitializingConvo(true);
+                try {
+                  const conversationId = await initializeConversation(
+                    currentUser.uid,
+                    newConversationTarget.userId,
+                    viewerUsername,
+                    newConversationTarget.username,
+                    currentUserPhoto,
+                    newConversationTarget.photoUrl,
+                    userSecret
+                  );
+                  
+                  // Send the message
+                  await sendEncryptedMessage(
+                    conversationId,
+                    currentUser.uid,
+                    messageInput,
+                    userSecret
+                  );
+                  
+                  // Create conversation object and select it
+                  const newConvo: Conversation = {
+                    id: conversationId,
+                    participants: [currentUser.uid, newConversationTarget.userId],
+                    participantNames: {
+                      [currentUser.uid]: viewerUsername,
+                      [newConversationTarget.userId]: newConversationTarget.username,
+                    },
+                    participantPhotos: {
+                      [currentUser.uid]: currentUserPhoto,
+                      [newConversationTarget.userId]: newConversationTarget.photoUrl,
+                    },
+                    unreadCount: { [currentUser.uid]: 0, [newConversationTarget.userId]: 0 },
+                    lastMessage: '[Encrypted Message]',
+                    createdAt: { toMillis: () => Date.now() } as any,
+                  };
+                  
+                  setConversations(prev => [newConvo, ...prev]);
+                  setSelectedConversation(newConvo);
+                  setNewConversationTarget(null);
+                  setMessageInput('');
+                } catch (error) {
+                  console.error('Error starting conversation:', error);
+                  alert('Failed to send message. Please try again.');
+                } finally {
+                  setInitializingConvo(false);
+                }
+              }}
+              className="p-6 bg-darkBlue border-t border-gold/20"
+              data-testid="new-message-form"
+            >
+              <div className="flex items-end space-x-3">
+                <div className="flex-1">
+                  <textarea
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        e.currentTarget.form?.requestSubmit();
+                      }
+                    }}
+                    placeholder="Type your first message..."
+                    className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-lg text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none"
+                    rows={1}
+                    disabled={initializingConvo}
+                    data-testid="new-message-input"
+                  />
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  type="submit"
+                  disabled={initializingConvo || !messageInput.trim()}
+                  className="px-6 py-3 bg-gold text-charcoal font-semibold rounded-lg hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  data-testid="send-first-message-btn"
+                >
+                  {initializingConvo ? (
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      />
+                    </svg>
+                  ) : (
+                    'Send 🔒'
+                  )}
+                </motion.button>
+              </div>
+              <p className="text-offWhite/40 text-xs mt-2 font-body">
+                🔒 Messages are encrypted with AES-256 before sending
+              </p>
+            </form>
+          </div>
         ) : (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
