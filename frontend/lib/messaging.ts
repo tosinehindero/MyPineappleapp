@@ -433,3 +433,56 @@ export const deleteMessage = async (
     return false;
   }
 };
+
+
+// Delete a conversation (only by participant)
+export const deleteConversation = async (
+  conversationId: string,
+  currentUserId: string
+): Promise<boolean> => {
+  try {
+    // Get the conversation to verify participation
+    const conversationRef = doc(db, 'conversations', conversationId);
+    const conversationDoc = await getDoc(conversationRef);
+    
+    if (!conversationDoc.exists()) {
+      console.error('Conversation not found');
+      return false;
+    }
+    
+    const conversationData = conversationDoc.data();
+    if (!conversationData.participants.includes(currentUserId)) {
+      console.error('Cannot delete conversation: not a participant');
+      return false;
+    }
+
+    // Delete all messages in the conversation
+    const messagesQuery = query(
+      collection(db, 'messages'),
+      where('conversationId', '==', conversationId)
+    );
+    const messagesSnapshot = await getDocs(messagesQuery);
+    
+    const deletePromises = messagesSnapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+
+    // Delete conversation keys for this conversation
+    const keysQuery = query(
+      collection(db, 'conversationKeys'),
+      where('conversationId', '==', conversationId)
+    );
+    const keysSnapshot = await getDocs(keysQuery);
+    
+    const keyDeletePromises = keysSnapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(keyDeletePromises);
+
+    // Delete the conversation itself
+    await deleteDoc(conversationRef);
+    
+    return true;
+  } catch (error) {
+    console.error('Error deleting conversation:', error);
+    return false;
+  }
+};
+
