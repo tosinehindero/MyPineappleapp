@@ -54,23 +54,23 @@ export default function Footer() {
             <h4 className="text-gold font-heading text-lg mb-4">Quick Links</h4>
             <ul className="space-y-3 font-body">
               <li>
-                <Link href="#features" className="text-offWhite/70 hover:text-gold transition-colors">
+                <Link href="/#features" className="text-offWhite/70 hover:text-gold transition-colors">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#about" className="text-offWhite/70 hover:text-gold transition-colors">
+                <Link href="/about" className="text-offWhite/70 hover:text-gold transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="#contact" className="text-offWhite/70 hover:text-gold transition-colors">
-                  Contact
+                <Link href="/faq" className="text-offWhite/70 hover:text-gold transition-colors">
+                  Help Center / FAQ
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-offWhite/70 hover:text-gold transition-colors">
-                  Membership
+                <Link href="/marketplace" className="text-offWhite/70 hover:text-gold transition-colors">
+                  Marketplace
                 </Link>
               </li>
             </ul>
