@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-const pineappleLogo = "https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/xq1jax42_Pineapple%20Pop.png";
-
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -13,7 +11,6 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <h3 className="text-3xl font-heading text-gold">PineapplePlay</h3>
-              <img src={pineappleLogo} alt="Pineapple" className="h-10 w-10 object-cover rounded-xl" />
             </div>
             <p className="text-offWhite/70 font-body leading-relaxed max-w-md">
               An exclusive social platform for those who value privacy, authenticity, 
