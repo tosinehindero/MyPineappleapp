@@ -392,6 +392,7 @@ class UpdateListingRequest(BaseModel):
     category: str
     condition: str
     seller_id: str
+    images: list[str] = []
 
 
 @api_router.put("/marketplace/listings/{listing_id}")
@@ -406,6 +407,7 @@ async def update_listing(listing_id: str, request: UpdateListingRequest):
                 "price": request.price,
                 "category": request.category,
                 "condition": request.condition,
+                "images": request.images,
                 "updated_at": datetime.now(timezone.utc).isoformat(),
             }}
         )
