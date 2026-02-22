@@ -821,7 +821,7 @@ export default function FeedPage() {
                                   <div className="space-y-3 max-h-80 overflow-y-auto">
                                     {(postComments[post.id] || []).map((comment) => (
                                       <div key={comment.id} className="flex items-start space-x-3">
-                                        <Link href={`/profile/${comment.authorId}`}>
+                                        <Link href={`/profile/${comment.authorId || ''}`}>
                                           {comment.authorPhoto ? (
                                             <img
                                               src={comment.authorPhoto}
@@ -830,17 +830,17 @@ export default function FeedPage() {
                                             />
                                           ) : (
                                             <div className="w-8 h-8 rounded-full border border-gold/30 bg-gold/20 flex items-center justify-center text-gold text-sm font-heading">
-                                              {comment.authorUsername[0]?.toUpperCase()}
+                                              {(comment.authorUsername || '?')[0]?.toUpperCase() || '?'}
                                             </div>
                                           )}
                                         </Link>
                                         <div className="flex-1 bg-white/[0.03] backdrop-blur-sm rounded-xl px-4 py-2 border border-white/5">
                                           <div className="flex items-center space-x-2">
                                             <Link
-                                              href={`/profile/${comment.authorId}`}
+                                              href={`/profile/${comment.authorId || ''}`}
                                               className="text-offWhite font-body text-sm font-semibold hover:text-gold"
                                             >
-                                              {comment.authorUsername}
+                                              {comment.authorUsername || 'Anonymous'}
                                               {comment.authorVerified && (
                                                 <span className="ml-1 text-gold text-xs">🍍</span>
                                               )}
@@ -850,7 +850,7 @@ export default function FeedPage() {
                                             </span>
                                           </div>
                                           <p className="text-offWhite/80 font-body text-sm mt-1">
-                                            {comment.content}
+                                            {comment.content || ''}
                                           </p>
                                         </div>
                                       </div>
