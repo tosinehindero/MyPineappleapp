@@ -859,7 +859,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
               >
                 <div className="text-center">
                   <div className="w-20 h-20 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-gold">
-                    <span className="text-4xl">🍍</span>
+                    <img src={pineappleLogo} alt="" className="w-10 h-12 object-contain" />
                   </div>
                   <h3 className="text-2xl font-heading text-gold mb-4">
                     Membership Vetting Required
