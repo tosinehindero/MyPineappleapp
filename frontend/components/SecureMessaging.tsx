@@ -212,6 +212,19 @@ export default function SecureMessaging() {
         messageInput,
         userSecret
       );
+      
+      // Send notification to the other participant
+      const otherUserId = selectedConversation.participants.find(p => p !== currentUser.uid);
+      if (otherUserId) {
+        await notifyNewMessage(
+          otherUserId,
+          currentUser.uid,
+          viewerUsername,
+          currentUserPhoto,
+          selectedConversation.id
+        );
+      }
+      
       setMessageInput('');
     } catch (error) {
       console.error('Error sending message:', error);
