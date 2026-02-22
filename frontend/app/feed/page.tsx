@@ -356,6 +356,14 @@ export default function FeedPage() {
             <div className="flex items-center justify-between">
               {/* Logo */}
               <Link href="/feed" className="flex items-center space-x-2">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border border-gold/30">
+                  <img
+                    src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                    alt="PineapplePlay Logo"
+                    className="w-full h-full object-cover"
+                    data-testid="feed-navbar-pineapple-logo"
+                  />
+                </div>
                 <span className="text-xl md:text-2xl font-heading text-gold">PineapplePlay</span>
               </Link>
 
