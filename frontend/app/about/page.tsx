@@ -349,7 +349,6 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center space-x-2">
               <span className="text-xl font-heading text-gold">PineapplePlay</span>
-              <img src={pineappleImage} alt="Pineapple" className="h-8 w-8 object-cover rounded-xl" />
             </div>
             <div className="flex items-center space-x-6 text-sm font-body">
               <Link href="/" className="text-offWhite/60 hover:text-gold transition-colors">
