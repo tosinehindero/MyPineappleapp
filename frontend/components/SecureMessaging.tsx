@@ -448,25 +448,40 @@ export default function SecureMessaging() {
                             You
                           </div>
                         )}
-                        <div
-                          className={`px-4 py-3 rounded-2xl ${
-                            isOwn
-                              ? 'bg-gold text-charcoal'
-                              : 'glass-morphism text-offWhite'
-                          }`}
-                        >
-                          <p className="font-body break-words">{message.content}</p>
-                          <p
-                            className={`text-xs mt-1 ${
-                              isOwn ? 'text-charcoal/60' : 'text-offWhite/60'
+                        <div className="relative group">
+                          <div
+                            className={`px-4 py-3 rounded-2xl ${
+                              isOwn
+                                ? 'bg-gold text-charcoal'
+                                : 'glass-morphism text-offWhite'
                             }`}
                           >
-                            {message.timestamp?.toDate().toLocaleTimeString([], {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                            {!message.decrypted && ' 🔒'}
-                          </p>
+                            <p className="font-body break-words">{message.content}</p>
+                            <p
+                              className={`text-xs mt-1 ${
+                                isOwn ? 'text-charcoal/60' : 'text-offWhite/60'
+                              }`}
+                            >
+                              {message.timestamp?.toDate().toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                              {!message.decrypted && ' 🔒'}
+                            </p>
+                          </div>
+                          {/* Delete button - only for own messages */}
+                          {isOwn && (
+                            <button
+                              onClick={() => setMessageToDelete(message)}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hidden group-hover:flex hover:bg-red-600"
+                              title="Delete message"
+                              data-testid={`delete-message-${message.id}`}
+                            >
+                              <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          )}
                         </div>
                         {!showAvatar && <div className="w-8"></div>}
                       </div>
