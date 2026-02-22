@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
+const pineappleImage = "https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/z2y9pjap_1771729561245.png";
+
 const coreValues = [
   {
     title: 'Privacy First',
