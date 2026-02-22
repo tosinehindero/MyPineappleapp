@@ -661,7 +661,7 @@ export default function FeedPage() {
                           </>
                         ) : (
                           <>
-                            <span>🍍</span>
+                            <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain" />
                             <span>Whisper</span>
                           </>
                         )}
