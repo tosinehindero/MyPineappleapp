@@ -18,6 +18,7 @@ export default function Navbar() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Check if user is admin
   const isAdmin = userProfile?.role === 'admin' && userProfile?.isVerified === true;
