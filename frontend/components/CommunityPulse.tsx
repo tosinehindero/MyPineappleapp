@@ -423,6 +423,11 @@ export default function CommunityPulse() {
                   <Link
                     key={notif.id}
                     href={href}
+                    onClick={() => {
+                      if (!notif.read) {
+                        markNotificationAsRead(notif.id, notif.type);
+                      }
+                    }}
                     className={`flex items-center space-x-3 p-3 rounded-xl hover:bg-gold/10 transition-all ${
                       !notif.read ? 'bg-gold/5 border-l-2 border-gold' : ''
                     }`}
@@ -431,13 +436,13 @@ export default function CommunityPulse() {
                       {notif.fromPhotoUrl ? (
                         <img
                           src={notif.fromPhotoUrl}
-                          alt={notif.fromUsername}
+                          alt={notif.fromUsername || 'Member'}
                           className="w-10 h-10 rounded-full object-cover border-2 border-gold/30"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold/30">
                           <span className="text-gold font-heading">
-                            {notif.fromUsername[0]?.toUpperCase()}
+                            {(notif.fromUsername || '?')[0]?.toUpperCase() || '?'}
                           </span>
                         </div>
                       )}
@@ -447,7 +452,7 @@ export default function CommunityPulse() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-offWhite font-body text-sm">
-                        <span className="font-medium text-gold">{notif.fromUsername}</span>
+                        <span className="font-medium text-gold">{notif.fromUsername || 'Someone'}</span>
                         {isProfileView ? ' viewed your profile' : ' sent a message'}
                       </p>
                       <p className="text-offWhite/50 text-xs font-body">
@@ -456,7 +461,7 @@ export default function CommunityPulse() {
                           day: 'numeric',
                           hour: '2-digit', 
                           minute: '2-digit' 
-                        })}
+                        }) || 'Just now'}
                       </p>
                     </div>
                     {!notif.read && (
