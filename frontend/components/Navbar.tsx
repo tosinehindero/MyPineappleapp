@@ -309,22 +309,23 @@ export default function Navbar() {
               </div>
             ) : (
               /* Logged Out State */
-              <>
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <Link
                   href="/login"
-                  className="hidden sm:block px-6 py-2 text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body"
+                  className="px-4 sm:px-6 py-2 text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body text-sm sm:text-base"
                   data-testid="login-button"
                 >
                   Login
                 </Link>
                 <Link
                   href="/register"
-                  className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body"
+                  className="px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body text-sm sm:text-base whitespace-nowrap"
                   data-testid="apply-button"
                 >
-                  Apply for Membership
+                  <span className="hidden sm:inline">Apply for Membership</span>
+                  <span className="sm:hidden">Apply</span>
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>
