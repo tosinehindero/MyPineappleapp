@@ -67,15 +67,42 @@ function SuccessContent() {
       const data = await response.json();
 
       if (data.success && data.payment_status === 'paid') {
+        // Get buyer username for the notification
+        let buyerUsername = 'Buyer';
+        if (currentUser) {
+          const buyerDoc = await getDoc(doc(db, 'members', currentUser.uid));
+          if (buyerDoc.exists()) {
+            buyerUsername = buyerDoc.data().username || 'Buyer';
+          }
+        }
+        
+        // Send notification to seller about the sale
+        if (data.seller_id) {
+          try {
+            await notifyNewPurchase(
+              data.seller_id,
+              buyerUsername,
+              data.listing_title || 'Item',
+              data.amount || 0,
+              data.transaction_id
+            );
+          } catch (notifyError) {
+            console.error('Error sending sale notification:', notifyError);
+            // Don't fail the payment verification if notification fails
+          }
+        }
+        
         // Get transaction details from the response or create placeholder
         setTransaction({
           listing_id: data.listing_id || '',
           title: data.listing_title || 'Your Purchase',
           price: data.amount || 0,
           seller_username: data.seller_username || 'Seller',
+          seller_id: data.seller_id,
           buyer_id: currentUser?.uid || '',
           status: 'completed',
           created_at: new Date().toISOString(),
+          transaction_id: data.transaction_id,
         });
       } else if (data.status === 'pending' || data.payment_status === 'unpaid') {
         setError('Payment is still processing. Please check back shortly.');
