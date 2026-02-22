@@ -130,6 +130,49 @@ export default function SecureMessaging() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Handle starting a new conversation
+  const handleStartNewConversation = async () => {
+    if (!newConversationTarget || !currentUser || !userSecret) return;
+    
+    setInitializingConvo(true);
+    try {
+      const conversationId = await initializeConversation(
+        currentUser.uid,
+        newConversationTarget.userId,
+        viewerUsername,
+        newConversationTarget.username,
+        currentUserPhoto,
+        newConversationTarget.photoUrl,
+        userSecret
+      );
+      
+      // Create a temporary conversation object to show UI immediately
+      const newConvo: Conversation = {
+        id: conversationId,
+        participants: [currentUser.uid, newConversationTarget.userId],
+        participantNames: {
+          [currentUser.uid]: viewerUsername,
+          [newConversationTarget.userId]: newConversationTarget.username,
+        },
+        participantPhotos: {
+          [currentUser.uid]: currentUserPhoto,
+          [newConversationTarget.userId]: newConversationTarget.photoUrl,
+        },
+        unreadCount: { [currentUser.uid]: 0, [newConversationTarget.userId]: 0 },
+        createdAt: { toMillis: () => Date.now() } as any,
+      };
+      
+      setConversations(prev => [newConvo, ...prev]);
+      setSelectedConversation(newConvo);
+      setNewConversationTarget(null);
+    } catch (error) {
+      console.error('Error starting conversation:', error);
+      alert('Failed to start conversation. Please try again.');
+    } finally {
+      setInitializingConvo(false);
+    }
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!messageInput.trim() || !selectedConversation || !currentUser || !userSecret) {
