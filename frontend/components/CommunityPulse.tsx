@@ -301,6 +301,28 @@ export default function CommunityPulse() {
     return () => unsubscribe();
   }, [currentUser]);
 
+  // Mark notification as read
+  const markNotificationAsRead = async (notificationId: string, notificationType: string) => {
+    try {
+      if (notificationType === 'profile_view') {
+        // Update notification in Firestore
+        await updateDoc(doc(db, 'notifications', notificationId), {
+          read: true,
+        });
+      }
+      // Update local state
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n.id === notificationId ? { ...n, read: true } : n
+        )
+      );
+      // Decrease unread count
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
   const tabs = [
     { id: 'new' as TabType, label: 'New', icon: '✨' },
     { id: 'online' as TabType, label: 'Online', icon: '🟢' },
@@ -318,13 +340,13 @@ export default function CommunityPulse() {
         {member.photoUrl ? (
           <img
             src={member.photoUrl}
-            alt={member.username}
+            alt={member.username || 'Member'}
             className="w-12 h-12 rounded-full object-cover border-2 border-gold/30 group-hover:border-gold transition-colors"
           />
         ) : (
           <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold/30 group-hover:border-gold transition-colors">
             <span className="text-gold font-heading text-lg">
-              {member.username[0]?.toUpperCase()}
+              {(member.username || '?')[0]?.toUpperCase() || '?'}
             </span>
           </div>
         )}
