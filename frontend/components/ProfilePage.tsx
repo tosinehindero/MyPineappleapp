@@ -235,16 +235,17 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image must be less than 5MB');
+    // Validate file size (max 10MB to match your rules)
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Image must be less than 10MB');
       return;
     }
 
     setUploading(true);
     try {
       const fileName = `${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, `profiles/${currentUser.uid}/${fileName}`);
+      // Updated path to match your storage rules: member-photos/{userId}/
+      const storageRef = ref(storage, `member-photos/${currentUser.uid}/${fileName}`);
       
       await uploadBytes(storageRef, file);
       const downloadUrl = await getDownloadURL(storageRef);
