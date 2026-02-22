@@ -67,7 +67,6 @@ export default function CommunityPulse() {
   }, []);
 
   // Real-time subscription for new members
-  // Real-time subscription for new members
   useEffect(() => {
     // Only subscribe if user is authenticated
     if (!currentUser) return;
