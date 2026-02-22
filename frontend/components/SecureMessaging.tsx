@@ -334,12 +334,22 @@ export default function SecureMessaging() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className={`${(selectedConversation || newConversationTarget) ? 'flex' : 'hidden md:flex'} flex-1 flex-col`}>
         {selectedConversation ? (
           <>
             {/* Chat Header */}
-            <div className="p-6 bg-darkBlue border-b border-gold/20">
+            <div className="p-4 md:p-6 bg-darkBlue border-b border-gold/20">
               <div className="flex items-center space-x-3">
+                {/* Back button for mobile */}
+                <button
+                  onClick={() => setSelectedConversation(null)}
+                  className="md:hidden p-2 hover:bg-gold/10 rounded-full transition-colors"
+                  data-testid="back-to-conversations"
+                >
+                  <svg className="w-5 h-5 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
                 {(() => {
                   const other = getOtherParticipant(selectedConversation);
                   return (
@@ -348,16 +358,16 @@ export default function SecureMessaging() {
                         <img
                           src={other.photo}
                           alt={other.name}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-gold"
+                          className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-gold"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-xl">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-lg md:text-xl">
                           {other.name[0]?.toUpperCase()}
                         </div>
                       )}
                       <div>
-                        <h2 className="font-heading text-xl text-gold">{other.name}</h2>
-                        <p className="text-offWhite/60 text-sm flex items-center">
+                        <h2 className="font-heading text-lg md:text-xl text-gold">{other.name}</h2>
+                        <p className="text-offWhite/60 text-xs md:text-sm flex items-center">
                           <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                           Encrypted
                         </p>
