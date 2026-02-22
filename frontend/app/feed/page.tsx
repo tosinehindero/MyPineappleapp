@@ -220,13 +220,7 @@ export default function FeedPage() {
       setNewPostImages([]);
       setNewPostPrivacy('all');
       setNewPostCategory('all');
-      
-      // Reload posts
-      const postsResult = await getPosts(currentUser.uid, activeFilter);
-      if (postsResult.success) {
-        setPosts(postsResult.posts);
-        setHasMore(postsResult.hasMore);
-      }
+      // Real-time subscription will automatically update the posts
     } else {
       toast.error('Failed to post whisper');
     }
