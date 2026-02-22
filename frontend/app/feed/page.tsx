@@ -391,6 +391,10 @@ export default function FeedPage() {
                     Profile
                   </Link>
                 )}
+                {/* Notification Bell */}
+                {userProfile && (
+                  <NotificationDropdown userId={userProfile.uid} />
+                )}
                 <button
                   onClick={async () => {
                     try {
@@ -410,6 +414,10 @@ export default function FeedPage() {
 
               {/* Mobile Navigation - Hamburger Menu */}
               <div className="flex md:hidden items-center space-x-2">
+                {/* Notification Bell - Mobile */}
+                {userProfile && (
+                  <NotificationDropdown userId={userProfile.uid} />
+                )}
                 <Link href="/messages" className="p-2 text-offWhite/80 hover:text-gold transition-colors">
                   <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
