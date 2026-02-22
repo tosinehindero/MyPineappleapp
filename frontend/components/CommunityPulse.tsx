@@ -11,6 +11,8 @@ import {
   limit,
   onSnapshot,
   Timestamp,
+  doc,
+  updateDoc,
 } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import { getUserVerificationStatus } from '@/app/profile/actions';
