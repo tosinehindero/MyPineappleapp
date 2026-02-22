@@ -177,13 +177,24 @@ export default function MyListingsPage() {
                 </div>
               </div>
 
-              <Link
-                href="/marketplace"
-                className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
-                data-testid="create-new-listing-btn"
-              >
-                + New Listing
-              </Link>
+              <div className="flex items-center space-x-3">
+                <Link
+                  href="/marketplace/transactions"
+                  className="px-4 py-2 border border-gold/30 text-gold rounded-full hover:bg-gold/10 transition-colors font-body text-sm flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  History
+                </Link>
+                <Link
+                  href="/marketplace"
+                  className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+                  data-testid="create-new-listing-btn"
+                >
+                  + New Listing
+                </Link>
+              </div>
             </div>
           </div>
         </div>
