@@ -75,24 +75,43 @@ export default function SecureMessaging() {
           
           // If we have a targetUserId from URL, check if conversation exists or load target info
           if (targetUserId && targetUserId !== user.uid) {
+            console.log('🍍 Loading target user for new conversation:', targetUserId);
             // Check if conversation already exists
             const existingConvo = convos.find(c => c.participants.includes(targetUserId));
             if (existingConvo) {
+              console.log('🍍 Found existing conversation');
               setSelectedConversation(existingConvo);
             } else {
               // Load target user info to start new conversation
               try {
+                console.log('🍍 Fetching target user profile from Firestore...');
                 const targetDoc = await getDoc(doc(db, 'members', targetUserId));
+                console.log('🍍 Target doc exists:', targetDoc.exists());
                 if (targetDoc.exists()) {
                   const targetData = targetDoc.data();
+                  console.log('🍍 Setting newConversationTarget:', targetData.username);
                   setNewConversationTarget({
                     userId: targetUserId,
                     username: targetData.username || 'Member',
                     photoUrl: targetData.photoUrls?.[0] || '',
                   });
+                } else {
+                  // Target user not found - still show UI with basic info
+                  console.log('🍍 Target user not found in Firestore, showing fallback');
+                  setNewConversationTarget({
+                    userId: targetUserId,
+                    username: 'Member',
+                    photoUrl: '',
+                  });
                 }
               } catch (error) {
-                console.error('Error loading target user:', error);
+                console.error('🍍 Error loading target user:', error);
+                // Still show UI even if we can't load target info (permission error)
+                setNewConversationTarget({
+                  userId: targetUserId,
+                  username: 'Member',
+                  photoUrl: '',
+                });
               }
             }
           }
