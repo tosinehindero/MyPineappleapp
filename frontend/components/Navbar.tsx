@@ -167,7 +167,7 @@ export default function Navbar() {
                   Features
                 </Link>
                 <Link
-                  href="#about"
+                  href="/about"
                   className="text-offWhite/80 hover:text-gold transition-colors font-body"
                   data-testid="nav-link-about"
                 >
