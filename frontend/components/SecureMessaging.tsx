@@ -16,7 +16,6 @@ import {
   type Conversation,
   type DecryptedMessage,
 } from '@/lib/messaging';
-import PrivacyProtection from './PrivacyProtection';
 
 interface NewConversationTarget {
   userId: string;
