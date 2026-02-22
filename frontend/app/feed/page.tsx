@@ -483,10 +483,12 @@ export default function FeedPage() {
                             )}
                           </div>
                           {userProfile?.isVerified && (
-                            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gold rounded-full flex items-center justify-center text-sm border-2 border-darkBlue">
-                              <svg className="w-3 h-3 text-charcoal" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
+                            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full overflow-hidden border-2 border-darkBlue">
+                              <img 
+                                src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                                alt="Verified"
+                                className="w-full h-full object-cover"
+                              />
                             </div>
                           )}
                         </div>
@@ -494,7 +496,11 @@ export default function FeedPage() {
                           <h3 className="text-offWhite font-heading text-lg flex items-center">
                             {userProfile?.username || 'Member'}
                             {userProfile.isVerified && (
-                              <span className="ml-2 text-gold text-sm">✓</span>
+                              <img 
+                                src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                                alt="Verified"
+                                className="ml-2 w-4 h-4 rounded-full"
+                              />
                             )}
                           </h3>
                           <p className="text-offWhite/50 text-sm font-body">{userProfile.accountType}</p>
@@ -709,10 +715,12 @@ export default function FeedPage() {
                                 </div>
                               )}
                               {post.authorVerified && (
-                                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gold rounded-full flex items-center justify-center text-xs border-2 border-darkBlue">
-                                  <svg className="w-3 h-3 text-charcoal" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
+                                <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full overflow-hidden border-2 border-darkBlue">
+                                  <img 
+                                    src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                                    alt="Verified"
+                                    className="w-full h-full object-cover"
+                                  />
                                 </div>
                               )}
                             </div>
@@ -720,7 +728,11 @@ export default function FeedPage() {
                               <h4 className="text-offWhite font-body font-semibold flex items-center">
                                 {post.authorUsername || 'Anonymous'}
                                 {post.authorVerified && (
-                                  <span className="ml-1 text-gold text-sm">✓</span>
+                                  <img 
+                                    src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                                    alt="Verified"
+                                    className="ml-1 w-4 h-4 rounded-full"
+                                  />
                                 )}
                               </h4>
                               <p className="text-offWhite/50 text-xs font-body">
@@ -943,7 +955,11 @@ export default function FeedPage() {
                                             >
                                               {comment.authorUsername || 'Anonymous'}
                                               {comment.authorVerified && (
-                                                <span className="ml-1 text-gold text-xs">✓</span>
+                                                <img 
+                                                  src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                                                  alt="Verified"
+                                                  className="ml-1 w-3 h-3 rounded-full inline-block"
+                                                />
                                               )}
                                             </Link>
                                             <span className="text-offWhite/40 text-xs">
