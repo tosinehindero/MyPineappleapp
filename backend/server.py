@@ -532,6 +532,12 @@ async def get_payment_status(session_id: str):
         if not transaction:
             raise HTTPException(status_code=404, detail="Transaction not found")
         
+        # Get listing details
+        listing = await db.marketplace_listings.find_one(
+            {"listing_id": transaction.get("listing_id")},
+            {"_id": 0, "title": 1, "seller_username": 1, "price": 1}
+        )
+        
         # Update transaction if payment completed
         if status.payment_status == "paid" and transaction["payment_status"] != "paid":
             await db.payment_transactions.update_one(
@@ -557,7 +563,11 @@ async def get_payment_status(session_id: str):
             "payment_status": status.payment_status,
             "escrow_status": "held" if status.payment_status == "paid" else "pending",
             "amount": status.amount_total / 100,  # Convert from cents
-            "currency": status.currency
+            "currency": status.currency,
+            "listing_id": transaction.get("listing_id"),
+            "listing_title": listing.get("title") if listing else "Item",
+            "seller_username": listing.get("seller_username") if listing else "Seller",
+            "transaction_id": transaction.get("transaction_id")
         }
         
     except HTTPException:
