@@ -161,7 +161,7 @@ export default function PendingApprovalPage() {
               <motion.img
                 src={pineappleLogo}
                 alt="Pineapple"
-                className="w-16 h-20 object-contain"
+                className="h-16 w-16 object-cover rounded-xl"
                 animate={{
                   rotate: [0, 5, -5, 0],
                 }}
