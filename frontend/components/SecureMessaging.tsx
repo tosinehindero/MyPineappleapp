@@ -13,6 +13,7 @@ import {
   initializeConversation,
   markMessagesAsRead,
   deriveUserSecret,
+  deleteMessage,
   type Conversation,
   type DecryptedMessage,
 } from '@/lib/messaging';
