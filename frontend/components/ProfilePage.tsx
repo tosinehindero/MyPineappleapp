@@ -131,30 +131,34 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           setIsRestricted(isOwnProfile ? false : (result.restricted || false));
           setEditDescription(result.data.description || '');
           setEditFantasies(result.data.fantasies || '');
+          setLoading(false);
         } else {
           setLoadError(result.error || 'Profile not found');
+          setLoading(false);
         }
       } catch (error: any) {
         console.error('Profile load error:', error);
         setLoadError(error.message || 'Failed to load profile');
+        setLoading(false);
       }
-      
-      setLoading(false);
     };
 
-    // Add loading timeout
+    // Add loading timeout - use ref to track if we've already loaded
+    let hasLoaded = false;
     const timeoutId = setTimeout(() => {
-      if (loading) {
+      if (!hasLoaded && loading) {
         console.log('🍍 Profile loading timeout');
         setLoading(false);
         setLoadError('Loading timed out. Please try again.');
       }
-    }, 5000);
+    }, 10000); // Increased to 10 seconds
     
     // Load profile if auth is checked
     if (authChecked) {
       if (currentUser) {
-        loadProfile();
+        loadProfile().then(() => {
+          hasLoaded = true;
+        });
       } else {
         // Not logged in - redirect after short delay
         setTimeout(() => router.push('/login'), 100);
