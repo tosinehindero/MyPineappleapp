@@ -131,13 +131,13 @@ export default function TransactionsPage() {
     totalSales: transactions.filter(t => t.seller_id === currentUser?.uid).length,
     totalSpent: transactions
       .filter(t => t.buyer_id === currentUser?.uid && t.payment_status === 'paid')
-      .reduce((sum, t) => sum + t.amount, 0),
+      .reduce((sum, t) => sum + (t.amount || 0), 0),
     totalEarned: transactions
       .filter(t => t.seller_id === currentUser?.uid && t.escrow_status === 'released')
-      .reduce((sum, t) => sum + t.seller_amount, 0),
+      .reduce((sum, t) => sum + (t.seller_amount || 0), 0),
     inEscrow: transactions
       .filter(t => t.seller_id === currentUser?.uid && t.escrow_status === 'held')
-      .reduce((sum, t) => sum + t.seller_amount, 0),
+      .reduce((sum, t) => sum + (t.seller_amount || 0), 0),
   };
 
   if (loading) {
