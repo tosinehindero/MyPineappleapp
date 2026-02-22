@@ -47,26 +47,21 @@ function SuccessContent() {
 
   const verifyPayment = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/marketplace/checkout-status/${sessionId}`);
+      const response = await fetch(`${BACKEND_URL}/api/marketplace/payment/status/${sessionId}`);
       const data = await response.json();
 
-      if (data.success && data.status === 'complete') {
-        // Fetch transaction details
-        if (data.transaction) {
-          setTransaction(data.transaction);
-        } else {
-          // Create a placeholder transaction for display
-          setTransaction({
-            listing_id: data.listing_id || '',
-            title: 'Your Purchase',
-            price: data.amount_total ? data.amount_total / 100 : 0,
-            seller_username: 'Seller',
-            buyer_id: currentUser?.uid || '',
-            status: 'completed',
-            created_at: new Date().toISOString(),
-          });
-        }
-      } else if (data.status === 'pending') {
+      if (data.success && data.payment_status === 'paid') {
+        // Get transaction details from the response or create placeholder
+        setTransaction({
+          listing_id: data.listing_id || '',
+          title: data.listing_title || 'Your Purchase',
+          price: data.amount || 0,
+          seller_username: data.seller_username || 'Seller',
+          buyer_id: currentUser?.uid || '',
+          status: 'completed',
+          created_at: new Date().toISOString(),
+        });
+      } else if (data.status === 'pending' || data.payment_status === 'unpaid') {
         setError('Payment is still processing. Please check back shortly.');
       } else {
         setError('Payment verification failed. Please contact support.');
