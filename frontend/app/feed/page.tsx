@@ -309,7 +309,7 @@ export default function FeedPage() {
     setPosting(true);
     const result = await createPost(
       currentUser.uid,
-      '🍍 Welcome to the Inner Circle! This is the first post in our exclusive community. Share your experiences, connect with like-minded individuals, and explore the lifestyle together.',
+      'Welcome to the Inner Circle! This is the first post in our exclusive community. Share your experiences, connect with like-minded individuals, and explore the lifestyle together.',
       [],
       'all',
       'general'
