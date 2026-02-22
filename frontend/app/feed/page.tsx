@@ -161,13 +161,13 @@ export default function FeedPage() {
   }, [hasMore, loadingMore, loading, posts]);
 
   const loadMorePosts = async () => {
-    if (!hasMore || loadingMore || posts.length === 0) return;
+    if (!hasMore || loadingMore || posts.length === 0 || !currentUser) return;
 
     setLoadingMore(true);
     const lastPost = posts[posts.length - 1];
     
     const result = await getPosts(
-      currentUser?.uid || '',
+      currentUser.uid,
       activeFilter,
       lastPost.createdAt,
       10
