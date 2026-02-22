@@ -296,9 +296,9 @@ export default function AboutPage() {
               our exclusive standards, and continuously evolve to exceed your expectations.
             </p>
             <div className="flex items-center justify-center space-x-2 text-gold">
-              <span className="text-2xl">🍍</span>
+              <img src={pineappleImage} alt="Pineapple" className="w-8 h-10 object-contain" />
               <span className="font-heading text-lg">Where Luxury Meets Lifestyle</span>
-              <span className="text-2xl">🍍</span>
+              <img src={pineappleImage} alt="Pineapple" className="w-8 h-10 object-contain" />
             </div>
           </motion.div>
         </div>
