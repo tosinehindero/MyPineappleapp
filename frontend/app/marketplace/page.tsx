@@ -671,20 +671,47 @@ function CreateListingModal({
               </p>
             </div>
 
+            {/* Upload Progress */}
+            {submitting && uploadProgress > 0 && (
+              <div className="bg-charcoal rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-offWhite/80 text-sm font-body">Uploading images...</span>
+                  <span className="text-gold text-sm font-body">{uploadProgress}%</span>
+                </div>
+                <div className="h-2 bg-gold/20 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gold transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="flex space-x-4 pt-4">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors font-body"
+                disabled={submitting}
+                className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors font-body disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 py-3 bg-gold text-charcoal font-semibold rounded-xl hover:shadow-gold-glow transition-all disabled:opacity-50"
+                className="flex-1 py-3 bg-gold text-charcoal font-semibold rounded-xl hover:shadow-gold-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                {submitting ? 'Creating...' : 'Create Listing'}
+                {submitting ? (
+                  <>
+                    <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    {uploadProgress > 0 ? 'Uploading...' : 'Creating...'}
+                  </>
+                ) : (
+                  'Create Listing'
+                )}
               </button>
             </div>
           </form>
