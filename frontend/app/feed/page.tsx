@@ -967,7 +967,7 @@ export default function FeedPage() {
                 {/* Empty State */}
                 {posts.length === 0 && !loading && (
                   <div className="text-center py-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10">
-                    <img src={pineappleLogo} alt="" className="w-16 h-20 mx-auto mb-4 object-contain" />
+                    <img src={pineappleLogo} alt="" className="h-12 w-12 mx-auto mb-4 object-cover rounded-xl" />
                     <h3 className="text-xl font-heading text-gold mb-2">No whispers yet</h3>
                     <p className="text-offWhite/60 font-body mb-6">Be the first to share something with the community!</p>
                     <button
