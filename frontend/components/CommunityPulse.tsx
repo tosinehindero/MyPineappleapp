@@ -103,25 +103,31 @@ export default function CommunityPulse() {
     return () => unsubscribe();
   }, [currentUser]);
 
-  // Real-time subscription for online members (verified only)
+  // Real-time subscription for online members (recently active)
   useEffect(() => {
-    if (!isVerified || !currentUser) {
+    if (!currentUser) {
       setOnlineMembers([]);
       return;
     }
 
-    const fiveMinutesAgo = new Date();
-    fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
+    // Consider users active if they were seen in the last 15 minutes
+    const fifteenMinutesAgo = new Date();
+    fifteenMinutesAgo.setMinutes(fifteenMinutesAgo.getMinutes() - 15);
 
+    // Query for recently active users based on lastSeen timestamp
     const onlineQuery = query(
       collection(db, 'members'),
-      where('isOnline', '==', true),
+      where('lastSeen', '>=', Timestamp.fromDate(fifteenMinutesAgo)),
+      orderBy('lastSeen', 'desc'),
       limit(10)
     );
 
     const unsubscribe = onSnapshot(onlineQuery, (snapshot) => {
       const members: PulseMember[] = [];
       snapshot.forEach((doc) => {
+        // Don't show current user in the list
+        if (doc.id === currentUser.uid) return;
+        
         const data = doc.data();
         members.push({
           id: doc.id,
@@ -135,10 +141,35 @@ export default function CommunityPulse() {
       setOnlineMembers(members);
     }, (error) => {
       console.error('Error fetching online members:', error);
+      // Fallback: try querying by isOnline field if lastSeen index doesn't exist
+      const fallbackQuery = query(
+        collection(db, 'members'),
+        where('isOnline', '==', true),
+        limit(10)
+      );
+      
+      onSnapshot(fallbackQuery, (snapshot) => {
+        const members: PulseMember[] = [];
+        snapshot.forEach((doc) => {
+          if (doc.id === currentUser.uid) return;
+          const data = doc.data();
+          members.push({
+            id: doc.id,
+            username: data.username || 'Member',
+            photoUrl: data.photoUrls?.[0] || null,
+            location: data.location,
+            isOnline: true,
+            accountType: data.accountType,
+          });
+        });
+        setOnlineMembers(members);
+      }, (err) => {
+        console.error('Fallback online query also failed:', err);
+      });
     });
 
     return () => unsubscribe();
-  }, [isVerified, currentUser]);
+  }, [currentUser]);
 
   // Real-time subscription for trending profiles
   useEffect(() => {
