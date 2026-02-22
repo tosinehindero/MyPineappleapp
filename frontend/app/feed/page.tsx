@@ -85,36 +85,22 @@ export default function FeedPage() {
     return () => unsubscribe();
   }, []);
 
-  // Load initial posts and sidebar data
+  // Real-time posts subscription
   useEffect(() => {
     // Don't load if user auth state is not yet determined or user is not logged in
     if (!currentUser) {
       return;
     }
 
-    const loadInitialData = async () => {
-      setLoading(true);
-      
+    setLoading(true);
+
+    // Load sidebar data (events and listings) - one time
+    const loadSidebarData = async () => {
       try {
-        const [postsResult, eventsResult, listingsResult] = await Promise.all([
-          getPosts(currentUser.uid, activeFilter),
+        const [eventsResult, listingsResult] = await Promise.all([
           getUpcomingEvents(),
           getFeaturedListings(),
         ]);
-
-        if (postsResult.success) {
-          setPosts(postsResult.posts);
-          setHasMore(postsResult.hasMore);
-
-          // Load user reactions
-          if (postsResult.posts.length > 0) {
-            const reactions = await getUserReactions(
-              currentUser.uid,
-              postsResult.posts.map((p) => p.id)
-            );
-            setUserReactions(reactions);
-          }
-        }
 
         if (eventsResult.success) {
           setUpcomingEvents(eventsResult.events);
@@ -124,11 +110,35 @@ export default function FeedPage() {
           setFeaturedListings(listingsResult.listings);
         }
       } catch (error) {
-        console.error('Error loading feed data:', error);
+        console.error('Error loading sidebar data:', error);
       }
-
-      setLoading(false);
     };
+
+    loadSidebarData();
+
+    // Subscribe to real-time posts updates
+    const unsubscribePosts = subscribeToPostsRealtime(
+      activeFilter,
+      async (newPosts) => {
+        setPosts(newPosts);
+        setHasMore(newPosts.length >= 20);
+        setLoading(false);
+
+        // Load user reactions for the posts
+        if (newPosts.length > 0 && currentUser) {
+          try {
+            const reactions = await getUserReactions(
+              currentUser.uid,
+              newPosts.map((p) => p.id)
+            );
+            setUserReactions(reactions);
+          } catch (error) {
+            console.error('Error loading reactions:', error);
+          }
+        }
+      },
+      20
+    );
 
     // Add timeout to prevent infinite loading
     const timeoutId = setTimeout(() => {
@@ -138,9 +148,10 @@ export default function FeedPage() {
       }
     }, 8000);
 
-    loadInitialData();
-
-    return () => clearTimeout(timeoutId);
+    return () => {
+      unsubscribePosts();
+      clearTimeout(timeoutId);
+    };
   }, [currentUser, activeFilter]);
 
   // Infinite scroll observer
