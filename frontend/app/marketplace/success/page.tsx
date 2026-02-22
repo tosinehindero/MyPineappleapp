@@ -15,9 +15,11 @@ interface TransactionDetails {
   title: string;
   price: number;
   seller_username: string;
+  seller_id?: string;
   buyer_id: string;
   status: string;
   created_at: string;
+  transaction_id?: string;
 }
 
 function SuccessContent() {
