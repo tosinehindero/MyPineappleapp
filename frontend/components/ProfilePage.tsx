@@ -190,7 +190,10 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
       return;
     }
 
-    const result = await toggleFavoriteClient(currentUser.uid, profileId);
+    const result = await toggleFavoriteClient(currentUser.uid, profileId, {
+      username: viewerUsername,
+      photoUrl: viewerPhotoUrl || undefined,
+    });
     if (result.success && result.isFavorite !== undefined) {
       setIsFavorite(result.isFavorite);
     }
