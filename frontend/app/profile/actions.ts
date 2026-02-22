@@ -121,7 +121,11 @@ export async function updateProfile(
   }
 }
 
-export async function toggleFavorite(currentUserId: string, targetUserId: string) {
+export async function toggleFavorite(
+  currentUserId: string,
+  targetUserId: string,
+  currentUserData?: { username?: string; photoUrl?: string }
+) {
   try {
     const favoriteId = `${currentUserId}_${targetUserId}`;
     const favoriteRef = doc(db, 'favorites', favoriteId);
@@ -138,6 +142,24 @@ export async function toggleFavorite(currentUserId: string, targetUserId: string
         favoriteUserId: targetUserId,
         createdAt: new Date(),
       });
+      
+      // Send notification to the target user about the new follower
+      if (currentUserData) {
+        await addDoc(collection(db, 'notifications'), {
+          type: 'follow',
+          title: 'New Follower',
+          message: `${currentUserData.username || 'Someone'} started following you`,
+          toUserId: targetUserId,
+          fromUserId: currentUserId,
+          fromUsername: currentUserData.username || null,
+          fromPhoto: currentUserData.photoUrl || null,
+          read: false,
+          link: `/profile/${currentUserId}`,
+          metadata: null,
+          createdAt: Timestamp.now(),
+        });
+      }
+      
       return { success: true, isFavorite: true };
     }
   } catch (error: any) {
