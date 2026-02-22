@@ -20,6 +20,8 @@ import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
 import WatermarkedImage from './WatermarkedImage';
 
+const pineappleLogo = "https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/k57dslwa_logo2.png";
+
 interface ProfileData {
   id: string;
   username: string;
