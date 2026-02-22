@@ -11,6 +11,7 @@ import {
   onSnapshot,
   Timestamp,
   updateDoc,
+  deleteDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
