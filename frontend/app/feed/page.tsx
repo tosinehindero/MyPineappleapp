@@ -344,6 +344,88 @@ export default function FeedPage() {
   return (
     <VettingGuard>
       <div className="min-h-screen bg-charcoal">
+        {/* Top Navigation Bar */}
+        <nav className="sticky top-0 z-50 bg-darkBlue/95 backdrop-blur-md border-b border-gold/20">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              {/* Logo */}
+              <Link href="/feed" className="flex items-center space-x-2">
+                <span className="text-xl md:text-2xl font-heading text-gold">PineapplePlay</span>
+                <span className="text-xl md:text-2xl">🍍</span>
+              </Link>
+
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/feed" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                  Feed
+                </Link>
+                <Link href="/messages" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                  Messages
+                </Link>
+                <Link href="/travel" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                  Travel
+                </Link>
+                <Link href="/marketplace" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                  Marketplace
+                </Link>
+                {userProfile && (
+                  <Link href={`/profile/${userProfile.uid}`} className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                    Profile
+                  </Link>
+                )}
+                <button
+                  onClick={async () => {
+                    try {
+                      const { signOut } = await import('firebase/auth');
+                      await signOut(auth);
+                      window.location.href = '/';
+                    } catch (error) {
+                      console.error('Sign out error:', error);
+                    }
+                  }}
+                  className="px-4 py-2 bg-gold/20 text-gold rounded-full hover:bg-gold/30 transition-colors font-body text-sm"
+                  data-testid="logout-btn-desktop"
+                >
+                  Log Out
+                </button>
+              </div>
+
+              {/* Mobile Navigation */}
+              <div className="flex md:hidden items-center space-x-3">
+                <Link href="/messages" className="p-2 text-offWhite/80 hover:text-gold transition-colors">
+                  <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </Link>
+                {userProfile && (
+                  <Link href={`/profile/${userProfile.uid}`} className="p-2 text-offWhite/80 hover:text-gold transition-colors">
+                    <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </Link>
+                )}
+                <button
+                  onClick={async () => {
+                    try {
+                      const { signOut } = await import('firebase/auth');
+                      await signOut(auth);
+                      window.location.href = '/';
+                    } catch (error) {
+                      console.error('Sign out error:', error);
+                    }
+                  }}
+                  className="p-2 text-offWhite/80 hover:text-gold transition-colors"
+                  data-testid="logout-btn-mobile"
+                >
+                  <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
         <Toaster
           theme="dark"
           position="top-right"
