@@ -502,22 +502,32 @@ export default function SecureMessaging() {
           // New conversation UI when coming from a profile
           <div className="flex-1 flex flex-col">
             {/* Header for new conversation */}
-            <div className="p-6 bg-darkBlue border-b border-gold/20">
+            <div className="p-4 md:p-6 bg-darkBlue border-b border-gold/20">
               <div className="flex items-center space-x-3">
+                {/* Back button for mobile */}
+                <button
+                  onClick={() => setNewConversationTarget(null)}
+                  className="md:hidden p-2 hover:bg-gold/10 rounded-full transition-colors"
+                  data-testid="back-from-new-convo"
+                >
+                  <svg className="w-5 h-5 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
                 {newConversationTarget.photoUrl ? (
                   <img
                     src={newConversationTarget.photoUrl}
                     alt={newConversationTarget.username}
-                    className="w-12 h-12 rounded-full object-cover border-2 border-gold"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-gold"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-xl">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-lg md:text-xl">
                     {newConversationTarget.username[0]?.toUpperCase()}
                   </div>
                 )}
                 <div>
-                  <h2 className="font-heading text-xl text-gold">{newConversationTarget.username}</h2>
-                  <p className="text-offWhite/60 text-sm">New conversation</p>
+                  <h2 className="font-heading text-lg md:text-xl text-gold">{newConversationTarget.username}</h2>
+                  <p className="text-offWhite/60 text-xs md:text-sm">New conversation</p>
                 </div>
               </div>
             </div>
