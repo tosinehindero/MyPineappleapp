@@ -18,6 +18,7 @@ import {
   type Conversation,
   type DecryptedMessage,
 } from '@/lib/messaging';
+import { notifyNewMessage } from '@/lib/notifications';
 
 interface NewConversationTarget {
   userId: string;
