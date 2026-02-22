@@ -359,7 +359,7 @@ export default function FeedPage() {
               {/* Logo */}
               <Link href="/feed" className="flex items-center space-x-2">
                 <span className="text-xl md:text-2xl font-heading text-gold">PineapplePlay</span>
-                <img src={pineappleLogo} alt="Pineapple" className="w-6 h-8 md:w-8 md:h-10 object-contain" />
+                <img src={pineappleLogo} alt="Pineapple" className="h-8 w-8 md:h-10 md:w-10 object-cover rounded-xl" />
               </Link>
 
               {/* Desktop Navigation */}
