@@ -479,7 +479,7 @@ export default function FeedPage() {
                           </div>
                           {userProfile?.isVerified && (
                             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gold rounded-full flex items-center justify-center text-sm border-2 border-darkBlue">
-                              <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain" />
+                              <img src={pineappleLogo} alt="" className="h-4 w-4 object-cover rounded" />
                             </div>
                           )}
                         </div>
