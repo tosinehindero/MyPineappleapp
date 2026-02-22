@@ -311,11 +311,11 @@ export default function TransactionsPage() {
                           <div className="flex flex-col items-end gap-3">
                             <div className="text-right">
                               <p className="text-2xl font-heading text-gold">
-                                {isBuyer ? `-$${transaction.amount.toFixed(2)}` : `+$${transaction.seller_amount.toFixed(2)}`}
+                                {isBuyer ? `-$${(transaction.amount || 0).toFixed(2)}` : `+$${(transaction.seller_amount || 0).toFixed(2)}`}
                               </p>
-                              {isSeller && transaction.platform_fee > 0 && (
+                              {isSeller && (transaction.platform_fee || 0) > 0 && (
                                 <p className="text-xs text-offWhite/40 font-body">
-                                  Fee: ${transaction.platform_fee.toFixed(2)}
+                                  Fee: ${(transaction.platform_fee || 0).toFixed(2)}
                                 </p>
                               )}
                             </div>
