@@ -86,12 +86,17 @@ export default function FeedPage() {
 
   // Load initial posts and sidebar data
   useEffect(() => {
+    // Don't load if user auth state is not yet determined or user is not logged in
+    if (!currentUser) {
+      return;
+    }
+
     const loadInitialData = async () => {
       setLoading(true);
       
       try {
         const [postsResult, eventsResult, listingsResult] = await Promise.all([
-          getPosts(currentUser?.uid || '', activeFilter),
+          getPosts(currentUser.uid, activeFilter),
           getUpcomingEvents(),
           getFeaturedListings(),
         ]);
@@ -101,7 +106,7 @@ export default function FeedPage() {
           setHasMore(postsResult.hasMore);
 
           // Load user reactions
-          if (currentUser && postsResult.posts.length > 0) {
+          if (postsResult.posts.length > 0) {
             const reactions = await getUserReactions(
               currentUser.uid,
               postsResult.posts.map((p) => p.id)
@@ -132,12 +137,7 @@ export default function FeedPage() {
       }
     }, 8000);
 
-    if (currentUser !== undefined) {
-      loadInitialData();
-    } else {
-      // If no user after 3 seconds, stop loading
-      setTimeout(() => setLoading(false), 3000);
-    }
+    loadInitialData();
 
     return () => clearTimeout(timeoutId);
   }, [currentUser, activeFilter]);
