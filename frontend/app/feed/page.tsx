@@ -935,7 +935,7 @@ export default function FeedPage() {
                                             >
                                               {comment.authorUsername || 'Anonymous'}
                                               {comment.authorVerified && (
-                                                <span className="ml-1 text-gold text-xs">🍍</span>
+                                                <img src={pineappleLogo} alt="" className="inline-block ml-1 w-3 h-4 object-contain" />
                                               )}
                                             </Link>
                                             <span className="text-offWhite/40 text-xs">
