@@ -363,7 +363,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
     return (
       <div className="min-h-screen bg-charcoal flex items-center justify-center p-6">
         <div className="text-center">
-          <img src={pineappleLogo} alt="" className="w-12 h-16 mx-auto mb-4 object-contain" />
+          <img src={pineappleLogo} alt="" className="h-12 w-12 mx-auto mb-4 object-cover rounded-xl" />
           <h2 className="text-2xl font-heading text-gold mb-4">Profile Not Found</h2>
           <p className="text-offWhite/70 font-body mb-6">This profile doesn't exist or may have been removed.</p>
           <Link
