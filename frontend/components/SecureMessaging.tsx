@@ -43,6 +43,8 @@ export default function SecureMessaging() {
   const [viewerUsername, setViewerUsername] = useState('');
   const [currentUserPhoto, setCurrentUserPhoto] = useState('');
   const [newConversationTarget, setNewConversationTarget] = useState<NewConversationTarget | null>(null);
+  const [deletingMessageId, setDeletingMessageId] = useState<string | null>(null);
+  const [messageToDelete, setMessageToDelete] = useState<DecryptedMessage | null>(null);
 
   // Auth state
   useEffect(() => {
