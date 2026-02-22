@@ -370,3 +370,55 @@ export async function getFeaturedListings(): Promise<{
     return { success: true, listings: [] };
   }
 }
+
+// Real-time posts subscription
+export function subscribeToPostsRealtime(
+  category: string = 'all',
+  callback: (posts: Post[]) => void,
+  pageSize: number = 20
+): () => void {
+  let postsQuery;
+
+  if (category === 'all') {
+    postsQuery = query(
+      collection(db, 'posts'),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize)
+    );
+  } else {
+    postsQuery = query(
+      collection(db, 'posts'),
+      where('category', '==', category),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize)
+    );
+  }
+
+  const unsubscribe = onSnapshot(postsQuery, (snapshot) => {
+    const posts: Post[] = [];
+    
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      posts.push({
+        id: docSnap.id,
+        authorId: data.authorId || '',
+        authorUsername: data.authorUsername || 'Anonymous',
+        authorPhoto: data.authorPhoto || null,
+        authorVerified: data.authorVerified || false,
+        content: data.content || '',
+        images: data.images || [],
+        privacy: data.privacy || 'all',
+        category: data.category || 'general',
+        reactions: data.reactions || { fire: 0, pineapple: 0 },
+        commentCount: data.commentCount || 0,
+        createdAt: data.createdAt?.toDate() || new Date(),
+      });
+    });
+
+    callback(posts);
+  }, (error) => {
+    console.error('Error in posts subscription:', error);
+  });
+
+  return unsubscribe;
+}
