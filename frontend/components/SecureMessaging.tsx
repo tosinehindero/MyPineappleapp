@@ -46,6 +46,8 @@ export default function SecureMessaging() {
   const [newConversationTarget, setNewConversationTarget] = useState<NewConversationTarget | null>(null);
   const [deletingMessageId, setDeletingMessageId] = useState<string | null>(null);
   const [messageToDelete, setMessageToDelete] = useState<DecryptedMessage | null>(null);
+  const [conversationToDelete, setConversationToDelete] = useState<Conversation | null>(null);
+  const [deletingConversation, setDeletingConversation] = useState(false);
 
   // Auth state
   useEffect(() => {
