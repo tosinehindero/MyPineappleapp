@@ -71,6 +71,8 @@ const getTypeColor = (type: string) => {
       return 'bg-green-500/20 text-green-400';
     case 'purchase':
       return 'bg-purple-500/20 text-purple-400';
+    case 'follow':
+      return 'bg-cyan-500/20 text-cyan-400';
     case 'like':
       return 'bg-pink-500/20 text-pink-400';
     case 'comment':
