@@ -4,7 +4,7 @@ import ClientProviders from "@/components/ClientProviders";
 
 export const metadata: Metadata = {
   title: "PineapplePlay - Exclusive Social Platform",
-  description: "Where luxury meets lifestyle. An invitation-only social platform for discerning individuals who value privacy, sophistication, and meaningful connections.",
+  description: "Where luxury meets lifestyle. A premium lifestyle social platform for discerning individuals who value privacy, sophistication, and meaningful connections. Come and connect with your TRIBE",
   keywords: "luxury social network, exclusive community, high-end networking, private social platform, pineapple play",
 };
 
