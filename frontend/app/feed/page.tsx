@@ -374,6 +374,9 @@ export default function FeedPage() {
                 <Link href="/marketplace" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
                   Marketplace
                 </Link>
+                <Link href="/about" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
+                  About
+                </Link>
                 {userProfile && (
                   <Link href={`/profile/${userProfile.uid}`} className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
                     Profile
