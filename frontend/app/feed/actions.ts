@@ -302,13 +302,13 @@ export async function getComments(
       const data = docSnap.data();
       comments.push({
         id: docSnap.id,
-        postId: data.postId,
-        authorId: data.authorId,
-        authorUsername: data.authorUsername,
-        authorPhoto: data.authorPhoto,
-        authorVerified: data.authorVerified,
-        content: data.content,
-        parentId: data.parentId,
+        postId: data.postId || '',
+        authorId: data.authorId || '',
+        authorUsername: data.authorUsername || 'Anonymous',
+        authorPhoto: data.authorPhoto || null,
+        authorVerified: data.authorVerified || false,
+        content: data.content || '',
+        parentId: data.parentId || null,
         createdAt: data.createdAt?.toDate() || new Date(),
       });
     });
