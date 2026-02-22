@@ -601,12 +601,12 @@ export default function FeedPage() {
                               {post.authorPhoto ? (
                                 <img
                                   src={post.authorPhoto}
-                                  alt={post.authorUsername}
+                                  alt={post.authorUsername || 'Member'}
                                   className="w-12 h-12 rounded-full border-2 border-gold/40 object-cover"
                                 />
                               ) : (
                                 <div className="w-12 h-12 rounded-full border-2 border-gold/40 bg-gold/20 flex items-center justify-center text-gold font-heading">
-                                  {post.authorUsername[0]?.toUpperCase()}
+                                  {(post.authorUsername || '?')[0]?.toUpperCase() || '?'}
                                 </div>
                               )}
                               {post.authorVerified && (
@@ -617,14 +617,14 @@ export default function FeedPage() {
                             </div>
                             <div>
                               <h4 className="text-offWhite font-body font-semibold flex items-center">
-                                {post.authorUsername}
+                                {post.authorUsername || 'Anonymous'}
                                 {post.authorVerified && (
                                   <span className="ml-1 text-gold text-sm">✓</span>
                                 )}
                               </h4>
                               <p className="text-offWhite/50 text-xs font-body">
                                 {formatTimeAgo(post.createdAt)}
-                                {post.category !== 'general' && (
+                                {post.category && post.category !== 'general' && (
                                   <span className="ml-2 px-2 py-0.5 bg-gold/10 text-gold rounded-full text-xs">
                                     {post.category}
                                   </span>
