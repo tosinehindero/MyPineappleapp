@@ -298,9 +298,7 @@ export default function PendingApprovalPage() {
           className="mt-12"
         >
           <div className="flex items-center justify-center space-x-2 text-offWhite/30 text-xs font-body">
-            <img src={pineappleLogo} alt="" className="h-4 w-4 object-cover rounded opacity-50" />
             <span>Exclusive • Elite • Elevated</span>
-            <img src={pineappleLogo} alt="" className="h-4 w-4 object-cover rounded opacity-50" />
           </div>
         </motion.div>
       </motion.div>
