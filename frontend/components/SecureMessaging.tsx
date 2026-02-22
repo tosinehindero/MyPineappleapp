@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import {
   getUserConversations,
   subscribeToMessages,
@@ -16,7 +18,16 @@ import {
 } from '@/lib/messaging';
 import PrivacyProtection from './PrivacyProtection';
 
+interface NewConversationTarget {
+  userId: string;
+  username: string;
+  photoUrl: string;
+}
+
 export default function SecureMessaging() {
+  const searchParams = useSearchParams();
+  const targetUserId = searchParams.get('userId');
+  
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(
@@ -26,9 +37,12 @@ export default function SecureMessaging() {
   const [messageInput, setMessageInput] = useState('');
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [initializingConvo, setInitializingConvo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [userSecret, setUserSecret] = useState('');
   const [viewerUsername, setViewerUsername] = useState('');
+  const [currentUserPhoto, setCurrentUserPhoto] = useState('');
+  const [newConversationTarget, setNewConversationTarget] = useState<NewConversationTarget | null>(null);
 
   // Auth state
   useEffect(() => {
