@@ -361,21 +361,6 @@ export default function CommunityPulse() {
         );
 
       case 'online':
-        if (!isVerified) {
-          return (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <p className="text-offWhite/70 font-body mb-2">Verified Members Only</p>
-              <p className="text-offWhite/50 text-sm font-body">
-                Get verified to see who's online
-              </p>
-            </div>
-          );
-        }
         return (
           <div className="space-y-1">
             {onlineMembers.length > 0 ? (
