@@ -191,7 +191,6 @@ export default function MapView() {
             <span className="text-xl font-heading text-gold group-hover:text-gold-light transition-colors">
               PineapplePlay
             </span>
-            <img src="https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/xq1jax42_Pineapple%20Pop.png" alt="Pineapple" className="h-8 w-8 object-cover rounded-xl" />
           </Link>
           
           <nav className="flex items-center space-x-6">
