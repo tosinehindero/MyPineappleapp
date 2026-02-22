@@ -37,7 +37,19 @@ function SuccessContent() {
   }, []);
 
   useEffect(() => {
-    if (sessionId) {
+    if (sessionId === 'demo') {
+      // Demo mode - show success UI with sample data
+      setTransaction({
+        listing_id: 'demo-123',
+        title: 'Luxury Designer Item',
+        price: 299.99,
+        seller_username: 'EliteStyle',
+        buyer_id: currentUser?.uid || 'demo-buyer',
+        status: 'completed',
+        created_at: new Date().toISOString(),
+      });
+      setLoading(false);
+    } else if (sessionId) {
       verifyPayment();
     } else {
       setLoading(false);
