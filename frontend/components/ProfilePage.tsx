@@ -453,7 +453,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                   {/* Gold Pineapple Verification Badge */}
                   {profile.isVerified && (
                     <div className="absolute -bottom-1 -right-1 w-10 h-10 md:w-12 md:h-12 bg-gold rounded-full flex items-center justify-center shadow-lg border-2 border-charcoal" data-testid="verification-badge">
-                      <span className="text-xl md:text-2xl">🍍</span>
+                      <img src={pineappleLogo} alt="Verified" className="w-6 h-8 md:w-8 md:h-10 object-contain" />
                     </div>
                   )}
                 </div>
