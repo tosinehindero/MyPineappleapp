@@ -77,19 +77,19 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <Link 
             href="/" 
-            className="flex items-center space-x-1 group"
+            className="flex items-center space-x-1 group flex-shrink-0"
             data-testid="navbar-logo"
           >
-            <span className="text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">
+            <span className="text-lg sm:text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">
               PineapplePlay
             </span>
             <span 
-              className="text-3xl transform rotate-180 group-hover:scale-110 transition-transform"
+              className="text-xl sm:text-3xl transform rotate-180 group-hover:scale-110 transition-transform"
               style={{ display: 'inline-block' }}
             >
               🍍
@@ -178,14 +178,14 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* CTA Buttons / User Menu */}
-          <div className="flex items-center space-x-4">
+          {/* Right side - CTA Buttons / User Menu + Mobile Hamburger */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {currentUser ? (
               /* Logged In State */
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-3 px-4 py-2 rounded-full border border-gold/30 hover:border-gold/60 transition-all"
+                  className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 rounded-full border border-gold/30 hover:border-gold/60 transition-all"
                   data-testid="user-menu-btn"
                 >
                   <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
@@ -310,26 +310,81 @@ export default function Navbar() {
               </div>
             ) : (
               /* Logged Out State */
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                <Link
-                  href="/login"
-                  className="px-4 sm:px-6 py-2 text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body text-sm sm:text-base"
-                  data-testid="login-button"
+              <>
+                {/* Desktop CTA Buttons */}
+                <div className="hidden sm:flex items-center space-x-4">
+                  <Link
+                    href="/login"
+                    className="px-6 py-2 text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body"
+                    data-testid="login-button"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body whitespace-nowrap"
+                    data-testid="apply-button"
+                  >
+                    Apply for Membership
+                  </Link>
+                </div>
+
+                {/* Mobile Hamburger Button */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="sm:hidden p-2 text-gold hover:bg-gold/10 rounded-lg transition-colors"
+                  data-testid="mobile-menu-btn"
                 >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body text-sm sm:text-base whitespace-nowrap"
-                  data-testid="apply-button"
-                >
-                  <span className="hidden sm:inline">Apply for Membership</span>
-                  <span className="sm:hidden">Apply</span>
-                </Link>
-              </div>
+                  {mobileMenuOpen ? (
+                    <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  )}
+                </button>
+              </>
             )}
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && !currentUser && (
+          <div className="sm:hidden bg-charcoal/95 backdrop-blur-md border-t border-gold/10 py-4 space-y-2">
+            <Link
+              href="#features"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Features
+            </Link>
+            <Link
+              href="/about"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About
+            </Link>
+            <div className="px-4 pt-4 space-y-3 border-t border-gold/10">
+              <Link
+                href="/login"
+                className="block w-full px-4 py-3 text-center text-offWhite/90 hover:text-gold border border-gold/30 rounded-full transition-all hover:border-gold/60 font-body"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                href="/register"
+                className="block w-full px-4 py-3 text-center bg-gold text-charcoal font-semibold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all font-body"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Apply for Membership
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
