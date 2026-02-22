@@ -967,7 +967,11 @@ export default function FeedPage() {
                 {/* Empty State */}
                 {posts.length === 0 && !loading && (
                   <div className="text-center py-16 bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10">
-                    <img src={pineappleLogo} alt="" className="h-12 w-12 mx-auto mb-4 object-cover rounded-xl" />
+                    <div className="w-12 h-12 mx-auto mb-4 bg-gold/20 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      </svg>
+                    </div>
                     <h3 className="text-xl font-heading text-gold mb-2">No whispers yet</h3>
                     <p className="text-offWhite/60 font-body mb-6">Be the first to share something with the community!</p>
                     <button
@@ -985,7 +989,6 @@ export default function FeedPage() {
                         </>
                       ) : (
                         <>
-                          <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain" />
                           <span>Create Welcome Post</span>
                         </>
                       )}
