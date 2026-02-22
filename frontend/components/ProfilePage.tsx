@@ -107,6 +107,18 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   }, [profileId]);
 
   useEffect(() => {
+    // Skip if auth not checked yet or no user
+    if (!authChecked) return;
+    
+    if (!currentUser) {
+      // Not logged in - redirect
+      router.push('/login');
+      return;
+    }
+
+    // Use AbortController pattern to handle cleanup properly
+    let isCancelled = false;
+    
     const loadProfile = async () => {
       setLoading(true);
       setLoadError(null);
@@ -123,6 +135,9 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           isOwnProfile ? true : isVerified // Bypass verification for own profile
         );
         
+        // Check if component unmounted or navigation happened
+        if (isCancelled) return;
+        
         console.log('🍍 Profile load result:', result.success, result.data?.username);
         
         if (result.success && result.data) {
@@ -131,42 +146,26 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           setIsRestricted(isOwnProfile ? false : (result.restricted || false));
           setEditDescription(result.data.description || '');
           setEditFantasies(result.data.fantasies || '');
-          setLoading(false);
         } else {
           setLoadError(result.error || 'Profile not found');
-          setLoading(false);
         }
       } catch (error: any) {
+        if (isCancelled) return;
         console.error('Profile load error:', error);
         setLoadError(error.message || 'Failed to load profile');
-        setLoading(false);
+      } finally {
+        if (!isCancelled) {
+          setLoading(false);
+        }
       }
     };
 
-    // Add loading timeout - use ref to track if we've already loaded
-    let hasLoaded = false;
-    const timeoutId = setTimeout(() => {
-      if (!hasLoaded && loading) {
-        console.log('🍍 Profile loading timeout');
-        setLoading(false);
-        setLoadError('Loading timed out. Please try again.');
-      }
-    }, 10000); // Increased to 10 seconds
-    
-    // Load profile if auth is checked
-    if (authChecked) {
-      if (currentUser) {
-        loadProfile().then(() => {
-          hasLoaded = true;
-        });
-      } else {
-        // Not logged in - redirect after short delay
-        setTimeout(() => router.push('/login'), 100);
-      }
-    }
+    loadProfile();
 
-    return () => clearTimeout(timeoutId);
-  }, [profileId, currentUser, isVerified, router, authChecked]);
+    return () => {
+      isCancelled = true;
+    };
+  }, [profileId, currentUser?.uid, isVerified, router, authChecked]);
 
   // Initialize edit form when opening modal
   const openEditModal = () => {
