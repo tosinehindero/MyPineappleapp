@@ -566,6 +566,7 @@ async def get_payment_status(session_id: str):
             "currency": status.currency,
             "listing_id": transaction.get("listing_id"),
             "listing_title": listing.get("title") if listing else "Item",
+            "seller_id": transaction.get("seller_id"),
             "seller_username": listing.get("seller_username") if listing else "Seller",
             "transaction_id": transaction.get("transaction_id")
         }
