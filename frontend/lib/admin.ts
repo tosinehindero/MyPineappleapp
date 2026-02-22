@@ -203,7 +203,7 @@ export async function approveUser(uid: string): Promise<{
       fromUserId: 'system',
       fromUsername: 'PineapplePlay',
       type: 'verification_approved',
-      message: '🍍 Welcome to the Inner Circle! Your membership has been verified. You now have full access to all exclusive features.',
+      message: 'Welcome to the Inner Circle! Your membership has been verified. You now have full access to all exclusive features.',
       createdAt: serverTimestamp(),
       read: false,
     });
