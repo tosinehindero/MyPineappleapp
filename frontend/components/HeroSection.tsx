@@ -57,8 +57,8 @@ export default function HeroSection() {
           className="text-offWhite/80 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body leading-relaxed"
           data-testid="hero-description"
         >
-          An invitation-only social platform for discerning individuals who value 
-          privacy, sophistication, and meaningful connections across the globe.
+          A premium lifestyle social platform for discerning individuals who value 
+          privacy, sophistication, and meaningful connections across the globe. Come and connect with your TRIBE
         </p>
 
         {/* CTA Button */}
