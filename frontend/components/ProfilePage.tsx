@@ -399,7 +399,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal/30 via-charcoal/50 to-charcoal"></div>
           
           {/* Back Button */}
-          <div className="absolute top-6 left-6 z-10">
+          <div className="absolute top-6 left-6 z-10 flex items-center space-x-2">
             <button
               onClick={() => router.back()}
               className="flex items-center space-x-2 px-4 py-2 bg-charcoal/60 backdrop-blur-md rounded-full text-offWhite/80 hover:text-gold transition-colors border border-gold/20"
@@ -409,6 +409,15 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
               </svg>
               <span className="font-body text-sm">Back</span>
             </button>
+            <Link
+              href="/feed"
+              className="flex items-center space-x-2 px-4 py-2 bg-gold/20 backdrop-blur-md rounded-full text-gold hover:bg-gold/30 transition-colors border border-gold/30"
+            >
+              <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span className="font-body text-sm">Feed</span>
+            </Link>
           </div>
         </div>
 
