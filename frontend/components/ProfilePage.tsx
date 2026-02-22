@@ -87,6 +87,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
         if (viewerProfileResult.success && viewerProfileResult.data) {
           const username = viewerProfileResult.data.username || user.email || 'Member';
           setViewerUsername(username);
+          setViewerPhotoUrl(viewerProfileResult.data.photoUrls?.[0] || null);
           
           if (user.uid !== profileId) {
             await recordProfileView(
