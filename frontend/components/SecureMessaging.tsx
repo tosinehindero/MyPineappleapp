@@ -331,43 +331,59 @@ export default function SecureMessaging() {
                 const isSelected = selectedConversation?.id === conversation.id;
 
                 return (
-                  <motion.button
+                  <div
                     key={conversation.id}
-                    whileHover={{ backgroundColor: 'rgba(212, 175, 55, 0.05)' }}
-                    onClick={() => setSelectedConversation(conversation)}
-                    className={`w-full p-4 text-left transition-colors ${
-                      isSelected ? 'bg-gold/10' : ''
-                    }`}
+                    className={`relative group ${isSelected ? 'bg-gold/10' : ''}`}
                   >
-                    <div className="flex items-start space-x-3">
-                      {other.photo ? (
-                        <img
-                          src={other.photo}
-                          alt={other.name}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-gold"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-lg">
-                          {other.name[0]?.toUpperCase()}
+                    <motion.button
+                      whileHover={{ backgroundColor: 'rgba(212, 175, 55, 0.05)' }}
+                      onClick={() => setSelectedConversation(conversation)}
+                      className="w-full p-4 text-left transition-colors"
+                    >
+                      <div className="flex items-start space-x-3">
+                        {other.photo ? (
+                          <img
+                            src={other.photo}
+                            alt={other.name}
+                            className="w-12 h-12 rounded-full object-cover border-2 border-gold"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-gold flex items-center justify-center text-charcoal font-heading text-lg">
+                            {other.name[0]?.toUpperCase()}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1">
+                            <h3 className="font-heading text-gold truncate">
+                              {other.name}
+                            </h3>
+                            {conversation.unreadCount?.[currentUser.uid] > 0 && (
+                              <span className="px-2 py-1 bg-gold text-charcoal text-xs font-bold rounded-full">
+                                {conversation.unreadCount[currentUser.uid]}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-offWhite/60 text-sm truncate">
+                            {conversation.lastMessage || 'No messages yet'}
+                          </p>
                         </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <h3 className="font-heading text-gold truncate">
-                            {other.name}
-                          </h3>
-                          {conversation.unreadCount?.[currentUser.uid] > 0 && (
-                            <span className="px-2 py-1 bg-gold text-charcoal text-xs font-bold rounded-full">
-                              {conversation.unreadCount[currentUser.uid]}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-offWhite/60 text-sm truncate">
-                          {conversation.lastMessage || 'No messages yet'}
-                        </p>
                       </div>
-                    </div>
-                  </motion.button>
+                    </motion.button>
+                    {/* Delete conversation button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setConversationToDelete(conversation);
+                      }}
+                      className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 rounded-full items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hidden group-hover:flex hover:bg-red-600"
+                      title="Delete conversation"
+                      data-testid={`delete-conversation-${conversation.id}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
                 );
               })}
             </div>
