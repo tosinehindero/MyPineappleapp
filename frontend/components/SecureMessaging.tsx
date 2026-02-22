@@ -14,6 +14,7 @@ import {
   markMessagesAsRead,
   deriveUserSecret,
   deleteMessage,
+  deleteConversation,
   type Conversation,
   type DecryptedMessage,
 } from '@/lib/messaging';
