@@ -268,8 +268,7 @@ export default function SecureMessaging() {
   };
 
   return (
-    <PrivacyProtection viewerUsername={viewerUsername} showWarning={true}>
-      <div className="h-screen bg-charcoal flex">
+    <div className="h-screen bg-charcoal flex">
       {/* Conversations Sidebar - hidden on mobile when conversation/new convo is active */}
       <div className={`${(selectedConversation || newConversationTarget) ? 'hidden md:flex' : 'flex'} w-full md:w-96 bg-darkBlue border-r border-gold/20 flex-col`}>
         {/* Header */}
