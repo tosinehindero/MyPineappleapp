@@ -388,6 +388,42 @@ async def delete_listing(listing_id: str, seller_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class UpdateListingRequest(BaseModel):
+    title: str
+    description: str
+    price: float
+    category: str
+    condition: str
+    seller_id: str
+
+
+@api_router.put("/marketplace/listings/{listing_id}")
+async def update_listing(listing_id: str, request: UpdateListingRequest):
+    """Update a listing (only by owner)"""
+    try:
+        result = await db.marketplace_listings.update_one(
+            {"listing_id": listing_id, "seller_id": request.seller_id, "status": {"$ne": "sold"}},
+            {"$set": {
+                "title": request.title,
+                "description": request.description,
+                "price": request.price,
+                "category": request.category,
+                "condition": request.condition,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            }}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Listing not found, unauthorized, or already sold")
+        
+        return {"success": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating listing: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/marketplace/purchase")
 async def initiate_purchase(request: PurchaseRequest, http_request: Request):
     """Initiate a purchase with Stripe checkout"""
