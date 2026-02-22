@@ -671,6 +671,15 @@ export default function SecureMessaging() {
                     userSecret
                   );
                   
+                  // Send notification to the other user
+                  await notifyNewMessage(
+                    newConversationTarget.userId,
+                    currentUser.uid,
+                    viewerUsername,
+                    currentUserPhoto,
+                    conversationId
+                  );
+                  
                   // Create conversation object and select it
                   const newConvo: Conversation = {
                     id: conversationId,
