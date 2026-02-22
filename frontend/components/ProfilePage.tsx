@@ -56,6 +56,7 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [isVerified, setIsVerified] = useState(false);
   const [isRestricted, setIsRestricted] = useState(false);
   const [viewerUsername, setViewerUsername] = useState('');
+  const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   
   // Edit form state
