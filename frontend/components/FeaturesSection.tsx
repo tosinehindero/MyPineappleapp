@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const features = [
   {
-    icon: '✓',
+    icon: 'pineapple',
     title: 'Verified Community',
     description: 'Every member is carefully vetted to ensure authenticity and maintain our high standards of excellence.',
     gradient: 'from-gold/20 to-transparent',
