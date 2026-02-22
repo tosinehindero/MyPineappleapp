@@ -182,13 +182,16 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              {/* Decorative element */}
+              {/* Pineapple Image */}
               <div className="aspect-square max-w-md mx-auto relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/20 via-gold/5 to-transparent rounded-3xl" />
-                <div className="absolute inset-4 border border-gold/30 rounded-2xl" />
-                <div className="absolute inset-8 border border-gold/20 rounded-xl" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-7xl md:text-8xl font-heading text-gold">PP</span>
+                <div className="absolute inset-4 border border-gold/30 rounded-2xl overflow-hidden">
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/hyz8qayj_699c0962-7918-40f8-96bc-0b8c0e41e321.png" 
+                    alt="PineapplePlay Logo" 
+                    className="w-full h-full object-cover"
+                    data-testid="about-pineapple-image"
+                  />
                 </div>
               </div>
             </motion.div>
