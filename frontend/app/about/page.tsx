@@ -191,7 +191,7 @@ export default function AboutPage() {
                 <div className="absolute inset-4 border border-gold/30 rounded-2xl" />
                 <div className="absolute inset-8 border border-gold/20 rounded-xl" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <img src={pineappleImage} alt="PineapplePlay" className="w-32 h-40 md:w-40 md:h-52 object-contain" />
+                  <img src={pineappleImage} alt="PineapplePlay" className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-2xl" />
                 </div>
               </div>
             </motion.div>
