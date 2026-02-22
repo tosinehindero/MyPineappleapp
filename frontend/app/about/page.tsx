@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
-const pineappleImage = "https://static.prod-images.emergentagent.com/jobs/ece997f5-18cb-49ee-85d0-980bc524a48f/images/089ec450d9c08a0bb740d65392040d50bb042767e38de4e8a6d873a51c52f793.png";
+const pineappleImage = "https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/k57dslwa_logo2.png";
 
 const coreValues = [
   {
