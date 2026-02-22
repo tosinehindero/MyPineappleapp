@@ -81,7 +81,6 @@ export default function LoginPage() {
         {/* Logo */}
         <Link href="/" className="flex items-center justify-center space-x-2 mb-8">
           <span className="text-3xl font-heading text-gold">PineapplePlay</span>
-          <img src={pineappleLogo} alt="Pineapple" className="h-10 w-10 object-cover rounded-xl" />
         </Link>
 
         {/* Card */}
