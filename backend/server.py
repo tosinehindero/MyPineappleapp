@@ -691,6 +691,10 @@ async def stripe_webhook(request: Request):
         return {"status": "error", "message": str(e)}
 
 
+# Include the router in the main app - MUST be after all routes are defined
+app.include_router(api_router)
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
