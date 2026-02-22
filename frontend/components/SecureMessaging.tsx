@@ -273,7 +273,26 @@ export default function SecureMessaging() {
         {/* Header */}
         <div className="p-6 border-b border-gold/20">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-heading text-gold">Messages</h1>
+            <div className="flex items-center space-x-3">
+              <a
+                href="/feed"
+                className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center hover:bg-gold/30 transition-colors"
+                data-testid="back-to-feed"
+              >
+                <svg
+                  className="w-5 h-5 text-gold"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M15 19l-7-7 7-7" />
+                </svg>
+              </a>
+              <h1 className="text-2xl font-heading text-gold">Messages</h1>
+            </div>
             <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-gold"
