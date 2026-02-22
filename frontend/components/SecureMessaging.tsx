@@ -53,13 +53,49 @@ export default function SecureMessaging() {
         const secret = deriveUserSecret(user.uid);
         setUserSecret(secret);
         
-        // Get viewer username for privacy protection
+        // Get viewer username and photo for privacy protection
         setViewerUsername(user.displayName || user.email || 'Member');
+        
+        // Get current user's profile for photo
+        try {
+          const userDoc = await getDoc(doc(db, 'members', user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setViewerUsername(userData.username || user.displayName || user.email || 'Member');
+            setCurrentUserPhoto(userData.photoUrls?.[0] || '');
+          }
+        } catch (error) {
+          console.error('Error fetching current user profile:', error);
+        }
         
         // Load conversations
         try {
           const convos = await getUserConversations(user.uid);
           setConversations(convos);
+          
+          // If we have a targetUserId from URL, check if conversation exists or load target info
+          if (targetUserId && targetUserId !== user.uid) {
+            // Check if conversation already exists
+            const existingConvo = convos.find(c => c.participants.includes(targetUserId));
+            if (existingConvo) {
+              setSelectedConversation(existingConvo);
+            } else {
+              // Load target user info to start new conversation
+              try {
+                const targetDoc = await getDoc(doc(db, 'members', targetUserId));
+                if (targetDoc.exists()) {
+                  const targetData = targetDoc.data();
+                  setNewConversationTarget({
+                    userId: targetUserId,
+                    username: targetData.username || 'Member',
+                    photoUrl: targetData.photoUrls?.[0] || '',
+                  });
+                }
+              } catch (error) {
+                console.error('Error loading target user:', error);
+              }
+            }
+          }
         } catch (error) {
           console.error('Error loading conversations:', error);
         }
@@ -68,7 +104,7 @@ export default function SecureMessaging() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [targetUserId]);
 
   // Subscribe to messages when conversation is selected
   useEffect(() => {
