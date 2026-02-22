@@ -985,7 +985,7 @@ export default function FeedPage() {
                         </>
                       ) : (
                         <>
-                          <span>🍍</span>
+                          <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain" />
                           <span>Create Welcome Post</span>
                         </>
                       )}
@@ -1001,8 +1001,9 @@ export default function FeedPage() {
                     </div>
                   )}
                   {!hasMore && posts.length > 0 && (
-                    <p className="text-center text-offWhite/40 font-body text-sm">
-                      You've reached the end 🍍
+                    <p className="text-center text-offWhite/40 font-body text-sm flex items-center justify-center space-x-2">
+                      <span>You've reached the end</span>
+                      <img src={pineappleLogo} alt="" className="w-4 h-5 object-contain" />
                     </p>
                   )}
                 </div>
