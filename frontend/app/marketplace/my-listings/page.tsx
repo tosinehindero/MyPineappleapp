@@ -435,7 +435,12 @@ function EditListingModal({
     category: 'Other',
     condition: 'new',
   });
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [newImagePreviews, setNewImagePreviews] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
 
@@ -449,15 +454,85 @@ function EditListingModal({
         category: listing.category,
         condition: listing.condition,
       });
+      setExistingImages(listing.images || []);
+      setNewImages([]);
+      setNewImagePreviews([]);
     }
   }, [listing]);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const totalImages = existingImages.length + newImages.length + files.length;
+    
+    if (totalImages > 5) {
+      toast.error('Maximum 5 images allowed');
+      return;
+    }
+
+    const validFiles = files.filter(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(`${file.name} is too large. Max 5MB per image.`);
+        return false;
+      }
+      return true;
+    });
+
+    setNewImages(prev => [...prev, ...validFiles]);
+    
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewImagePreviews(prev => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeExistingImage = (index: number) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+    setNewImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadNewImages = async (): Promise<string[]> => {
+    if (newImages.length === 0) return [];
+
+    const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
+    const { storage } = await import('@/lib/firebase');
+    
+    const uploadedUrls: string[] = [];
+    const totalImages = newImages.length;
+
+    for (let i = 0; i < newImages.length; i++) {
+      const file = newImages[i];
+      const fileName = `marketplace/${currentUser.uid}/${Date.now()}_${i}.${file.name.split('.').pop()}`;
+      const storageRef = ref(storage, fileName);
+      
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      uploadedUrls.push(url);
+      
+      setUploadProgress(Math.round(((i + 1) / totalImages) * 100));
+    }
+
+    return uploadedUrls;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentUser || !listing) return;
 
     setSubmitting(true);
+    setUploadProgress(0);
+    
     try {
+      // Upload new images
+      const uploadedImageUrls = await uploadNewImages();
+      const allImages = [...existingImages, ...uploadedImageUrls];
+
       const response = await fetch(`${BACKEND_URL}/api/marketplace/listings/${listing.listing_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -465,6 +540,7 @@ function EditListingModal({
           ...formData,
           price: parseFloat(formData.price),
           seller_id: currentUser.uid,
+          images: allImages,
         }),
       });
 
@@ -479,8 +555,11 @@ function EditListingModal({
       toast.error('Failed to update listing');
     } finally {
       setSubmitting(false);
+      setUploadProgress(0);
     }
   };
+
+  const totalImages = existingImages.length + newImages.length;
 
   if (!isOpen || !listing) return null;
 
@@ -524,6 +603,68 @@ function EditListingModal({
                 placeholder="Describe your item..."
                 required
               />
+            </div>
+
+            {/* Image Management */}
+            <div>
+              <label className="block text-offWhite/80 text-sm font-body mb-2">Photos ({totalImages}/5)</label>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageSelect}
+                accept="image/*"
+                multiple
+                className="hidden"
+              />
+              
+              <div className="grid grid-cols-5 gap-2 mb-2">
+                {/* Existing Images */}
+                {existingImages.map((url, index) => (
+                  <div key={`existing-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gold/20">
+                    <img src={url} alt={`Image ${index + 1}`} className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeExistingImage(index)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs hover:bg-red-600"
+                    >
+                      <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+                
+                {/* New Image Previews */}
+                {newImagePreviews.map((preview, index) => (
+                  <div key={`new-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-green-500/40">
+                    <img src={preview} alt={`New ${index + 1}`} className="w-full h-full object-cover" />
+                    <div className="absolute top-1 left-1 px-1 bg-green-500 rounded text-white text-xs">New</div>
+                    <button
+                      type="button"
+                      onClick={() => removeNewImage(index)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs hover:bg-red-600"
+                    >
+                      <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+                
+                {/* Add Button */}
+                {totalImages < 5 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="aspect-square rounded-lg border-2 border-dashed border-gold/30 flex flex-col items-center justify-center text-gold/60 hover:border-gold/60 hover:text-gold transition-colors"
+                  >
+                    <svg className="w-6 h-6 mb-1" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span className="text-xs">Add</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
