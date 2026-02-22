@@ -84,7 +84,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link 
             href="/" 
-            className="flex items-center space-x-1 group flex-shrink-0"
+            className="flex items-center space-x-2 group flex-shrink-0"
             data-testid="navbar-logo"
           >
             <span className="text-lg sm:text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">
@@ -93,7 +93,7 @@ export default function Navbar() {
             <img 
               src={pineappleLogo}
               alt="Pineapple"
-              className="w-6 h-8 sm:w-8 sm:h-10 object-contain group-hover:scale-110 transition-transform"
+              className="h-8 w-8 sm:h-10 sm:w-10 object-cover rounded-xl"
             />
           </Link>
 
