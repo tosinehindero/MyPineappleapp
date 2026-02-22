@@ -380,11 +380,11 @@ export default function FeedPage() {
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-2xl font-heading text-gold">
-                                {userProfile.username[0]?.toUpperCase()}
+                                {(userProfile?.username || '?')[0]?.toUpperCase() || '?'}
                               </div>
                             )}
                           </div>
-                          {userProfile.isVerified && (
+                          {userProfile?.isVerified && (
                             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gold rounded-full flex items-center justify-center text-sm border-2 border-darkBlue">
                               🍍
                             </div>
@@ -392,7 +392,7 @@ export default function FeedPage() {
                         </div>
                         <div>
                           <h3 className="text-offWhite font-heading text-lg flex items-center">
-                            {userProfile.username}
+                            {userProfile?.username || 'Member'}
                             {userProfile.isVerified && (
                               <span className="ml-2 text-gold text-sm">✓</span>
                             )}
