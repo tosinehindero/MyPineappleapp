@@ -1112,7 +1112,9 @@ export default function FeedPage() {
                   transition={{ delay: 0.2 }}
                   className="bg-gradient-to-br from-gold/[0.08] to-gold/[0.02] backdrop-blur-xl rounded-2xl border border-gold/20 p-6 text-center shadow-2xl shadow-black/20"
                 >
-                  <img src={pineappleLogo} alt="" className="h-10 w-10 mx-auto mb-2 object-cover rounded-xl" />
+                  <div className="w-10 h-10 mx-auto mb-2 bg-gold/20 rounded-full flex items-center justify-center">
+                    <span className="text-gold font-heading text-lg">PP</span>
+                  </div>
                   <h3 className="text-gold font-heading text-sm">Premium Community</h3>
                   <p className="text-offWhite/60 text-xs font-body mt-1">
                     Exclusive • Elite • Elevated
