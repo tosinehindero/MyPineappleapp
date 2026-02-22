@@ -116,3 +116,4 @@ frontend/node_modules/@next/swc-linux-arm64-gnu/next-swc.linux-arm64-gnu.node
 *.env.*
 frontend/.next/dev/cache/turbopack/23c46498/00001974.sst
 frontend/.next/dev/cache/turbopack/23c46498/00002079.sst
+frontend/.next/dev/cache/turbopack/23c46498/00002488.sst
