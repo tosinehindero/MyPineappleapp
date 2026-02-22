@@ -825,7 +825,7 @@ export default function FeedPage() {
                               }`}
                               data-testid={`reaction-pineapple-${post.id}`}
                             >
-                              <span className="text-lg">🍍</span>
+                              <img src={pineappleLogo} alt="" className="w-5 h-6 object-contain" />
                               <span className="text-sm font-body">{post.reactions.pineapple}</span>
                             </button>
 
