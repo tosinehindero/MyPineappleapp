@@ -410,3 +410,26 @@ export const markMessagesAsRead = async (
     console.error('Error marking messages as read:', error);
   }
 };
+
+
+// Delete a message (only by sender)
+export const deleteMessage = async (
+  messageId: string,
+  senderId: string,
+  currentUserId: string
+): Promise<boolean> => {
+  try {
+    // Verify the current user is the sender
+    if (senderId !== currentUserId) {
+      console.error('Cannot delete message: not the sender');
+      return false;
+    }
+
+    const messageRef = doc(db, 'messages', messageId);
+    await deleteDoc(messageRef);
+    return true;
+  } catch (error) {
+    console.error('Error deleting message:', error);
+    return false;
+  }
+};
