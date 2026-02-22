@@ -90,12 +90,11 @@ export default function Navbar() {
             <span className="text-lg sm:text-2xl font-heading text-gold group-hover:text-gold-light transition-colors">
               PineapplePlay
             </span>
-            <span 
-              className="text-xl sm:text-3xl transform rotate-180 group-hover:scale-110 transition-transform"
-              style={{ display: 'inline-block' }}
-            >
-              🍍
-            </span>
+            <img 
+              src={pineappleLogo}
+              alt="Pineapple"
+              className="w-6 h-8 sm:w-8 sm:h-10 object-contain group-hover:scale-110 transition-transform"
+            />
           </Link>
 
           {/* Desktop Navigation */}
