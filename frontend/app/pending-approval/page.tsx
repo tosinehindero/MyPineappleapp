@@ -158,8 +158,10 @@ export default function PendingApprovalPage() {
             
             {/* Main pineapple container */}
             <div className="w-32 h-32 bg-gradient-to-br from-gold/30 to-gold/10 rounded-full flex items-center justify-center border-2 border-gold/40 shadow-2xl">
-              <motion.span
-                className="text-6xl"
+              <motion.img
+                src={pineappleLogo}
+                alt="Pineapple"
+                className="w-16 h-20 object-contain"
                 animate={{
                   rotate: [0, 5, -5, 0],
                 }}
@@ -168,9 +170,7 @@ export default function PendingApprovalPage() {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-              >
-                🍍
-              </motion.span>
+              />
             </div>
           </div>
         </motion.div>
