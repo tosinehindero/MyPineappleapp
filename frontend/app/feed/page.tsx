@@ -8,6 +8,7 @@ import { auth, db } from '@/lib/firebase';
 import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
 import VettingGuard from '@/components/VettingGuard';
+import NotificationDropdown from '@/components/NotificationDropdown';
 import {
   createPost,
   getPosts,
