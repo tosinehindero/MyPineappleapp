@@ -171,7 +171,11 @@ export async function removePhotoFromGallery(userId: string, photoUrl: string) {
   }
 }
 
-export async function toggleFavoriteClient(currentUserId: string, targetUserId: string) {
+export async function toggleFavoriteClient(
+  currentUserId: string,
+  targetUserId: string,
+  currentUserData?: { username?: string; photoUrl?: string }
+) {
   try {
     const favoriteId = `${currentUserId}_${targetUserId}`;
     const favoriteRef = doc(db, 'favorites', favoriteId);
@@ -186,6 +190,29 @@ export async function toggleFavoriteClient(currentUserId: string, targetUserId: 
         favoriteUserId: targetUserId,
         createdAt: new Date(),
       });
+      
+      // Send notification to the target user about the new follower
+      if (currentUserData) {
+        try {
+          await addDoc(collection(db, 'notifications'), {
+            type: 'follow',
+            title: 'New Follower',
+            message: `${currentUserData.username || 'Someone'} started following you`,
+            toUserId: targetUserId,
+            fromUserId: currentUserId,
+            fromUsername: currentUserData.username || null,
+            fromPhoto: currentUserData.photoUrl || null,
+            read: false,
+            link: `/profile/${currentUserId}`,
+            metadata: null,
+            createdAt: Timestamp.now(),
+          });
+        } catch (notifyError) {
+          console.error('Error sending follow notification:', notifyError);
+          // Don't fail the follow operation if notification fails
+        }
+      }
+      
       return { success: true, isFavorite: true };
     }
   } catch (error: any) {
