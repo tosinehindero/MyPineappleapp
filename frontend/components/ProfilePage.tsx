@@ -452,10 +452,12 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                   
                   {/* Gold Pineapple Verification Badge */}
                   {profile.isVerified && (
-                    <div className="absolute -bottom-1 -right-1 w-10 h-10 md:w-12 md:h-12 bg-gold rounded-full flex items-center justify-center shadow-lg border-2 border-charcoal" data-testid="verification-badge">
-                      <svg className="w-5 h-5 md:w-6 md:h-6 text-charcoal" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
+                    <div className="absolute -bottom-1 -right-1 w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden shadow-lg border-2 border-gold" data-testid="verification-badge">
+                      <img 
+                        src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                        alt="Verified Member"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   )}
                 </div>
