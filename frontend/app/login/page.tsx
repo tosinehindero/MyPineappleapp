@@ -7,6 +7,8 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/aut
 import { auth } from '@/lib/firebase';
 import Link from 'next/link';
 
+const pineappleLogo = "https://customer-assets.emergentagent.com/job_ece997f5-18cb-49ee-85d0-980bc524a48f/artifacts/k57dslwa_logo2.png";
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
