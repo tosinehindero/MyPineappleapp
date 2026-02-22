@@ -155,20 +155,21 @@ export default function PendingApprovalPage() {
             />
             
             {/* Main pineapple container */}
-            <div className="w-32 h-32 bg-gradient-to-br from-gold/30 to-gold/10 rounded-full flex items-center justify-center border-2 border-gold/40 shadow-2xl">
-              <motion.span
-                className="text-gold font-heading text-4xl"
+            <div className="w-32 h-32 bg-gradient-to-br from-gold/30 to-gold/10 rounded-full flex items-center justify-center border-2 border-gold/40 shadow-2xl overflow-hidden">
+              <motion.img
+                src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                alt="PineapplePlay Logo"
+                className="w-full h-full object-cover"
                 animate={{
-                  scale: [1, 1.1, 1],
+                  scale: [1, 1.05, 1],
                 }}
                 transition={{
                   duration: 2,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-              >
-                PP
-              </motion.span>
+                data-testid="pending-approval-pineapple"
+              />
             </div>
           </div>
         </motion.div>
