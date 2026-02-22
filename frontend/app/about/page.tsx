@@ -72,7 +72,7 @@ export default function AboutPage() {
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-xl md:text-2xl font-heading text-gold">PineapplePlay</span>
-              <span className="text-xl md:text-2xl">🍍</span>
+              <img src={pineappleImage} alt="Pineapple" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
             </Link>
             <div className="flex items-center space-x-4 md:space-x-6">
               <Link href="/" className="text-offWhite/70 hover:text-gold transition-colors text-sm font-body hidden md:block">
