@@ -16,6 +16,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { unblockUser } from '@/lib/user-safety';
+import { getCircleMembers, removeFromCircle, type CircleMember } from '@/lib/circle';
 import { toast, Toaster } from 'sonner';
 
 interface BlockedUser {
