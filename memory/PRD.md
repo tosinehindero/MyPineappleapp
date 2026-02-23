@@ -146,6 +146,40 @@ Implemented comprehensive notifications feature:
 - ✅ Reactions (Fire / Pineapple)
 - ✅ Comments
 
+## Admin Dashboard (ENHANCED - Feb 22, 2026)
+Located at `/admin/vetting` - requires admin role (`role: "admin"` in members document)
+
+### Features:
+- **Overview Tab**: 
+  - Platform statistics (total users, verified, pending, banned)
+  - Content overview (posts, reported posts, pending reports)
+  - Quick action cards for vetting, reports, and test user creation
+  
+- **Vetting Tab**:
+  - Pending user applications list with quick approve/deny buttons
+  - Detailed profile review with photos, interests, and description
+  - Approve to verify user and send welcome notification
+  - Reject with custom reason (sends notification to user)
+  
+- **Reports Tab**:
+  - Filter by status (pending, resolved, dismissed, all)
+  - View reporter and reported user details
+  - Add admin notes to reports
+  - Mark as resolved, dismiss, or ban user directly
+  - Quick ban with duration options (7 days, 30 days, permanent)
+  
+- **User Management Tab**:
+  - Placeholder for future user search and management features
+
+### Admin Functions (lib/admin.ts):
+- `getUserReports()` - Fetch user reports by status
+- `updateReportStatus()` - Update report with admin notes
+- `banUser()` - Ban user with reason and duration
+- `unbanUser()` - Restore banned user access
+- `getAdminStats()` - Get comprehensive platform statistics
+- `deletePost()` - Remove reported posts
+- `clearPostReports()` - Approve reported posts
+
 ## P0 Tasks (Completed)
 - ✅ Real-time notifications system
 - ✅ Search feature (members, posts, listings)
