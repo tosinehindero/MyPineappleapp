@@ -220,6 +220,66 @@ export default function FeedPage() {
     setLoadingMore(false);
   };
 
+  // Handle post image upload
+  const handlePostImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !currentUser) return;
+    
+    // Limit to 4 images per post
+    if (newPostImages.length + files.length > 4) {
+      toast.error('Maximum 4 images per post');
+      return;
+    }
+    
+    setUploadingImages(true);
+    const uploadedUrls: string[] = [];
+    
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          toast.error('Only image files are allowed');
+          continue;
+        }
+        
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error('Image size must be under 5MB');
+          continue;
+        }
+        
+        const timestamp = Date.now();
+        const fileName = `post_${currentUser.uid}_${timestamp}_${i}.${file.name.split('.').pop()}`;
+        const storageRef = ref(storage, `posts/${currentUser.uid}/${fileName}`);
+        
+        await uploadBytes(storageRef, file);
+        const downloadUrl = await getDownloadURL(storageRef);
+        uploadedUrls.push(downloadUrl);
+      }
+      
+      if (uploadedUrls.length > 0) {
+        setNewPostImages(prev => [...prev, ...uploadedUrls]);
+        toast.success(`${uploadedUrls.length} image(s) added`);
+      }
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      toast.error('Failed to upload image(s)');
+    } finally {
+      setUploadingImages(false);
+      // Reset the input
+      if (postImageInputRef.current) {
+        postImageInputRef.current.value = '';
+      }
+    }
+  };
+  
+  // Remove post image
+  const removePostImage = (index: number) => {
+    setNewPostImages(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleCreatePost = async () => {
     if (!currentUser || !newPostContent.trim()) return;
 
