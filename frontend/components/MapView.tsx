@@ -362,9 +362,56 @@ export default function MapView() {
           {/* Header */}
           <div className="absolute top-0 left-0 right-0 z-[1000] bg-darkBlue/95 backdrop-blur-md p-4 border-b border-gold/20">
             <div className="max-w-7xl mx-auto">
-              <h1 className="text-2xl font-heading text-gold mb-4">
-                Discover Members Near You
-              </h1>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                <h1 className="text-2xl font-heading text-gold">
+                  Discover Members Near You
+                </h1>
+                
+                {/* Share Location Button */}
+                <div className="flex items-center gap-3">
+                  {locationShared ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-green-400 text-sm font-body flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        Location shared
+                      </span>
+                      <button
+                        onClick={hideMyLocation}
+                        className="px-3 py-1.5 text-xs bg-red-500/20 text-red-400 rounded-full hover:bg-red-500/30 transition-colors"
+                      >
+                        Hide
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={shareMyLocation}
+                      disabled={sharingLocation}
+                      className="flex items-center gap-2 px-4 py-2 bg-gold text-charcoal font-semibold text-sm rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50"
+                      data-testid="share-location-btn"
+                    >
+                      {sharingLocation ? (
+                        <>
+                          <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          <span>Getting location...</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-4 h-4" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                          <span>Share My Location</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+              </div>
 
               {/* Radius Slider */}
               <div className="space-y-2">
