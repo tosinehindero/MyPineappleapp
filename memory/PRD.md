@@ -19,6 +19,46 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - ✅ **Settings Persistence** - Privacy & Notification settings save to Firebase (Feb 23, 2026)
 - ✅ **3-Tier Subscription System** - Free/Basic/Premium with Stripe (Feb 23, 2026)
 - ✅ **Admin Dashboard Enhancements** - Revenue stats, tier overrides, founder toggle (Feb 23, 2026)
+- ✅ **Subscription Feature Gating** - Route protection, message limits, event blur (Feb 23, 2026)
+
+## Subscription Feature Gating (NEW - Feb 23, 2026)
+
+### Tier Access Matrix:
+| Feature | Free | Basic | Premium |
+|---------|------|-------|---------|
+| Feed & Online Now | ✅ | ✅ | ✅ |
+| Messages | ❌ | 5/day | Unlimited |
+| Events | ❌ | Partial (1hr blur) | Full |
+| Marketplace | ❌ | ❌ | ✅ |
+| Travel (Sasha AI) | ❌ | ❌ | ✅ |
+| Who Viewed Profile | ❌ | ❌ | ✅ |
+| Add to Circle | ❌ | ❌ | ✅ |
+
+### Implementation Details:
+1. **FeatureGate Component** (`/app/frontend/components/FeatureGate.tsx`)
+   - Wraps protected pages to show upgrade prompts
+   - Supports `requiredTier: 'basic' | 'premium'`
+   - Shows tier-specific feature benefits
+
+2. **Message Limits** (`/app/frontend/lib/message-limits.ts`)
+   - Tracks daily messages sent per user in Firestore `messageTracking` collection
+   - Format: `{userId}_{YYYY-MM-DD}` document ID
+   - Basic: 5/day, Premium: unlimited, Free: 0
+
+3. **Event Blur** (`/app/frontend/app/events/page.tsx`)
+   - Basic users see blur overlay on events older than 1 hour
+   - Overlay includes "Upgrade to Premium" CTA
+
+4. **Profile Views Page** (`/app/frontend/app/profile-views/page.tsx`)
+   - Premium-only page showing who viewed your profile
+   - Redirects non-premium users to /pricing
+
+5. **Protected Routes**:
+   - `/events` - Requires Basic or higher
+   - `/marketplace` - Requires Premium
+   - `/travel` - Requires Premium
+   - `/messages` - Requires Basic or higher
+   - `/profile-views` - Requires Premium
 
 ## Key Fixes Applied This Session (Feb 22, 2026)
 
