@@ -1141,6 +1141,19 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           onChange={handlePhotoUpload}
           className="hidden"
         />
+        
+        {/* Block/Report Modal */}
+        {currentUser && profile && !isOwner && (
+          <BlockReportModal
+            isOpen={showBlockReportModal}
+            onClose={() => setShowBlockReportModal(false)}
+            targetUserId={profileId}
+            targetUsername={profile.username || 'User'}
+            currentUserId={currentUser.uid}
+            isBlocked={isBlocked}
+            onBlockStatusChange={(blocked) => setIsBlocked(blocked)}
+          />
+        )}
       </div>
     </PrivacyProtection>
   );
