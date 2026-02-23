@@ -20,6 +20,55 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - ✅ **3-Tier Subscription System** - Free/Basic/Premium with Stripe (Feb 23, 2026)
 - ✅ **Admin Dashboard Enhancements** - Revenue stats, tier overrides, founder toggle (Feb 23, 2026)
 - ✅ **Subscription Feature Gating** - Route protection, message limits, event blur (Feb 23, 2026)
+- ✅ **Groups (Inner Circles)** - Create/join groups, group feed with video, media vault (Feb 23, 2026)
+
+## Groups (Inner Circles) Feature (NEW - Feb 23, 2026)
+
+### Access Control:
+- **Create Groups**: Premium tier OR Founder status required
+- **Join Groups**: Basic tier OR above required
+- **Members must be**: At least Basic plan (Free users cannot join)
+
+### Features:
+1. **Group Discovery** (`/groups`)
+   - Browse public/private groups
+   - Search functionality
+   - Join requests with approval workflow
+   - My Circles tab for joined groups
+
+2. **Group Creation** (`/groups/create`)
+   - Cover image upload
+   - Name and description
+   - Privacy settings: Public, Private, Secret
+   - Vetting toggle for manual member approval
+
+3. **Group Detail** (`/groups/[groupId]`)
+   - Hero cover image with glassmorphic navigation
+   - Premium UI design with backdrop blur effects
+   - Tabbed interface: Feed, Members, Media Vault
+   
+4. **Group Feed**
+   - Create posts with text, images (4 max), videos (2 max, 100MB each)
+   - Video upload progress indicator
+   - Reactions (fire, pineapple)
+   - Delete posts (author, admin, owner)
+
+5. **Member Management**
+   - View all members with role badges
+   - Pending member approval (owner/admin)
+   - Promote to admin / Remove members
+   - Leave group functionality
+
+6. **Media Vault**
+   - Aggregates all photos/videos from group posts
+   - Filter by media type (All, Photos, Videos)
+   - Grid layout with hover author info
+
+### Database Collections:
+- `groups` - Group metadata
+- `groupMembers` - Membership records
+- `groupPosts` - Posts within groups
+- `groupPostReactions` - Reactions to group posts
 
 ## Subscription Feature Gating (NEW - Feb 23, 2026)
 
