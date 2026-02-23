@@ -54,6 +54,8 @@ export default function FeedPage() {
   const [newPostPrivacy, setNewPostPrivacy] = useState<'all' | 'circle'>('all');
   const [newPostCategory, setNewPostCategory] = useState<FilterCategory>('all');
   const [posting, setPosting] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const postImageInputRef = useRef<HTMLInputElement>(null);
 
   // Sidebar data
   const [upcomingEvents, setUpcomingEvents] = useState<Array<{ id: string; title: string; date: Date; location: string }>>([]);
