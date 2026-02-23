@@ -61,6 +61,11 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [viewerPhotoUrl, setViewerPhotoUrl] = useState<string | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   
+  // Block/Report state
+  const [showBlockReportModal, setShowBlockReportModal] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [isBlockedByTarget, setIsBlockedByTarget] = useState(false);
+  
   // Edit form state
   const [editUsername, setEditUsername] = useState('');
   const [editDescription, setEditDescription] = useState('');
