@@ -99,25 +99,56 @@ Implemented comprehensive notifications feature:
 - ✅ Mark as read functionality
 - ✅ Unread badge counter
 
+## Search Feature Status (NEW - Feb 22, 2026)
+- ✅ Search bar in feed page header (desktop)
+- ✅ Real-time dropdown results with debouncing
+- ✅ Search across members, posts, and marketplace listings
+- ✅ Filter tabs (All, Members, Posts, Listings)
+- ✅ Dedicated search page at /search
+- ✅ Blocked users filtered from search results
+
+## Block/Report Feature Status (NEW - Feb 22, 2026)
+- ✅ Block user functionality
+- ✅ Unblock user functionality
+- ✅ Report user with multiple reasons
+- ✅ Block/Report button on profile pages
+- ✅ Blocked users' posts filtered from feed
+- ✅ Blocked banner when viewing profile of user who blocked you
+
 ## P0 Tasks (Completed)
 - ✅ Real-time notifications system
+- ✅ Search feature (members, posts, listings)
+- ✅ Block/Report users safety features
 
 ## P1 Tasks (Next Priority)
-- **Search Feature** - Allow users to find members, posts, or marketplace listings
+- Admin vetting dashboard testing
+- Backend refactoring (break down server.py into modular routers)
 
 ## P2 Tasks (Backlog)
-- **Block/Report Users** - Safety features for blocking/reporting members
-- Admin vetting dashboard testing
 - Performance optimization
-- Backend refactoring (break down server.py into modular routers)
 - Security review of Firestore rules
+- UI/UX polish
 
 ## Firestore Security Rules Needed
-For notifications to work, ensure these rules are in Firebase Console:
+For features to work, ensure these rules are in Firebase Console:
 ```
+// Notifications
 match /notifications/{notificationId} {
   allow read: if request.auth != null && resource.data.toUserId == request.auth.uid;
   allow create: if request.auth != null;
   allow update: if request.auth != null && resource.data.toUserId == request.auth.uid;
+}
+
+// Blocked Users
+match /blockedUsers/{blockId} {
+  allow read: if request.auth != null;
+  allow create: if request.auth != null;
+  allow delete: if request.auth != null && resource.data.blockerId == request.auth.uid;
+}
+
+// User Reports
+match /userReports/{reportId} {
+  allow read: if request.auth != null && resource.data.reporterId == request.auth.uid;
+  allow create: if request.auth != null;
 }
 ```
