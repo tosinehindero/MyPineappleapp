@@ -56,6 +56,10 @@ export default function MarketplacePage() {
   const [purchasing, setPurchasing] = useState<string | null>(null);
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  
+  // Subscription check
+  const { subscription, canAccess } = useSubscription();
+  const hasMarketplaceAccess = canAccess('marketplace');
 
   // Auth check
   useEffect(() => {
