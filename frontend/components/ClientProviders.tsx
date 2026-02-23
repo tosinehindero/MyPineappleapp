@@ -11,11 +11,18 @@ const OnlinePresenceProvider = dynamic(() => import('./OnlinePresenceProvider'),
   ssr: false,
 });
 
+const SubscriptionProvider = dynamic(
+  () => import('./SubscriptionProvider').then((mod) => mod.SubscriptionProvider),
+  { ssr: false }
+);
+
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
-    <OnlinePresenceProvider>
-      {children}
-      <CommunityPulse />
-    </OnlinePresenceProvider>
+    <SubscriptionProvider>
+      <OnlinePresenceProvider>
+        {children}
+        <CommunityPulse />
+      </OnlinePresenceProvider>
+    </SubscriptionProvider>
   );
 }
