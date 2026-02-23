@@ -225,6 +225,12 @@ export default function SecureMessaging() {
       return;
     }
 
+    // Check message limits
+    if (messageLimit && !messageLimit.canSend) {
+      alert(messageLimit.reason || 'Message limit reached');
+      return;
+    }
+
     setSending(true);
     try {
       await sendEncryptedMessage(
@@ -233,6 +239,19 @@ export default function SecureMessaging() {
         messageInput,
         userSecret
       );
+      
+      // Increment message count for rate limiting
+      if (subscription?.tier === 'basic') {
+        await incrementMessageCount(currentUser.uid);
+        // Update local state
+        if (messageLimit) {
+          setMessageLimit({
+            ...messageLimit,
+            remaining: Math.max(0, messageLimit.remaining - 1),
+            canSend: messageLimit.remaining > 1,
+          });
+        }
+      }
       
       // Send notification to the other participant
       const otherUserId = selectedConversation.participants.find(p => p !== currentUser.uid);
@@ -254,6 +273,39 @@ export default function SecureMessaging() {
       setSending(false);
     }
   };
+
+  // Show upgrade prompt for free users
+  if (!subLoading && subscription?.tier === 'free') {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-gold" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-heading text-gold mb-4">Messaging Requires an Upgrade</h2>
+          <p className="text-offWhite/60 font-body mb-8">
+            Upgrade to Basic for 5 messages/day or Premium for unlimited messaging.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/pricing"
+              className="px-8 py-4 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+            >
+              View Plans
+            </Link>
+            <Link
+              href="/feed"
+              className="px-8 py-4 border border-gold/30 text-gold rounded-full hover:border-gold/60 transition-colors"
+            >
+              Back to Feed
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
