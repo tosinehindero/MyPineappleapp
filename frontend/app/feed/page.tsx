@@ -12,6 +12,7 @@ import VettingGuard from '@/components/VettingGuard';
 import NotificationDropdown from '@/components/NotificationDropdown';
 import SearchDropdown from '@/components/SearchDropdown';
 import { getBlockedUsers } from '@/lib/user-safety';
+import { getUsersWhoHaveMeInCircle } from '@/lib/circle';
 import {
   createPost,
   getPosts,
