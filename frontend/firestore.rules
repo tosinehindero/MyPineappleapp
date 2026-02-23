@@ -36,6 +36,11 @@ service cloud.firestore {
                                  'interests', 'lookingFor', 'location', 'ageRangeMin', 'ageRangeMax',
                                  'isOnline', 'lastSeen', 'username', 'privacySettings', 'notificationSettings']);
       
+      // Allow any authenticated user to update view counts on profiles
+      allow update: if isAuthenticated() && 
+                      request.resource.data.diff(resource.data).affectedKeys()
+                        .hasOnly(['totalViews', 'lastViewedAt']);
+      
       // Admin can update any profile (for verification)
       allow update: if isAdmin();
       
