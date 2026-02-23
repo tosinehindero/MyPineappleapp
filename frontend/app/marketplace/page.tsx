@@ -8,6 +8,8 @@ import { auth, db } from '@/lib/firebase';
 import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
 import VettingGuard from '@/components/VettingGuard';
+import { useSubscription } from '@/lib/subscription';
+import { SubscriptionGuard } from '@/components/SubscriptionGuard';
 
 interface Listing {
   listing_id: string;
