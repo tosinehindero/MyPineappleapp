@@ -1320,7 +1320,11 @@ export default function FeedPage() {
                   <div className="space-y-4">
                     {upcomingEvents.length > 0 ? (
                       upcomingEvents.map((event) => (
-                        <div key={event.id} className="group cursor-pointer">
+                        <Link 
+                          key={event.id} 
+                          href={event.id.startsWith('demo') ? '/events' : `/events?view=${event.id}`}
+                          className="block group cursor-pointer"
+                        >
                           <h4 className="text-offWhite font-body text-sm group-hover:text-gold transition-colors">
                             {event.title}
                           </h4>
@@ -1329,7 +1333,7 @@ export default function FeedPage() {
                             <span>•</span>
                             <span>{event.location}</span>
                           </div>
-                        </div>
+                        </Link>
                       ))
                     ) : (
                       <p className="text-offWhite/50 text-sm font-body">No upcoming events</p>
