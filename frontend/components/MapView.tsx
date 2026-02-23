@@ -186,21 +186,6 @@ export default function MapView() {
     }
   }, []);
 
-  // Get user's current location
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
-        },
-        (error) => {
-          console.log('Geolocation error:', error);
-          // Keep default location
-        }
-      );
-    }
-  }, []);
-
   // Fetch users from Firestore
   useEffect(() => {
     const fetchUsers = async () => {
@@ -211,8 +196,8 @@ export default function MapView() {
         const querySnapshot = await getDocs(q);
 
         const fetchedUsers: User[] = [];
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
           
           // Use actual coordinates from user profile if available
           let coordinates: { lat: number; lng: number } | undefined;
