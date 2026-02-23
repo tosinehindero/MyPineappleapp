@@ -45,10 +45,19 @@ interface NotificationSettings {
 
 export default function SettingsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'privacy' | 'notifications' | 'circle' | 'blocked'>('privacy');
+  
+  // Handle tab from URL query parameter
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && ['privacy', 'notifications', 'circle', 'blocked'].includes(tab)) {
+      setActiveTab(tab as any);
+    }
+  }, [searchParams]);
   
   // Blocked users
   const [blockedUsers, setBlockedUsers] = useState<BlockedUser[]>([]);
