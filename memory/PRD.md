@@ -146,6 +146,53 @@ Implemented comprehensive notifications feature:
 - ✅ Reactions (Fire / Pineapple)
 - ✅ Comments
 
+## Events Feature (NEW - Feb 22, 2026)
+Located at `/events` - Full community events management system
+
+### Features:
+- **Events Listing Page**:
+  - Grid view of all public events with image cards
+  - Filter by: Upcoming, My RSVPs, Hosting
+  - Event categories: Social, Travel, Dining, Wellness, Nightlife, Other
+  - RSVP directly from card or detail view
+
+- **Create Event**:
+  - Image upload support
+  - Title, description, category selection
+  - Date/time with optional end time
+  - Location and address
+  - Max attendees limit (optional)
+  - Price setting (optional)
+  - Private event toggle
+
+- **Event Detail Modal**:
+  - Full event information
+  - Host profile with message button
+  - Attendee count
+  - RSVP/Cancel RSVP button
+
+- **RSVP System**:
+  - One-click RSVP
+  - Automatic notification to host
+  - Cancel RSVP option
+  - Max attendees enforcement
+
+- **Event Management**:
+  - Cancel event (notifies all attendees)
+  - Delete event
+  - Edit event (host only)
+
+### Files Created:
+- `/app/frontend/lib/events.ts` - All event CRUD operations
+- `/app/frontend/app/events/page.tsx` - Events listing and creation UI
+
+### Navigation:
+- Mobile menu: Events link with calendar icon
+- Feed sidebar: VIP Events section links to events page
+
+### Firestore Collection: `events`
+Fields: `title`, `description`, `date`, `endDate`, `location`, `address`, `imageUrl`, `category`, `hostId`, `hostUsername`, `hostPhotoUrl`, `attendees`, `attendeeCount`, `maxAttendees`, `isPrivate`, `price`, `status`, `createdAt`
+
 ## Admin Dashboard (ENHANCED - Feb 22, 2026)
 Located at `/admin/vetting` - requires admin role (`role: "admin"` in members document)
 
