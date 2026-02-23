@@ -3,9 +3,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { collection, getDocs, query, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase';
 import { motion } from 'framer-motion';
+import { toast, Toaster } from 'sonner';
 import 'leaflet/dist/leaflet.css';
 
 // Dynamically import map components to avoid SSR issues
