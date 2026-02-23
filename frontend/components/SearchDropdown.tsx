@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import {
   collection,
-  query,
+  query as firestoreQuery,
   where,
   orderBy,
   limit,
