@@ -225,6 +225,43 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
     }
   };
 
+  const handleToggleCircle = async () => {
+    if (!currentUser || !profile) {
+      router.push('/register');
+      return;
+    }
+
+    setCircleLoading(true);
+    try {
+      if (isInMyCircle) {
+        const result = await removeFromCircle(currentUser.uid, profileId);
+        if (result.success) {
+          setIsInMyCircle(false);
+          toast.success(`Removed ${profile.username} from your circle`);
+        } else {
+          toast.error(result.error || 'Failed to remove from circle');
+        }
+      } else {
+        const result = await addToCircle(
+          currentUser.uid, 
+          profileId, 
+          profile.username,
+          profile.photoUrls?.[0] || null
+        );
+        if (result.success) {
+          setIsInMyCircle(true);
+          toast.success(`Added ${profile.username} to your circle`);
+        } else {
+          toast.error(result.error || 'Failed to add to circle');
+        }
+      }
+    } catch (error) {
+      toast.error('An error occurred');
+    } finally {
+      setCircleLoading(false);
+    }
+  };
+
   const handleSaveProfile = async () => {
     setSaving(true);
     const result = await updateProfileClient(profileId, {
