@@ -69,8 +69,35 @@ export default function FeedPage() {
 
   // Image carousel state
   const [activeImageIndex, setActiveImageIndex] = useState<{ [postId: string]: number }>({});
+  
+  // Full-screen image modal state
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && fullScreenImage) {
+        setFullScreenImage(null);
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [fullScreenImage]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (fullScreenImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [fullScreenImage]);
 
   // Auth and profile loading
   useEffect(() => {
