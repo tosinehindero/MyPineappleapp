@@ -167,7 +167,7 @@ export default function FeedPage() {
       unsubscribePosts();
       clearTimeout(timeoutId);
     };
-  }, [currentUser, activeFilter]);
+  }, [currentUser, activeFilter, blockedUserIds]);
 
   // Infinite scroll observer
   useEffect(() => {
