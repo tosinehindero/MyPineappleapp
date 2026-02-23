@@ -112,22 +112,35 @@ export default function MapView() {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           
-          // Generate random coordinates near the center for demo
-          // In production, you'd have actual user coordinates
-          const lat = userLocation[0] + (Math.random() - 0.5) * 0.5;
-          const lng = userLocation[1] + (Math.random() - 0.5) * 0.5;
+          // Use actual coordinates from user profile if available
+          let coordinates: { lat: number; lng: number } | undefined;
+          
+          if (data.coordinates && data.coordinates.lat && data.coordinates.lng) {
+            // User has saved coordinates
+            coordinates = {
+              lat: data.coordinates.lat,
+              lng: data.coordinates.lng,
+            };
+          } else if (data.location) {
+            // Try to use location string to get approximate coordinates
+            // For now, skip users without coordinates
+            coordinates = undefined;
+          }
 
-          fetchedUsers.push({
-            id: doc.id,
-            username: data.username || 'Anonymous',
-            accountType: data.accountType || 'Single',
-            location: data.location || 'Unknown',
-            interests: data.interests || [],
-            photoUrls: data.photoUrls || [],
-            coordinates: { lat, lng },
-            isOnline: Math.random() > 0.5, // Random online status for demo
-            lastSeen: new Date(),
-          });
+          // Only add users who have valid coordinates
+          if (coordinates) {
+            fetchedUsers.push({
+              id: doc.id,
+              username: data.username || 'Anonymous',
+              accountType: data.accountType || 'Single',
+              location: data.location || 'Unknown',
+              interests: data.interests || [],
+              photoUrls: data.photoUrls || [],
+              coordinates,
+              isOnline: data.isOnline === true,
+              lastSeen: data.lastSeen?.toDate() || new Date(),
+            });
+          }
         });
 
         setUsers(fetchedUsers);
