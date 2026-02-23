@@ -266,6 +266,11 @@ match /circles/{circleId} {
 ```
 
 ## P1 Tasks (Next Priority)
+- ✅ **Privacy & Notification Settings Persistence** (Feb 23, 2026)
+  - Settings now save to Firebase when user clicks "Save Changes"
+  - Visual indicator shows when there are unsaved changes (green pulsing dot)
+  - Button state changes: "Saved" (grey) → "Save Changes" (gold with indicator)
+  - Settings load from user's `members` document on page load
 - Admin vetting dashboard testing
 - Backend refactoring (break down server.py into modular routers)
 
