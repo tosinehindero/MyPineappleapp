@@ -382,6 +382,10 @@ export default function FeedPage() {
 
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-6">
+                {/* Search */}
+                {userProfile && (
+                  <SearchDropdown userId={userProfile.uid} blockedUserIds={blockedUserIds} />
+                )}
                 <Link href="/feed" className="text-offWhite/80 hover:text-gold transition-colors font-body text-sm">
                   Feed
                 </Link>
