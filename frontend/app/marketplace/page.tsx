@@ -9,7 +9,7 @@ import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
 import VettingGuard from '@/components/VettingGuard';
 import { useSubscription } from '@/lib/subscription';
-import { SubscriptionGuard } from '@/components/SubscriptionGuard';
+import { FeatureGate } from '@/components/FeatureGate';
 
 interface Listing {
   listing_id: string;
