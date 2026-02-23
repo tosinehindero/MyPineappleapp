@@ -977,6 +977,48 @@ export default function FeedPage() {
                     </div>
                   )}
                 </motion.div>
+                
+                {/* Upgrade Banner - Show for free users */}
+                {subscription?.tier === 'free' && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-gradient-to-br from-gold/10 to-transparent border border-gold/20 rounded-2xl p-5 shadow-2xl shadow-black/20"
+                  >
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
+                        <svg className="w-5 h-5 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="text-gold font-heading text-sm">Upgrade to Premium</h3>
+                        <p className="text-offWhite/50 text-xs font-body">Unlock all features</p>
+                      </div>
+                    </div>
+                    <ul className="space-y-1.5 mb-4 text-xs font-body text-offWhite/70">
+                      <li className="flex items-center space-x-2">
+                        <span className="text-gold">✓</span>
+                        <span>Unlimited messages</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-gold">✓</span>
+                        <span>Marketplace access</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <span className="text-gold">✓</span>
+                        <span>Sasha AI Travel</span>
+                      </li>
+                    </ul>
+                    <Link
+                      href="/pricing"
+                      className="block w-full py-2 bg-gold text-charcoal text-center rounded-full text-sm font-body font-semibold hover:shadow-gold-glow transition-all"
+                    >
+                      View Plans
+                    </Link>
+                  </motion.div>
+                )}
               </div>
             </aside>
 
