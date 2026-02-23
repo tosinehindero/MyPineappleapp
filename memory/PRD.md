@@ -180,7 +180,7 @@ Located at `/events` - Full community events management system
 ### Firestore Collection: `events`
 Fields: `title`, `description`, `date`, `endDate`, `location`, `address`, `imageUrl`, `category`, `hostId`, `hostUsername`, `hostPhotoUrl`, `attendees`, `attendeeCount`, `maxAttendees`, `isPrivate`, `price`, `status`, `createdAt`
 
-## Admin Dashboard (ENHANCED - Feb 22, 2026)
+## Admin Dashboard (ENHANCED - Feb 23, 2026)
 Located at `/admin/vetting` - requires admin role (`role: "admin"` in members document)
 
 ### Features:
@@ -188,6 +188,10 @@ Located at `/admin/vetting` - requires admin role (`role: "admin"` in members do
   - Platform statistics (total users, verified, pending, banned)
   - Content overview (posts, reported posts, pending reports)
   - Quick action cards for vetting, reports, and test user creation
+  - **NEW: Revenue & Subscription Statistics Card**
+    - Monthly revenue and total revenue
+    - Subscriber counts by tier (Premium, Basic, Free)
+    - Conversion rate percentage
   
 - **Vetting Tab**:
   - Pending user applications list with quick approve/deny buttons
@@ -202,8 +206,13 @@ Located at `/admin/vetting` - requires admin role (`role: "admin"` in members do
   - Mark as resolved, dismiss, or ban user directly
   - Quick ban with duration options (7 days, 30 days, permanent)
   
-- **User Management Tab**:
-  - Placeholder for future user search and management features
+- **User Management Tab (NEW - Feb 23, 2026)**:
+  - Search users by username or email
+  - User table with avatar, status badges, and tier information
+  - **Subscription Tier Dropdown**: Manually override user's tier (Free/Basic/Premium)
+  - **Founder Status Toggle**: Grant or revoke founder badge
+  - Quick actions: View profile, Ban user
+  - Filtering and pagination
 
 ### Admin Functions (lib/admin.ts):
 - `getUserReports()` - Fetch user reports by status
@@ -213,6 +222,16 @@ Located at `/admin/vetting` - requires admin role (`role: "admin"` in members do
 - `getAdminStats()` - Get comprehensive platform statistics
 - `deletePost()` - Remove reported posts
 - `clearPostReports()` - Approve reported posts
+- **NEW: `getSubscriptionStats()`** - Get revenue and tier statistics
+- **NEW: `setUserTier()`** - Admin override for user subscription tier
+- **NEW: `setFounderStatus()`** - Grant/revoke founder badge
+- **NEW: `getAllUsersForAdmin()`** - Fetch users with subscription data
+
+### Backend Admin Endpoints (NEW - Feb 23, 2026):
+- `GET /api/admin/subscription-stats` - Revenue and subscription statistics
+- `POST /api/admin/set-tier` - Override user's subscription tier
+- `POST /api/admin/set-founder` - Set founder status (Firestore update)
+- `POST /api/admin/search-users` - Get subscription data for all users
 
 ## P0 Tasks (Completed)
 - ✅ Real-time notifications system
