@@ -107,7 +107,28 @@ Implemented comprehensive notifications feature:
 - ✅ Dedicated search page at /search
 - ✅ Blocked users filtered from search results
 
-## Block/Report Feature Status (NEW - Feb 22, 2026)
+## Settings Page (NEW - Feb 22, 2026)
+- ✅ **Consolidated Settings Page** at `/settings`
+- ✅ **Privacy Settings**:
+  - Profile visibility (Public / Members Only / Connections Only)
+  - Who can message you (Everyone / Connections / No One)
+  - Show online status toggle
+  - Show last active toggle
+- ✅ **Notification Settings**:
+  - Messages notifications toggle
+  - Likes & reactions notifications toggle
+  - Comments notifications toggle
+  - New followers notifications toggle
+  - Marketplace notifications toggle
+  - Email digest frequency (Daily / Weekly / Never)
+- ✅ **Blocked Users Management**:
+  - View all blocked users with avatars and block dates
+  - One-click unblock functionality
+- ✅ **Account Actions**:
+  - Link to Help & FAQ
+  - Sign Out button
+
+## Block/Report Feature Status (Feb 22, 2026)
 - ✅ Block user functionality
 - ✅ Unblock user functionality
 - ✅ Report user with multiple reasons
