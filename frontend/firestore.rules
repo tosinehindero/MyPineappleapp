@@ -188,9 +188,8 @@ service cloud.firestore {
     
     // Blocked Users Collection
     match /blockedUsers/{blockId} {
-      allow read: if isAuthenticated() && 
-                    (resource.data.blockerId == request.auth.uid || 
-                     resource.data.blockedUserId == request.auth.uid);
+      // Any authenticated user can read blocked status (needed to check if document exists)
+      allow read: if isAuthenticated();
       allow create: if isAuthenticated() && 
                       request.resource.data.blockerId == request.auth.uid;
       allow delete: if isAuthenticated() && 
