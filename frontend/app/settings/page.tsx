@@ -146,6 +146,38 @@ export default function SettingsPage() {
     }
   };
 
+  const loadCircleMembers = async (userId: string) => {
+    setLoadingCircle(true);
+    try {
+      const members = await getCircleMembers(userId);
+      setCircleMembers(members);
+    } catch (error) {
+      console.error('Error loading circle members:', error);
+    } finally {
+      setLoadingCircle(false);
+    }
+  };
+
+  const handleRemoveFromCircle = async (memberId: string) => {
+    if (!currentUser) return;
+    
+    setRemovingFromCircle(memberId);
+    try {
+      const result = await removeFromCircle(currentUser.uid, memberId);
+      if (result.success) {
+        setCircleMembers(prev => prev.filter(m => m.memberId !== memberId));
+        toast.success('Removed from your circle');
+      } else {
+        toast.error(result.error || 'Failed to remove from circle');
+      }
+    } catch (error) {
+      console.error('Error removing from circle:', error);
+      toast.error('Failed to remove from circle');
+    } finally {
+      setRemovingFromCircle(null);
+    }
+  };
+
   const handleSaveSettings = async () => {
     if (!currentUser) return;
     
