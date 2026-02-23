@@ -610,9 +610,6 @@ export default function FeedPage() {
                   </svg>
                   <span className="font-body">Events</span>
                 </Link>
-                  </svg>
-                  <span className="font-body">Travel</span>
-                </Link>
                 <Link
                   href="/marketplace"
                   className="flex items-center space-x-3 px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors"
