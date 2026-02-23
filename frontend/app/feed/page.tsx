@@ -48,6 +48,7 @@ export default function FeedPage() {
   const [userReactions, setUserReactions] = useState<{ [postId: string]: { fire: boolean; pineapple: boolean } }>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [blockedUserIds, setBlockedUserIds] = useState<string[]>([]);
+  const [usersWhoHaveMeInCircle, setUsersWhoHaveMeInCircle] = useState<string[]>([]);
   
   // Post creation state
   const [newPostContent, setNewPostContent] = useState('');
