@@ -822,11 +822,32 @@ export default function FeedPage() {
                           <option value="events">Events</option>
                           <option value="marketplace">Marketplace</option>
                         </select>
+                        
+                        {/* Image Upload Button */}
+                        <button
+                          type="button"
+                          onClick={() => postImageInputRef.current?.click()}
+                          disabled={uploadingImages || newPostImages.length >= 4}
+                          className="flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-body bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30 transition-all disabled:opacity-50"
+                          data-testid="add-image-btn"
+                        >
+                          {uploadingImages ? (
+                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                              <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                          <span className="hidden sm:inline">{newPostImages.length}/4</span>
+                        </button>
                       </div>
 
                       <button
                         onClick={handleCreatePost}
-                        disabled={posting || !newPostContent.trim()}
+                        disabled={posting || uploadingImages || !newPostContent.trim()}
                         className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                         data-testid="whisper-submit"
                       >
@@ -845,8 +866,43 @@ export default function FeedPage() {
                         )}
                       </button>
                     </div>
+                    
+                    {/* Image Preview */}
+                    {newPostImages.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {newPostImages.map((imageUrl, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={imageUrl}
+                              alt={`Upload ${index + 1}`}
+                              className="w-20 h-20 object-cover rounded-lg border border-white/10"
+                            />
+                            <button
+                              onClick={() => removePostImage(index)}
+                              className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              data-testid={`remove-image-${index}`}
+                            >
+                              <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
+                
+                {/* Hidden File Input */}
+                <input
+                  ref={postImageInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handlePostImageUpload}
+                  className="hidden"
+                  data-testid="post-image-input"
+                />
               </motion.div>
 
               {/* Posts Feed */}
