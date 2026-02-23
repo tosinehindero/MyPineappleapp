@@ -607,6 +607,37 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                       <span>Send Message</span>
                     </motion.button>
                     
+                    {/* Add to Circle Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleToggleCircle}
+                      disabled={circleLoading}
+                      className={`px-4 py-3 font-semibold rounded-full transition-all flex items-center space-x-2 ${
+                        isInMyCircle
+                          ? 'bg-green-500/20 text-green-400 border-2 border-green-400'
+                          : 'bg-gold/20 text-gold border-2 border-gold/40 hover:border-gold'
+                      } disabled:opacity-50`}
+                      data-testid="circle-btn"
+                      title={isInMyCircle ? 'In your circle' : 'Add to circle'}
+                    >
+                      {circleLoading ? (
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                      ) : isInMyCircle ? (
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        </svg>
+                      )}
+                      <span className="hidden sm:inline">{isInMyCircle ? 'In Circle' : 'Add to Circle'}</span>
+                    </motion.button>
+                    
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
