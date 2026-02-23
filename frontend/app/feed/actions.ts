@@ -28,6 +28,7 @@ export interface Post {
   authorVerified: boolean;
   content: string;
   images: string[];
+  videos: string[];
   privacy: 'all' | 'circle';
   category: 'general' | 'travel' | 'events' | 'marketplace';
   reactions: {
