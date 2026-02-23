@@ -57,6 +57,16 @@ function AdminDashboardContent() {
   // Admin stats
   const [adminStats, setAdminStats] = useState<AdminStats | null>(null);
   
+  // Subscription stats
+  const [subscriptionStats, setSubscriptionStats] = useState<SubscriptionStats | null>(null);
+  
+  // User management state
+  const [allUsers, setAllUsers] = useState<UserWithSubscription[]>([]);
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [tierUpdating, setTierUpdating] = useState<string | null>(null);
+  const [founderUpdating, setFounderUpdating] = useState<string | null>(null);
+  
   // Ban modal state
   const [showBanModal, setShowBanModal] = useState(false);
   const [banTargetId, setBanTargetId] = useState<string | null>(null);
@@ -98,14 +108,68 @@ function AdminDashboardContent() {
   }, [router]);
 
   const loadAllData = async () => {
-    const [profilesResult, statsResult, reportsResult, adminStatsResult] = await Promise.all([
+    const [profilesResult, statsResult, reportsResult, adminStatsResult, subStatsResult] = await Promise.all([
       getPendingVerifications(),
       getVerificationStats(),
       getUserReports('pending'),
       getAdminStats(),
+      getSubscriptionStats(),
     ]);
 
     if (profilesResult.success) setPendingProfiles(profilesResult.data);
+    setStats(statsResult);
+    if (reportsResult.success) setReports(reportsResult.data);
+    setAdminStats(adminStatsResult);
+    setSubscriptionStats(subStatsResult);
+  };
+
+  const loadUsers = async () => {
+    setUsersLoading(true);
+    const result = await getAllUsersForAdmin();
+    if (result.success) {
+      setAllUsers(result.data);
+    }
+    setUsersLoading(false);
+  };
+
+  // Load users when switching to users tab
+  useEffect(() => {
+    if (activeTab === 'users' && allUsers.length === 0) {
+      loadUsers();
+    }
+  }, [activeTab]);
+
+  const handleSetUserTier = async (userId: string, tier: 'free' | 'basic' | 'premium') => {
+    setTierUpdating(userId);
+    const result = await setUserTier(userId, tier);
+    
+    if (result.success) {
+      toast.success(`User tier updated to ${tier.toUpperCase()}`);
+      // Update local state
+      setAllUsers(prev => prev.map(u => 
+        u.id === userId ? { ...u, tier } : u
+      ));
+    } else {
+      toast.error('Failed to update tier', { description: result.error });
+    }
+    setTierUpdating(null);
+  };
+
+  const handleSetFounderStatus = async (userId: string, isFounder: boolean) => {
+    setFounderUpdating(userId);
+    const result = await setFounderStatus(userId, isFounder);
+    
+    if (result.success) {
+      toast.success(isFounder ? 'Founder status granted' : 'Founder status removed');
+      // Update local state
+      setAllUsers(prev => prev.map(u => 
+        u.id === userId ? { ...u, isFounder } : u
+      ));
+    } else {
+      toast.error('Failed to update founder status', { description: result.error });
+    }
+    setFounderUpdating(null);
+  };
     setStats(statsResult);
     if (reportsResult.success) setReports(reportsResult.data);
     setAdminStats(adminStatsResult);
