@@ -801,10 +801,78 @@ export default function FeedPage() {
                       <p className="text-offWhite/50 text-xs font-body">Posts</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-2xl font-heading text-offWhite">-</p>
-                      <p className="text-offWhite/50 text-xs font-body">Connections</p>
+                      <p className="text-2xl font-heading text-offWhite">{circleMembers.length}</p>
+                      <p className="text-offWhite/50 text-xs font-body">Circle</p>
                     </div>
                   </div>
+                </motion.div>
+                
+                {/* My Circle */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-2xl shadow-black/20"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-gold font-heading text-sm flex items-center space-x-2">
+                      <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                      <span>My Circle</span>
+                    </h3>
+                    <Link 
+                      href="/settings?tab=circle"
+                      className="text-offWhite/40 hover:text-gold transition-colors"
+                      title="Manage Circle"
+                    >
+                      <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </Link>
+                  </div>
+                  
+                  {circleMembers.length === 0 ? (
+                    <div className="text-center py-4">
+                      <p className="text-offWhite/40 text-xs font-body mb-2">Your circle is empty</p>
+                      <p className="text-offWhite/30 text-xs font-body">Visit profiles to add friends</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {circleMembers.slice(0, 5).map((member) => (
+                        <Link
+                          key={member.memberId}
+                          href={`/profile/${member.memberId}`}
+                          className="flex items-center space-x-3 group"
+                        >
+                          {member.photoUrl ? (
+                            <img
+                              src={member.photoUrl}
+                              alt={member.username}
+                              className="w-8 h-8 rounded-full border border-green-500/30 object-cover group-hover:border-gold transition-colors"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full border border-green-500/30 bg-green-500/10 flex items-center justify-center text-green-400 text-xs font-heading group-hover:border-gold group-hover:text-gold transition-colors">
+                              {member.username[0]?.toUpperCase() || '?'}
+                            </div>
+                          )}
+                          <span className="text-offWhite/70 text-sm font-body group-hover:text-gold transition-colors truncate">
+                            {member.username}
+                          </span>
+                        </Link>
+                      ))}
+                      
+                      {circleMembers.length > 5 && (
+                        <Link
+                          href="/settings?tab=circle"
+                          className="block text-center text-gold/70 hover:text-gold text-xs font-body pt-2 border-t border-white/5"
+                        >
+                          View all {circleMembers.length} members →
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
               </div>
             </aside>
