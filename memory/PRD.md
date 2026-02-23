@@ -231,6 +231,39 @@ Located at `/admin/vetting` - requires admin role (`role: "admin"` in members do
 - ✅ Real-time notifications system
 - ✅ Search feature (members, posts, listings)
 - ✅ Block/Report users safety features
+- ✅ **Inner Circle Feature** (Feb 23, 2026)
+
+## Inner Circle Feature (NEW - Feb 23, 2026)
+The "Circle" feature allows users to create an exclusive group of connections who can see their private posts.
+
+### How It Works:
+1. **Adding to Circle**: Visit a user's profile and click "Add to Circle" button
+2. **Circle Posts**: When creating a post, select "Circle" privacy to make it visible only to your circle members
+3. **Managing Circle**: Go to Settings > My Circle tab to view and remove members
+4. **Feed Visibility**: Posts marked as "Circle only" will only appear in feeds of users who have the author in their circle
+
+### Files Created/Modified:
+- `/app/frontend/lib/circle.ts` - Circle management functions (add, remove, get members, check status)
+- `/app/frontend/components/ProfilePage.tsx` - Added "Add to Circle" button on profile pages
+- `/app/frontend/app/settings/page.tsx` - Added "My Circle" tab with member management
+- `/app/frontend/app/feed/page.tsx` - Updated feed filtering for circle-only posts
+
+### Firestore Collection: `circles`
+Fields: `ownerId`, `memberId`, `memberUsername`, `memberPhotoUrl`, `createdAt`
+
+### Firebase Rules Required:
+```
+match /circles/{circleId} {
+  allow read: if request.auth != null && 
+                (resource.data.ownerId == request.auth.uid || 
+                 resource.data.memberId == request.auth.uid);
+  allow create: if request.auth != null && 
+                  request.resource.data.ownerId == request.auth.uid;
+  allow delete: if request.auth != null && 
+                  resource.data.ownerId == request.auth.uid;
+  allow update: if false;
+}
+```
 
 ## P1 Tasks (Next Priority)
 - Admin vetting dashboard testing
