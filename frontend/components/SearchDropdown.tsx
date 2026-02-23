@@ -97,7 +97,7 @@ export default function SearchDropdown({ userId, blockedUserIds = [] }: SearchDr
         // Search Posts
         if (tab === 'all' || tab === 'posts') {
           const postsRef = collection(db, 'posts');
-          const postsSnapshot = await getDocs(query(postsRef, orderBy('createdAt', 'desc'), limit(100)));
+          const postsSnapshot = await getDocs(firestoreQuery(postsRef, orderBy('createdAt', 'desc'), limit(100)));
           
           postsSnapshot.docs.forEach((doc) => {
             const data = doc.data();
