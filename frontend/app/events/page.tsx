@@ -294,6 +294,9 @@ function EventsContent() {
               const isAttending = isUserAttending(event);
               const isFull = isEventFull(event);
               const isHost = currentUser?.uid === event.hostId;
+              
+              // Check if event should be blurred for Basic users
+              const shouldBlur = subscription?.tier === 'basic' && isEventOlderThanOneHour(event.date);
 
               return (
                 <motion.div
@@ -301,11 +304,32 @@ function EventsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="bg-darkBlue/60 border border-gold/10 rounded-2xl overflow-hidden hover:border-gold/30 transition-all group"
+                  className="bg-darkBlue/60 border border-gold/10 rounded-2xl overflow-hidden hover:border-gold/30 transition-all group relative"
                   data-testid={`event-card-${event.id}`}
                 >
+                  {/* Blur Overlay for Basic Users */}
+                  {shouldBlur && (
+                    <div className="absolute inset-0 z-20 backdrop-blur-md bg-charcoal/60 flex flex-col items-center justify-center p-6">
+                      <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mb-4">
+                        <svg className="w-8 h-8 text-gold" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-lg font-heading text-gold mb-2">Premium Event</h4>
+                      <p className="text-offWhite/60 text-sm text-center mb-4 font-body">
+                        Upgrade to Premium to see full event details
+                      </p>
+                      <Link
+                        href="/pricing"
+                        className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full text-sm hover:shadow-gold-glow transition-all"
+                      >
+                        Upgrade Now
+                      </Link>
+                    </div>
+                  )}
+                  
                   {/* Event Image */}
-                  <div className="aspect-video bg-charcoal relative overflow-hidden">
+                  <div className={`aspect-video bg-charcoal relative overflow-hidden ${shouldBlur ? 'blur-sm' : ''}`}>
                     {event.imageUrl ? (
                       <img
                         src={event.imageUrl}
