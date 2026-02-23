@@ -139,7 +139,8 @@ function AdminDashboardContent() {
 
   // Load users when switching to users tab
   useEffect(() => {
-    if (activeTab === 'users' && allUsers.length === 0) {
+    console.log('🍍 Tab changed to:', activeTab, '| Users loaded:', allUsers.length);
+    if (activeTab === 'users') {
       loadUsers();
     }
   }, [activeTab]);
