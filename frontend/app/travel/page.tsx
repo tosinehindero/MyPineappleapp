@@ -382,6 +382,39 @@ export default function TravelPage() {
         }}
       />
 
+      {/* Premium Access Gate */}
+      {!hasSashaAccess && (
+        <div className="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-md w-full bg-white/[0.03] border border-gold/30 rounded-2xl p-8 text-center"
+          >
+            <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-4xl">✨</span>
+            </div>
+            <h2 className="text-2xl font-heading text-gold mb-3">Meet Sasha</h2>
+            <p className="text-offWhite/70 font-body mb-6">
+              Your personal luxury travel concierge is waiting! Upgrade to Premium to get personalized travel recommendations and trip planning.
+            </p>
+            <div className="space-y-3">
+              <Link
+                href="/pricing"
+                className="block w-full py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+              >
+                Upgrade to Premium
+              </Link>
+              <Link
+                href="/feed"
+                className="block w-full py-3 bg-white/5 border border-white/10 text-offWhite/70 font-body rounded-full hover:bg-white/10 transition-all"
+              >
+                Back to Feed
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-darkBlue/50 border-b border-gold/20 px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
