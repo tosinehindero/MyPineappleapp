@@ -900,6 +900,57 @@ async def check_subscription_status(session_id: str):
             {"_id": 0}
         )
         
+        # Check with Stripe first
+        stripe_api_key = os.environ.get('STRIPE_API_KEY')
+        stripe_checkout = StripeCheckout(api_key=stripe_api_key, webhook_url="")
+        
+        try:
+            status = await stripe_checkout.get_checkout_status(session_id)
+            logger.info(f"Stripe status for {session_id}: payment_status={status.payment_status}, status={status.status}")
+        except Exception as stripe_error:
+            logger.error(f"Stripe status check failed: {str(stripe_error)}")
+            raise HTTPException(status_code=500, detail="Failed to check payment status")
+        
+        # If no transaction exists but payment is complete, create one from Stripe metadata
+        if not transaction and status.payment_status == "paid":
+            logger.info(f"No transaction found but payment is complete - creating recovery record")
+            # Extract user_id from metadata if available
+            metadata = getattr(status, 'metadata', {}) or {}
+            user_id = metadata.get('user_id', '')
+            tier = metadata.get('tier', 'premium')
+            plan_id = metadata.get('plan_id', 'premium_manual')
+            
+            if user_id:
+                now = datetime.now(timezone.utc)
+                # Create subscription directly
+                await db.subscriptions.update_one(
+                    {"user_id": user_id},
+                    {
+                        "$set": {
+                            "user_id": user_id,
+                            "tier": tier,
+                            "plan_id": plan_id,
+                            "plan_name": f"{tier.capitalize()} Plan",
+                            "status": "active",
+                            "interval": metadata.get('interval', 'month'),
+                            "current_period_start": now.isoformat(),
+                            "current_period_end": None,
+                            "updated_at": now.isoformat()
+                        },
+                        "$setOnInsert": {"created_at": now.isoformat()}
+                    },
+                    upsert=True
+                )
+                logger.info(f"Created subscription for user {user_id} with tier {tier}")
+                
+                return {
+                    "success": True,
+                    "status": "complete",
+                    "payment_status": "paid",
+                    "tier": tier,
+                    "plan_name": f"{tier.capitalize()} Plan"
+                }
+        
         if not transaction:
             raise HTTPException(status_code=404, detail="Subscription transaction not found")
         
@@ -912,12 +963,6 @@ async def check_subscription_status(session_id: str):
                 "tier": transaction["tier"],
                 "plan_name": transaction["plan_name"]
             }
-        
-        # Check with Stripe
-        stripe_api_key = os.environ.get('STRIPE_API_KEY')
-        stripe_checkout = StripeCheckout(api_key=stripe_api_key, webhook_url="")
-        
-        status = await stripe_checkout.get_checkout_status(session_id)
         
         if status.payment_status == "paid" and transaction["payment_status"] != "paid":
             # Calculate subscription end date
