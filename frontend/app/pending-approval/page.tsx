@@ -33,9 +33,9 @@ export default function PendingApprovalPage() {
           setUsername(data.username || user.email?.split('@')[0] || 'Member');
           setStatus(data.status || 'pending');
 
-          // If already verified, redirect to home
+          // If already verified, redirect to feed
           if (data.isVerified === true || data.role === 'admin') {
-            router.push('/');
+            router.push('/feed');
           }
         }
       } catch (error) {
@@ -60,8 +60,8 @@ export default function PendingApprovalPage() {
         setStatus(data.status || 'pending');
 
         if (data.isVerified === true) {
-          // User has been verified! Redirect with celebration
-          router.push('/?verified=true');
+          // User has been verified! Redirect to feed
+          router.push('/feed');
         }
       }
     } catch (error) {
