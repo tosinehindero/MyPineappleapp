@@ -150,7 +150,7 @@ export default function EventsPage() {
     setNewEvent({
       title: '',
       description: '',
-      date: new Date(),
+      date: getDefaultDate(),
       location: '',
       address: '',
       category: 'social',
