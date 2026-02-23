@@ -33,7 +33,8 @@ service cloud.firestore {
       allow update: if isOwner(userId) && 
                       request.resource.data.diff(resource.data).affectedKeys()
                         .hasOnly(['description', 'fantasies', 'updatedAt', 'photoUrls', 
-                                 'interests', 'lookingFor', 'location', 'ageRangeMin', 'ageRangeMax']);
+                                 'interests', 'lookingFor', 'location', 'ageRangeMin', 'ageRangeMax',
+                                 'isOnline', 'lastSeen', 'username', 'privacySettings', 'notificationSettings']);
       
       // Admin can update any profile (for verification)
       allow update: if isAdmin();
