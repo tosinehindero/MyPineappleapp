@@ -49,6 +49,7 @@ export default function SettingsPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
   const [activeTab, setActiveTab] = useState<'privacy' | 'notifications' | 'circle' | 'blocked'>('privacy');
   
   // Handle tab from URL query parameter
@@ -69,6 +70,10 @@ export default function SettingsPage() {
   const [loadingCircle, setLoadingCircle] = useState(false);
   const [removingFromCircle, setRemovingFromCircle] = useState<string | null>(null);
   
+  // Original settings (for comparison)
+  const [originalPrivacy, setOriginalPrivacy] = useState<PrivacySettings | null>(null);
+  const [originalNotifications, setOriginalNotifications] = useState<NotificationSettings | null>(null);
+  
   // Privacy settings
   const [privacy, setPrivacy] = useState<PrivacySettings>({
     profileVisibility: 'members',
@@ -86,6 +91,15 @@ export default function SettingsPage() {
     marketplace: true,
     emailDigest: 'weekly',
   });
+  
+  // Track changes
+  useEffect(() => {
+    if (originalPrivacy && originalNotifications) {
+      const privacyChanged = JSON.stringify(privacy) !== JSON.stringify(originalPrivacy);
+      const notificationsChanged = JSON.stringify(notifications) !== JSON.stringify(originalNotifications);
+      setHasChanges(privacyChanged || notificationsChanged);
+    }
+  }, [privacy, notifications, originalPrivacy, originalNotifications]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
