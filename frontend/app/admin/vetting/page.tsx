@@ -128,6 +128,11 @@ function AdminDashboardContent() {
     const result = await getAllUsersForAdmin();
     if (result.success) {
       setAllUsers(result.data);
+      if (result.data.length === 0) {
+        toast.info('No users found in database');
+      }
+    } else {
+      toast.error('Failed to load users', { description: result.error || 'Check console for details' });
     }
     setUsersLoading(false);
   };
