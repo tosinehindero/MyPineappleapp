@@ -1589,6 +1589,25 @@ export default function FeedPage() {
                         </div>
                       )}
 
+                      {/* Video Player */}
+                      {post.videos && post.videos.length > 0 && (
+                        <div className="space-y-2">
+                          {post.videos.map((videoUrl, idx) => (
+                            <div key={idx} className="relative bg-charcoal">
+                              <video
+                                src={videoUrl}
+                                controls
+                                className="w-full max-h-[500px] object-contain"
+                                preload="metadata"
+                                data-testid={`post-video-${post.id}-${idx}`}
+                              >
+                                Your browser does not support video playback.
+                              </video>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
                       {/* Reactions & Comments */}
                       <div className="p-6 pt-4 border-t border-gold/10">
                         <div className="flex items-center justify-between">
