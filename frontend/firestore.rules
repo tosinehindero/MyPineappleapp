@@ -156,5 +156,92 @@ service cloud.firestore {
       allow update: if isAdmin();
       allow delete: if false;
     }
+    
+    // Circles Collection (Inner Circle / Connections)
+    match /circles/{circleId} {
+      // Users can read circle relationships where they are either the owner or the member
+      allow read: if isAuthenticated() && 
+                    (resource.data.ownerId == request.auth.uid || 
+                     resource.data.memberId == request.auth.uid);
+      
+      // Users can create circles where they are the owner
+      allow create: if isAuthenticated() && 
+                      request.resource.data.ownerId == request.auth.uid;
+      
+      // Users can delete their own circles (remove someone from circle)
+      allow delete: if isAuthenticated() && 
+                      resource.data.ownerId == request.auth.uid;
+      
+      // No updates allowed - delete and recreate instead
+      allow update: if false;
+    }
+    
+    // Blocked Users Collection
+    match /blockedUsers/{blockId} {
+      allow read: if isAuthenticated() && 
+                    (resource.data.blockerId == request.auth.uid || 
+                     resource.data.blockedUserId == request.auth.uid);
+      allow create: if isAuthenticated() && 
+                      request.resource.data.blockerId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+                      resource.data.blockerId == request.auth.uid;
+      allow update: if false;
+    }
+    
+    // User Reports Collection
+    match /userReports/{reportId} {
+      // Reporters can read their own reports
+      allow read: if isAuthenticated() && 
+                    resource.data.reporterId == request.auth.uid;
+      // Admins can read all reports
+      allow read: if isAdmin();
+      // Users can create reports
+      allow create: if isAuthenticated() && 
+                      request.resource.data.reporterId == request.auth.uid;
+      // Only admins can update (review) reports
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+    
+    // Events Collection
+    match /events/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && 
+                      resource.data.hostId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+    
+    // Posts Collection (Feed)
+    match /posts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+                      request.resource.data.authorId == request.auth.uid;
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+    
+    // Comments Collection
+    match /comments/{commentId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+                      request.resource.data.authorId == request.auth.uid;
+      allow update: if false;
+      allow delete: if isAuthenticated() && 
+                      resource.data.authorId == request.auth.uid;
+    }
+    
+    // Reactions Collection
+    match /reactions/{reactionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && 
+                      request.resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+                      resource.data.userId == request.auth.uid;
+      allow update: if false;
+    }
   }
 }
