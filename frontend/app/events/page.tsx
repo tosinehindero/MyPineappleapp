@@ -368,7 +368,7 @@ export default function EventsPage() {
                       {!isHost && event.status !== 'cancelled' && (
                         <button
                           onClick={() => handleRsvp(event.id, isAttending)}
-                          disabled={processingRsvp === event.id || (isFull && !isAttending)}
+                          disabled={processingRsvp === event.id || (isFull && !isAttending) || false}
                           className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-50 ${
                             isAttending
                               ? 'bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30'
