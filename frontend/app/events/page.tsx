@@ -17,10 +17,20 @@ import {
   type Event,
   type CreateEventData,
 } from '@/lib/events';
+import { useSubscription } from '@/lib/subscription';
+import { FeatureGate } from '@/components/FeatureGate';
 
 type FilterType = 'all' | 'upcoming' | 'attending' | 'hosting';
 
-export default function EventsPage() {
+// Helper to check if event is older than 1 hour
+function isEventOlderThanOneHour(eventDate: Date): boolean {
+  const now = new Date();
+  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+  return eventDate < oneHourAgo;
+}
+
+function EventsContent() {
+  const { subscription, loading: subLoading } = useSubscription();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [userProfile, setUserProfile] = useState<{ username: string; photoUrl?: string } | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
