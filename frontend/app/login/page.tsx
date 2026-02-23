@@ -77,6 +77,15 @@ export default function LoginPage() {
     }
   };
 
+  // Show loading spinner while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-charcoal flex items-center justify-center px-4 py-12">
       {/* Background decoration */}
@@ -92,7 +101,7 @@ export default function LoginPage() {
         className="relative w-full max-w-md"
       >
         {/* Logo */}
-        <Link href="/" className="flex flex-col items-center justify-center mb-8">
+        <Link href="/feed" className="flex flex-col items-center justify-center mb-8">
           <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gold/40 mb-3 shadow-lg">
             <img
               src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
