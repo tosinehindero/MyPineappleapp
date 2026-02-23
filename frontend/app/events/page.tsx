@@ -827,3 +827,16 @@ function EventsContent() {
     </div>
   );
 }
+
+// Wrap the page with FeatureGate - requires Basic tier
+export default function EventsPage() {
+  return (
+    <FeatureGate 
+      requiredTier="basic" 
+      feature="Events"
+      description="Join and host exclusive community events with fellow members."
+    >
+      <EventsContent />
+    </FeatureGate>
+  );
+}
