@@ -913,7 +913,7 @@ async def check_subscription_status(session_id: str):
         
         # If no transaction exists but payment is complete, create one from Stripe metadata
         if not transaction and status.payment_status == "paid":
-            logger.info(f"No transaction found but payment is complete - creating recovery record")
+            logger.info("No transaction found but payment is complete - creating recovery record")
             # Extract user_id from metadata if available
             metadata = getattr(status, 'metadata', {}) or {}
             user_id = metadata.get('user_id', '')
