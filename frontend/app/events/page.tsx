@@ -524,8 +524,13 @@ export default function EventsPage() {
                     <label className="block text-offWhite/80 text-sm font-body mb-2">Date & Time *</label>
                     <input
                       type="datetime-local"
-                      value={newEvent.date.toISOString().slice(0, 16)}
-                      onChange={(e) => setNewEvent(prev => ({ ...prev, date: new Date(e.target.value) }))}
+                      value={formatDateForInput(newEvent.date)}
+                      onChange={(e) => {
+                        const newDate = new Date(e.target.value);
+                        if (!isNaN(newDate.getTime())) {
+                          setNewEvent(prev => ({ ...prev, date: newDate }));
+                        }
+                      }}
                       className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-4 py-3 text-offWhite font-body focus:outline-none focus:border-gold/50"
                     />
                   </div>
@@ -533,8 +538,17 @@ export default function EventsPage() {
                     <label className="block text-offWhite/80 text-sm font-body mb-2">End Time (Optional)</label>
                     <input
                       type="datetime-local"
-                      value={newEvent.endDate?.toISOString().slice(0, 16) || ''}
-                      onChange={(e) => setNewEvent(prev => ({ ...prev, endDate: e.target.value ? new Date(e.target.value) : undefined }))}
+                      value={newEvent.endDate ? formatDateForInput(newEvent.endDate) : ''}
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          const newDate = new Date(e.target.value);
+                          if (!isNaN(newDate.getTime())) {
+                            setNewEvent(prev => ({ ...prev, endDate: newDate }));
+                          }
+                        } else {
+                          setNewEvent(prev => ({ ...prev, endDate: undefined }));
+                        }
+                      }}
                       className="w-full bg-white/[0.03] border border-white/10 rounded-lg px-4 py-3 text-offWhite font-body focus:outline-none focus:border-gold/50"
                     />
                   </div>
