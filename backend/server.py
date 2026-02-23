@@ -1160,6 +1160,107 @@ async def admin_set_user_tier(request: AdminSetTierRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class AdminSetFounderRequest(BaseModel):
+    user_id: str
+    is_founder: bool
+
+
+@api_router.post("/admin/set-founder")
+async def admin_set_founder_status(request: AdminSetFounderRequest):
+    """Admin endpoint to set or remove founder status from a user"""
+    try:
+        # We just return success since Firestore handles the actual user data
+        # The frontend will update Firestore directly
+        return {
+            "success": True,
+            "message": f"Founder status {'enabled' if request.is_founder else 'disabled'} for user {request.user_id}",
+            "is_founder": request.is_founder
+        }
+    except Exception as e:
+        logger.error(f"Error setting founder status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/admin/subscription-stats")
+async def get_subscription_stats():
+    """Get subscription statistics for admin dashboard"""
+    try:
+        # Get all subscriptions
+        subscriptions_cursor = db.subscriptions.find({})
+        subscriptions = await subscriptions_cursor.to_list(length=None)
+        
+        # Calculate stats
+        total_subscribers = len(subscriptions)
+        basic_count = sum(1 for s in subscriptions if s.get('tier') == 'basic')
+        premium_count = sum(1 for s in subscriptions if s.get('tier') == 'premium')
+        active_count = sum(1 for s in subscriptions if s.get('status') == 'active')
+        
+        # Get transactions for revenue calculation
+        transactions_cursor = db.subscription_transactions.find({"status": "completed"})
+        transactions = await transactions_cursor.to_list(length=None)
+        
+        total_revenue = sum(float(t.get('amount', 0)) for t in transactions)
+        
+        # Get monthly revenue (current month)
+        now = datetime.now(timezone.utc)
+        month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        monthly_transactions = [
+            t for t in transactions 
+            if t.get('created_at') and datetime.fromisoformat(t['created_at'].replace('Z', '+00:00')) >= month_start
+        ]
+        monthly_revenue = sum(float(t.get('amount', 0)) for t in monthly_transactions)
+        
+        return {
+            "success": True,
+            "stats": {
+                "total_subscribers": total_subscribers,
+                "basic_subscribers": basic_count,
+                "premium_subscribers": premium_count,
+                "active_subscriptions": active_count,
+                "total_revenue": round(total_revenue, 2),
+                "monthly_revenue": round(monthly_revenue, 2),
+                "free_users": 0  # This would need Firebase integration to count
+            }
+        }
+    except Exception as e:
+        logger.error(f"Error getting subscription stats: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class AdminUserSearchRequest(BaseModel):
+    query: str = ""
+    limit: int = 50
+
+
+@api_router.post("/admin/search-users")
+async def admin_search_users(request: AdminUserSearchRequest):
+    """Search users for admin management - returns subscription data from MongoDB"""
+    try:
+        # Get all subscriptions (MongoDB has subscription data)
+        subscriptions_cursor = db.subscriptions.find({})
+        subscriptions = await subscriptions_cursor.to_list(length=None)
+        
+        # Create a map of user_id to subscription data
+        subscription_map = {}
+        for sub in subscriptions:
+            user_id = sub.get('user_id')
+            if user_id:
+                subscription_map[user_id] = {
+                    "tier": sub.get('tier', 'free'),
+                    "status": sub.get('status', 'none'),
+                    "plan_name": sub.get('plan_name', ''),
+                    "current_period_end": sub.get('current_period_end')
+                }
+        
+        return {
+            "success": True,
+            "subscription_map": subscription_map
+        }
+    except Exception as e:
+        logger.error(f"Error searching users: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Include the router in the main app - MUST be after all routes are defined
 app.include_router(api_router)
 
