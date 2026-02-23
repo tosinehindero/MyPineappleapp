@@ -170,5 +170,45 @@ service cloud.firestore {
       allow delete: if isAuthenticated();
       allow update: if false;
     }
+    
+    // Groups Collection
+    match /groups/{groupId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+    
+    // Group Members Collection
+    match /groupMembers/{memberId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+    
+    // Group Posts Collection
+    match /groupPosts/{postId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated();
+    }
+    
+    // Group Post Reactions Collection
+    match /groupPostReactions/{reactionId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow delete: if isAuthenticated();
+      allow update: if false;
+    }
+    
+    // Message Tracking Collection (for rate limiting)
+    match /messageTracking/{trackingId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if false;
+    }
   }
 }
