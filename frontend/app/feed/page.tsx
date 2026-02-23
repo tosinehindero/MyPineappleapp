@@ -51,6 +51,7 @@ export default function FeedPage() {
   const [blockedUserIds, setBlockedUserIds] = useState<string[]>([]);
   const [usersWhoHaveMeInCircle, setUsersWhoHaveMeInCircle] = useState<string[]>([]);
   const [circleMembers, setCircleMembers] = useState<CircleMember[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   
   // Post creation state
   const [newPostContent, setNewPostContent] = useState('');
