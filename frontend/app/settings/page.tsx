@@ -221,6 +221,10 @@ export default function SettingsPage() {
         privacySettings: privacy,
         notificationSettings: notifications,
       });
+      // Update original values to match saved values
+      setOriginalPrivacy(privacy);
+      setOriginalNotifications(notifications);
+      setHasChanges(false);
       toast.success('Settings saved successfully!');
     } catch (error) {
       console.error('Error saving settings:', error);
