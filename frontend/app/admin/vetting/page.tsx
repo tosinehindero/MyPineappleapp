@@ -95,7 +95,7 @@ function AdminDashboardContent() {
       
       if (!adminStatus) {
         toast.error('Access Denied - Admin privileges required');
-        router.push('/');
+        router.push('/feed');
         return;
       }
 
