@@ -19,6 +19,9 @@ import {
   type DecryptedMessage,
 } from '@/lib/messaging';
 import { notifyNewMessage, markMessageNotificationsAsRead } from '@/lib/notifications';
+import { useSubscription } from '@/lib/subscription';
+import { canSendMessage, incrementMessageCount } from '@/lib/message-limits';
+import Link from 'next/link';
 
 interface NewConversationTarget {
   userId: string;
@@ -28,6 +31,7 @@ interface NewConversationTarget {
 
 export default function SecureMessaging() {
   const searchParams = useSearchParams();
+  const { subscription, loading: subLoading } = useSubscription();
   const targetUserId = searchParams.get('userId');
   
   const [currentUser, setCurrentUser] = useState<any>(null);
