@@ -68,6 +68,10 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [isBlocked, setIsBlocked] = useState(false);
   const [isBlockedByTarget, setIsBlockedByTarget] = useState(false);
   
+  // Circle state
+  const [isInMyCircle, setIsInMyCircle] = useState(false);
+  const [circleLoading, setCircleLoading] = useState(false);
+  
   // Edit form state
   const [editUsername, setEditUsername] = useState('');
   const [editDescription, setEditDescription] = useState('');
