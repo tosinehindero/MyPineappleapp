@@ -404,10 +404,10 @@ function AdminDashboardContent() {
                   </h2>
                   
                   {pendingProfiles.map((profile) => (
-                    <motion.button
+                    <motion.div
                       key={profile.id}
                       onClick={() => setSelectedProfile(profile)}
-                      className={`w-full text-left p-4 rounded-xl border transition-all ${
+                      className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer ${
                         selectedProfile?.id === profile.id
                           ? 'bg-gold/10 border-gold'
                           : 'bg-darkBlue/50 border-gold/20 hover:border-gold/40'
@@ -442,7 +442,7 @@ function AdminDashboardContent() {
                           </button>
                         </div>
                       </div>
-                    </motion.button>
+                    </motion.div>
                   ))}
                 </div>
 
