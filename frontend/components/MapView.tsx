@@ -55,6 +55,106 @@ export default function MapView() {
     25.7617, -80.1918, // Default: Miami, FL
   ]);
   const [customIcon, setCustomIcon] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [locationShared, setLocationShared] = useState(false);
+  const [sharingLocation, setSharingLocation] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
+  // Check authentication and load user's saved location
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        // Check if user has saved coordinates
+        const userDoc = await getDoc(doc(db, 'members', user.uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          if (data.coordinates?.lat && data.coordinates?.lng) {
+            setUserLocation([data.coordinates.lat, data.coordinates.lng]);
+            setLocationShared(true);
+          }
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Save user's current location to Firestore
+  const shareMyLocation = async () => {
+    if (!currentUser) {
+      toast.error('Please log in to share your location');
+      return;
+    }
+
+    setSharingLocation(true);
+    setLocationError(null);
+
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser');
+      setSharingLocation(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        try {
+          // Save to Firestore
+          await updateDoc(doc(db, 'members', currentUser.uid), {
+            coordinates: {
+              lat: latitude,
+              lng: longitude,
+            },
+            locationUpdatedAt: new Date(),
+          });
+
+          setUserLocation([latitude, longitude]);
+          setLocationShared(true);
+          toast.success('Location shared! Other members can now find you on the map.');
+        } catch (error) {
+          console.error('Error saving location:', error);
+          toast.error('Failed to save location');
+        } finally {
+          setSharingLocation(false);
+        }
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        let errorMsg = 'Unable to get your location';
+        if (error.code === 1) errorMsg = 'Location access denied. Please enable location permissions.';
+        if (error.code === 2) errorMsg = 'Location unavailable. Please try again.';
+        if (error.code === 3) errorMsg = 'Location request timed out. Please try again.';
+        
+        setLocationError(errorMsg);
+        toast.error(errorMsg);
+        setSharingLocation(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      }
+    );
+  };
+
+  // Hide my location from the map
+  const hideMyLocation = async () => {
+    if (!currentUser) return;
+
+    try {
+      await updateDoc(doc(db, 'members', currentUser.uid), {
+        coordinates: null,
+        locationUpdatedAt: new Date(),
+      });
+
+      setLocationShared(false);
+      toast.success('Your location has been hidden from the map');
+    } catch (error) {
+      console.error('Error hiding location:', error);
+      toast.error('Failed to hide location');
+    }
+  };
 
   // Initialize custom icon for client-side only
   useEffect(() => {
