@@ -171,10 +171,8 @@ service cloud.firestore {
     
     // Circles Collection (Inner Circle / Connections)
     match /circles/{circleId} {
-      // Users can read circle relationships where they are either the owner or the member
-      allow read: if isAuthenticated() && 
-                    (resource.data.ownerId == request.auth.uid || 
-                     resource.data.memberId == request.auth.uid);
+      // Any authenticated user can read circles (needed to check if document exists)
+      allow read: if isAuthenticated();
       
       // Users can create circles where they are the owner
       allow create: if isAuthenticated() && 
