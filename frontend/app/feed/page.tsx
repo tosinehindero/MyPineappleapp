@@ -45,6 +45,7 @@ export default function FeedPage() {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
   const [userReactions, setUserReactions] = useState<{ [postId: string]: { fire: boolean; pineapple: boolean } }>({});
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [blockedUserIds, setBlockedUserIds] = useState<string[]>([]);
   
   // Post creation state
   const [newPostContent, setNewPostContent] = useState('');
