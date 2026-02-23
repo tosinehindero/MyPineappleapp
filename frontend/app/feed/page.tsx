@@ -702,6 +702,80 @@ export default function FeedPage() {
         />
 
         <div className="max-w-7xl mx-auto px-4 py-8">
+          {/* Mobile Circle Row - Stories Style */}
+          {currentUser && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="lg:hidden mb-6 -mx-4 px-4"
+            >
+              <div className="flex items-center space-x-4 overflow-x-auto pb-3 scrollbar-hide">
+                {/* Add to Circle CTA */}
+                <Link
+                  href="/search"
+                  className="flex flex-col items-center space-y-1 flex-shrink-0"
+                >
+                  <div className="w-16 h-16 rounded-full border-2 border-dashed border-gold/40 flex items-center justify-center bg-gold/5 hover:bg-gold/10 transition-colors">
+                    <svg className="w-6 h-6 text-gold/60" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <span className="text-offWhite/50 text-xs font-body">Add</span>
+                </Link>
+                
+                {/* Circle Members */}
+                {circleMembers.length > 0 ? (
+                  circleMembers.map((member) => (
+                    <Link
+                      key={member.memberId}
+                      href={`/profile/${member.memberId}`}
+                      className="flex flex-col items-center space-y-1 flex-shrink-0 group"
+                    >
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-full border-2 border-green-500/50 p-0.5 group-hover:border-gold transition-colors">
+                          {member.photoUrl ? (
+                            <img
+                              src={member.photoUrl}
+                              alt={member.username}
+                              className="w-full h-full rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full rounded-full bg-green-500/10 flex items-center justify-center text-green-400 font-heading group-hover:text-gold transition-colors">
+                              {member.username[0]?.toUpperCase() || '?'}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-offWhite/70 text-xs font-body max-w-[64px] truncate group-hover:text-gold transition-colors">
+                        {member.username}
+                      </span>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="flex items-center space-x-3 px-4 py-2 bg-white/[0.02] rounded-full border border-white/5">
+                    <svg className="w-4 h-4 text-offWhite/30" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="text-offWhite/40 text-xs font-body">Find friends to add to your circle</span>
+                  </div>
+                )}
+                
+                {/* View All Link */}
+                {circleMembers.length > 0 && (
+                  <Link
+                    href="/settings?tab=circle"
+                    className="flex flex-col items-center space-y-1 flex-shrink-0"
+                  >
+                    <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.03] hover:bg-white/[0.06] transition-colors">
+                      <span className="text-offWhite/60 text-xs font-body">All</span>
+                    </div>
+                    <span className="text-offWhite/50 text-xs font-body">{circleMembers.length}</span>
+                  </Link>
+                )}
+              </div>
+            </motion.div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left Sidebar - User Profile Snapshot */}
             <aside className="hidden lg:block lg:col-span-3">
