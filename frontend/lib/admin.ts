@@ -567,6 +567,29 @@ export interface AdminStats {
   totalListings: number;
 }
 
+export interface SubscriptionStats {
+  total_subscribers: number;
+  basic_subscribers: number;
+  premium_subscribers: number;
+  active_subscriptions: number;
+  total_revenue: number;
+  monthly_revenue: number;
+  free_users: number;
+}
+
+export interface UserWithSubscription {
+  id: string;
+  username: string;
+  email: string;
+  photoUrl?: string;
+  role: string;
+  isVerified: boolean;
+  isFounder?: boolean;
+  tier: 'free' | 'basic' | 'premium';
+  subscriptionStatus?: string;
+  createdAt?: Date;
+}
+
 /**
  * Get comprehensive admin statistics
  */
