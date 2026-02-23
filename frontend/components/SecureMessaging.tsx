@@ -603,6 +603,23 @@ export default function SecureMessaging() {
               onSubmit={handleSendMessage}
               className="p-6 bg-darkBlue border-t border-gold/20"
             >
+              {/* Message limit indicator for Basic users */}
+              {messageLimit && subscription?.tier === 'basic' && (
+                <div className={`mb-3 px-3 py-2 rounded-lg text-sm font-body ${
+                  messageLimit.remaining <= 1 
+                    ? 'bg-red-500/10 text-red-400' 
+                    : 'bg-gold/10 text-gold'
+                }`}>
+                  {messageLimit.remaining === -1 ? (
+                    <span>Unlimited messages</span>
+                  ) : messageLimit.remaining === 0 ? (
+                    <span>Daily limit reached. <Link href="/pricing" className="underline">Upgrade to Premium</Link> for unlimited.</span>
+                  ) : (
+                    <span>{messageLimit.remaining} of {messageLimit.limit} messages remaining today</span>
+                  )}
+                </div>
+              )}
+              
               <div className="flex items-end space-x-3">
                 <div className="flex-1">
                   <textarea
@@ -614,17 +631,17 @@ export default function SecureMessaging() {
                         handleSendMessage(e);
                       }
                     }}
-                    placeholder="Type an encrypted message..."
+                    placeholder={messageLimit?.canSend === false ? "Message limit reached" : "Type an encrypted message..."}
                     className="w-full px-4 py-3 bg-charcoal border border-gold/20 rounded-lg text-offWhite focus:border-gold focus:outline-none transition-colors font-body resize-none"
                     rows={1}
-                    disabled={sending}
+                    disabled={sending || messageLimit?.canSend === false}
                   />
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="submit"
-                  disabled={sending || !messageInput.trim()}
+                  disabled={sending || !messageInput.trim() || messageLimit?.canSend === false}
                   className="px-6 py-3 bg-gold text-charcoal font-semibold rounded-lg hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {sending ? (
