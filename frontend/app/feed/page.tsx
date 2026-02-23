@@ -122,6 +122,8 @@ export default function FeedPage() {
             isVerified: data.isVerified === true,
             accountType: data.accountType || 'Member',
           });
+          // Check if user is admin
+          setIsAdmin(data.role === 'admin');
         }
         
         // Load blocked users for filtering
