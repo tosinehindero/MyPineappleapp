@@ -853,22 +853,28 @@ async def create_subscription_checkout(request: SubscriptionRequest, http_reques
         
         session = await stripe_checkout.create_checkout_session(checkout_request)
         
+        logger.info(f"Stripe session created: {session.session_id}")
+        
         # Create subscription transaction record
         subscription_id = str(uuid.uuid4())
-        await db.subscription_transactions.insert_one({
-            "subscription_id": subscription_id,
-            "session_id": session.session_id,
-            "user_id": request.user_id,
-            "user_email": request.user_email,
-            "plan_id": request.plan_id,
-            "plan_name": plan["name"],
-            "tier": plan["tier"],
-            "interval": plan["interval"],
-            "amount": plan["price"],
-            "currency": "usd",
-            "payment_status": "pending",
-            "created_at": datetime.now(timezone.utc).isoformat()
-        })
+        try:
+            insert_result = await db.subscription_transactions.insert_one({
+                "subscription_id": subscription_id,
+                "session_id": session.session_id,
+                "user_id": request.user_id,
+                "user_email": request.user_email,
+                "plan_id": request.plan_id,
+                "plan_name": plan["name"],
+                "tier": plan["tier"],
+                "interval": plan["interval"],
+                "amount": plan["price"],
+                "currency": "usd",
+                "payment_status": "pending",
+                "created_at": datetime.now(timezone.utc).isoformat()
+            })
+            logger.info(f"Transaction saved to MongoDB: {insert_result.inserted_id}")
+        except Exception as db_error:
+            logger.error(f"Failed to save transaction to MongoDB: {str(db_error)}")
         
         return {
             "success": True,
