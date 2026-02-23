@@ -601,6 +601,19 @@ export default function FeedPage() {
                   <span className="font-body">Travel</span>
                 </Link>
                 <Link
+                  href="/events"
+                  className="flex items-center space-x-3 px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="font-body">Events</span>
+                </Link>
+                  </svg>
+                  <span className="font-body">Travel</span>
+                </Link>
+                <Link
                   href="/marketplace"
                   className="flex items-center space-x-3 px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
