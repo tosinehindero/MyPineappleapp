@@ -9,6 +9,7 @@ import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
 import VettingGuard from '@/components/VettingGuard';
 import { useSubscription } from '@/lib/subscription';
+import { FeatureGate } from '@/components/FeatureGate';
 import {
   saveDestination,
   unsaveDestination,
@@ -33,6 +34,18 @@ interface DestinationCard {
 }
 
 export default function TravelPage() {
+  return (
+    <FeatureGate
+      requiredTier="premium"
+      feature="Sasha AI Travel Agent"
+      description="Get personalized travel recommendations and itineraries from our AI-powered luxury travel concierge."
+    >
+      <TravelContent />
+    </FeatureGate>
+  );
+}
+
+function TravelContent() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
