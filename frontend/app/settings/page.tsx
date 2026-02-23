@@ -123,13 +123,24 @@ export default function SettingsPage() {
         const data = userDoc.data();
         if (data.privacySettings) {
           setPrivacy(prev => ({ ...prev, ...data.privacySettings }));
+          setOriginalPrivacy({ ...privacy, ...data.privacySettings });
+        } else {
+          setOriginalPrivacy(privacy);
         }
         if (data.notificationSettings) {
           setNotifications(prev => ({ ...prev, ...data.notificationSettings }));
+          setOriginalNotifications({ ...notifications, ...data.notificationSettings });
+        } else {
+          setOriginalNotifications(notifications);
         }
+      } else {
+        setOriginalPrivacy(privacy);
+        setOriginalNotifications(notifications);
       }
     } catch (error) {
       console.error('Error loading settings:', error);
+      setOriginalPrivacy(privacy);
+      setOriginalNotifications(notifications);
     }
   };
 
