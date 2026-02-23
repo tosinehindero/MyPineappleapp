@@ -351,6 +351,71 @@ export default function FeedPage() {
     setNewPostImages(prev => prev.filter((_, i) => i !== index));
   };
 
+  // Handle post video upload
+  const handlePostVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !currentUser) return;
+    
+    // Limit to 2 videos per post
+    if (newPostVideos.length + files.length > 2) {
+      toast.error('Maximum 2 videos per post');
+      return;
+    }
+    
+    setUploadingVideos(true);
+    setVideoUploadProgress(0);
+    const uploadedUrls: string[] = [];
+    
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // Validate file type
+        if (!file.type.startsWith('video/')) {
+          toast.error('Only video files are allowed');
+          continue;
+        }
+        
+        // Validate file size (max 100MB for videos)
+        if (file.size > 100 * 1024 * 1024) {
+          toast.error('Video size must be under 100MB');
+          continue;
+        }
+        
+        setVideoUploadProgress(Math.round((i / files.length) * 50));
+        
+        const timestamp = Date.now();
+        const fileName = `video_${currentUser.uid}_${timestamp}_${i}.${file.name.split('.').pop()}`;
+        const storageRef = ref(storage, `posts/${currentUser.uid}/videos/${fileName}`);
+        
+        await uploadBytes(storageRef, file);
+        const downloadUrl = await getDownloadURL(storageRef);
+        uploadedUrls.push(downloadUrl);
+        
+        setVideoUploadProgress(Math.round(((i + 1) / files.length) * 100));
+      }
+      
+      if (uploadedUrls.length > 0) {
+        setNewPostVideos(prev => [...prev, ...uploadedUrls]);
+        toast.success(`${uploadedUrls.length} video(s) added`);
+      }
+    } catch (error) {
+      console.error('Error uploading videos:', error);
+      toast.error('Failed to upload video(s)');
+    } finally {
+      setUploadingVideos(false);
+      setVideoUploadProgress(0);
+      if (postVideoInputRef.current) {
+        postVideoInputRef.current.value = '';
+      }
+    }
+  };
+  
+  // Remove post video
+  const removePostVideo = (index: number) => {
+    setNewPostVideos(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleCreatePost = async () => {
     if (!currentUser || !newPostContent.trim()) return;
 
@@ -360,7 +425,8 @@ export default function FeedPage() {
       newPostContent,
       newPostImages,
       newPostPrivacy,
-      newPostCategory === 'all' ? 'general' : newPostCategory
+      newPostCategory === 'all' ? 'general' : newPostCategory,
+      newPostVideos
     );
 
     if (result.success) {
