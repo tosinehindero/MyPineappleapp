@@ -84,6 +84,7 @@ export default function SettingsPage() {
         setCurrentUser(user);
         await loadSettings(user.uid);
         await loadBlockedUsers(user.uid);
+        await loadCircleMembers(user.uid);
       } else {
         router.push('/login');
       }
