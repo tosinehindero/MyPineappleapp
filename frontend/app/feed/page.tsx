@@ -49,6 +49,7 @@ export default function FeedPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [blockedUserIds, setBlockedUserIds] = useState<string[]>([]);
   const [usersWhoHaveMeInCircle, setUsersWhoHaveMeInCircle] = useState<string[]>([]);
+  const [circleMembers, setCircleMembers] = useState<CircleMember[]>([]);
   
   // Post creation state
   const [newPostContent, setNewPostContent] = useState('');
