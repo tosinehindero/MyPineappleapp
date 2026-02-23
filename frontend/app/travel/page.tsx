@@ -48,6 +48,10 @@ export default function TravelPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+  
+  // Subscription check
+  const { subscription, canAccess } = useSubscription();
+  const hasSashaAccess = canAccess('sasha_ai');
 
   // Scroll to bottom when messages change
   useEffect(() => {
