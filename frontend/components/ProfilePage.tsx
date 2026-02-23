@@ -17,6 +17,7 @@ import {
 } from '@/lib/profile-client';
 import { isUserBlocked, isBlockedByUser } from '@/lib/user-safety';
 import { isInCircle, addToCircle, removeFromCircle } from '@/lib/circle';
+import { useSubscription } from '@/lib/subscription';
 import { recordProfileView } from '@/app/views/actions';
 import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
