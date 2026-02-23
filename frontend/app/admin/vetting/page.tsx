@@ -170,10 +170,6 @@ function AdminDashboardContent() {
     }
     setFounderUpdating(null);
   };
-    setStats(statsResult);
-    if (reportsResult.success) setReports(reportsResult.data);
-    setAdminStats(adminStatsResult);
-  };
 
   const loadReports = async (status: string) => {
     setReportFilter(status);
