@@ -56,11 +56,15 @@ export default function FeedPage() {
   // Post creation state
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImages, setNewPostImages] = useState<string[]>([]);
+  const [newPostVideos, setNewPostVideos] = useState<string[]>([]);
   const [newPostPrivacy, setNewPostPrivacy] = useState<'all' | 'circle'>('all');
   const [newPostCategory, setNewPostCategory] = useState<FilterCategory>('all');
   const [posting, setPosting] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
+  const [uploadingVideos, setUploadingVideos] = useState(false);
+  const [videoUploadProgress, setVideoUploadProgress] = useState(0);
   const postImageInputRef = useRef<HTMLInputElement>(null);
+  const postVideoInputRef = useRef<HTMLInputElement>(null);
 
   // Subscription state
   const { subscription, canAccess } = useSubscription();
