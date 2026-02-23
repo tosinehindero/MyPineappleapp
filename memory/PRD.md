@@ -18,6 +18,7 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - ✅ **Mobile Circle Row** - Stories-style horizontal scroll for circle members (Feb 23, 2026)
 - ✅ **Settings Persistence** - Privacy & Notification settings save to Firebase (Feb 23, 2026)
 - ✅ **3-Tier Subscription System** - Free/Basic/Premium with Stripe (Feb 23, 2026)
+- ✅ **Admin Dashboard Enhancements** - Revenue stats, tier overrides, founder toggle (Feb 23, 2026)
 
 ## Key Fixes Applied This Session (Feb 22, 2026)
 
