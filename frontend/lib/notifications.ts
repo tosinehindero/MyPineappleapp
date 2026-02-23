@@ -135,6 +135,40 @@ export const markAllNotificationsAsRead = async (userId: string): Promise<boolea
   }
 };
 
+// Mark message notifications as read for a specific conversation
+export const markMessageNotificationsAsRead = async (
+  userId: string,
+  conversationId?: string
+): Promise<boolean> => {
+  try {
+    // Query for unread message notifications for this user
+    const q = query(
+      collection(db, 'notifications'),
+      where('toUserId', '==', userId),
+      where('type', '==', 'message'),
+      where('read', '==', false)
+    );
+    
+    const snapshot = await getDocs(q);
+    const batch = writeBatch(db);
+    
+    snapshot.docs.forEach((docSnapshot) => {
+      const data = docSnapshot.data();
+      // If conversationId is specified, only mark that conversation's notifications
+      // Otherwise, mark all message notifications as read
+      if (!conversationId || data.metadata?.conversationId === conversationId) {
+        batch.update(docSnapshot.ref, { read: true });
+      }
+    });
+    
+    await batch.commit();
+    return true;
+  } catch (error) {
+    console.error('Error marking message notifications as read:', error);
+    return false;
+  }
+};
+
 // Get unread notification count
 export const getUnreadCount = (notifications: Notification[]): number => {
   return notifications.filter((n) => !n.read).length;
