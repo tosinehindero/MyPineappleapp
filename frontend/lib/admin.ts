@@ -750,14 +750,38 @@ export async function getAllUsersForAdmin(): Promise<{
     const subscriptionData = await subscriptionResponse.json();
     const subscriptionMap = subscriptionData.subscription_map || {};
     
-    // Get all users from Firestore
-    const membersQuery = query(
-      collection(db, 'members'),
-      orderBy('createdAt', 'desc')
-    );
-    
-    const snapshot = await getDocs(membersQuery);
+    // Get all users from Firestore - use simple query without orderBy to avoid index issues
+    const membersRef = collection(db, 'members');
+    const snapshot = await getDocs(membersRef);
     const users: UserWithSubscription[] = [];
+    
+    console.log('🍍 Admin: Fetched', snapshot.size, 'users from Firestore');
+    
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const userId = docSnap.id;
+      const subscription = subscriptionMap[userId];
+      
+      users.push({
+        id: userId,
+        username: data.username || 'Unknown',
+        email: data.email || '',
+        photoUrl: data.photoUrls?.[0] || data.photoUrl,
+        role: data.role || 'member',
+        isVerified: data.isVerified === true,
+        isFounder: data.isFounder === true,
+        tier: subscription?.tier || 'free',
+        subscriptionStatus: subscription?.status,
+        createdAt: data.createdAt?.toDate(),
+      });
+    });
+    
+    // Sort by createdAt client-side (most recent first)
+    users.sort((a, b) => {
+      if (!a.createdAt) return 1;
+      if (!b.createdAt) return -1;
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
     
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
