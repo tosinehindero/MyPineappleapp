@@ -56,6 +56,36 @@ export default function SecureMessaging() {
   
   // Message limit state
   const [messageLimit, setMessageLimit] = useState<{ canSend: boolean; remaining: number; limit: number; reason?: string } | null>(null);
+  const [resetCountdown, setResetCountdown] = useState<string>('');
+
+  // Calculate time until midnight (when limits reset)
+  const getTimeUntilMidnight = (): string => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    
+    const diff = midnight.getTime() - now.getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${minutes}m`;
+  };
+
+  // Update countdown every minute for Basic users
+  useEffect(() => {
+    if (subscription?.tier === 'basic') {
+      setResetCountdown(getTimeUntilMidnight());
+      
+      const interval = setInterval(() => {
+        setResetCountdown(getTimeUntilMidnight());
+      }, 60000); // Update every minute
+      
+      return () => clearInterval(interval);
+    }
+  }, [subscription?.tier]);
 
   // Check message limits when subscription or user changes
   useEffect(() => {
