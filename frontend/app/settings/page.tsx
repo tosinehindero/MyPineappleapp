@@ -301,7 +301,7 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 {[
                   { value: 'public', label: 'Public', desc: 'Anyone can view your profile' },
-                  { value: 'members', label: 'Members Only', desc: 'Only registered members can view' },
+                  { value: 'members', label: 'Paid Members Only', desc: 'Only paid members can view' },
                   { value: 'connections', label: 'Connections Only', desc: 'Only your connections can view' },
                 ].map((option) => (
                   <label
