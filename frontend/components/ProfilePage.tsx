@@ -583,11 +583,46 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                         <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                       </svg>
                     </motion.button>
+                    
+                    {/* Block/Report Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setShowBlockReportModal(true)}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center transition-all border-2 ${
+                        isBlocked
+                          ? 'bg-red-500/20 text-red-400 border-red-400'
+                          : 'bg-transparent text-offWhite/60 border-offWhite/20 hover:border-red-400/50 hover:text-red-400'
+                      }`}
+                      data-testid="block-report-btn"
+                      title={isBlocked ? 'User blocked' : 'Block or Report'}
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      </svg>
+                    </motion.button>
                   </>
                 )}
               </div>
             </div>
           </div>
+
+          {/* Blocked Banner */}
+          {isBlockedByTarget && !isOwner && (
+            <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-xl text-center">
+              <p className="text-red-400 font-body">
+                You cannot interact with this user as they have blocked you.
+              </p>
+            </div>
+          )}
 
           {/* Profile Sections Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
