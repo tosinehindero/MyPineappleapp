@@ -783,25 +783,6 @@ export async function getAllUsersForAdmin(): Promise<{
       return b.createdAt.getTime() - a.createdAt.getTime();
     });
     
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      const userId = docSnap.id;
-      const subscription = subscriptionMap[userId];
-      
-      users.push({
-        id: userId,
-        username: data.username || 'Unknown',
-        email: data.email || '',
-        photoUrl: data.photoUrls?.[0] || data.photoUrl,
-        role: data.role || 'member',
-        isVerified: data.isVerified === true,
-        isFounder: data.isFounder === true,
-        tier: subscription?.tier || 'free',
-        subscriptionStatus: subscription?.status,
-        createdAt: data.createdAt?.toDate(),
-      });
-    });
-    
     return { success: true, data: users };
   } catch (error: any) {
     console.error('Error fetching users for admin:', error);
