@@ -9,6 +9,8 @@ import { toast, Toaster } from 'sonner';
 import Link from 'next/link';
 import VettingGuard from '@/components/VettingGuard';
 import NotificationDropdown from '@/components/NotificationDropdown';
+import SearchDropdown from '@/components/SearchDropdown';
+import { getBlockedUsers } from '@/lib/user-safety';
 import {
   createPost,
   getPosts,
