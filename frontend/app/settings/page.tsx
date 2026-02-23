@@ -278,11 +278,18 @@ export default function SettingsPage() {
             </div>
             <button
               onClick={handleSaveSettings}
-              disabled={saving}
-              className="px-4 py-2 bg-gold text-charcoal rounded-full font-semibold hover:shadow-gold-glow transition-all disabled:opacity-50 text-sm"
+              disabled={saving || !hasChanges}
+              className={`px-4 py-2 rounded-full font-semibold transition-all text-sm flex items-center space-x-2 ${
+                hasChanges 
+                  ? 'bg-gold text-charcoal hover:shadow-gold-glow' 
+                  : 'bg-white/10 text-offWhite/50 cursor-not-allowed'
+              } disabled:opacity-50`}
               data-testid="save-settings-btn"
             >
-              {saving ? 'Saving...' : 'Save Changes'}
+              {hasChanges && !saving && (
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+              )}
+              <span>{saving ? 'Saving...' : hasChanges ? 'Save Changes' : 'Saved'}</span>
             </button>
           </div>
         </div>
