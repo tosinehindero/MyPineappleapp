@@ -1055,6 +1055,60 @@ async def cancel_subscription(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class AdminSetTierRequest(BaseModel):
+    user_id: str
+    tier: str  # 'free', 'basic', 'premium'
+
+
+@api_router.post("/admin/set-tier")
+async def admin_set_user_tier(request: AdminSetTierRequest):
+    """Admin endpoint to manually set a user's subscription tier (for testing)"""
+    try:
+        if request.tier not in ['free', 'basic', 'premium']:
+            raise HTTPException(status_code=400, detail="Invalid tier. Must be 'free', 'basic', or 'premium'")
+        
+        now = datetime.now(timezone.utc)
+        
+        if request.tier == 'free':
+            # Delete subscription to make user free
+            await db.subscriptions.delete_one({"user_id": request.user_id})
+            return {"success": True, "message": f"User {request.user_id} is now on FREE tier"}
+        
+        # Set subscription
+        await db.subscriptions.update_one(
+            {"user_id": request.user_id},
+            {
+                "$set": {
+                    "user_id": request.user_id,
+                    "tier": request.tier,
+                    "plan_id": f"{request.tier}_manual",
+                    "plan_name": f"{request.tier.capitalize()} (Manual)",
+                    "status": "active",
+                    "interval": "lifetime",
+                    "current_period_start": now.isoformat(),
+                    "current_period_end": None,  # Never expires
+                    "updated_at": now.isoformat()
+                },
+                "$setOnInsert": {
+                    "created_at": now.isoformat()
+                }
+            },
+            upsert=True
+        )
+        
+        return {
+            "success": True, 
+            "message": f"User {request.user_id} is now on {request.tier.upper()} tier",
+            "tier": request.tier
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error setting user tier: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Include the router in the main app - MUST be after all routes are defined
 app.include_router(api_router)
 
