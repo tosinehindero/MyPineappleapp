@@ -19,9 +19,15 @@ import {
   banUser,
   unbanUser,
   getAdminStats,
+  getSubscriptionStats,
+  getAllUsersForAdmin,
+  setUserTier,
+  setFounderStatus,
   type PendingProfile,
   type UserReport,
   type AdminStats,
+  type SubscriptionStats,
+  type UserWithSubscription,
 } from '@/lib/admin';
 
 type TabType = 'overview' | 'vetting' | 'reports' | 'users';
