@@ -1030,29 +1030,36 @@ export default function FeedPage() {
                             <img
                               src={post.images[activeImageIndex[post.id] || 0]}
                               alt="Post image"
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setFullScreenImage(post.images[activeImageIndex[post.id] || 0]);
+                              }}
+                              data-testid={`post-image-${post.id}`}
                             />
                           </div>
                           {post.images.length > 1 && (
                             <>
                               <button
-                                onClick={() =>
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setActiveImageIndex((prev) => ({
                                     ...prev,
                                     [post.id]: Math.max(0, (prev[post.id] || 0) - 1),
-                                  }))
-                                }
+                                  }));
+                                }}
                                 className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/80 rounded-full flex items-center justify-center text-offWhite hover:bg-gold hover:text-charcoal transition-colors"
                               >
                                 ←
                               </button>
                               <button
-                                onClick={() =>
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setActiveImageIndex((prev) => ({
                                     ...prev,
                                     [post.id]: Math.min(post.images.length - 1, (prev[post.id] || 0) + 1),
-                                  }))
-                                }
+                                  }));
+                                }}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-charcoal/80 rounded-full flex items-center justify-center text-offWhite hover:bg-gold hover:text-charcoal transition-colors"
                               >
                                 →
@@ -1061,9 +1068,10 @@ export default function FeedPage() {
                                 {post.images.map((_, idx) => (
                                   <button
                                     key={idx}
-                                    onClick={() =>
-                                      setActiveImageIndex((prev) => ({ ...prev, [post.id]: idx }))
-                                    }
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActiveImageIndex((prev) => ({ ...prev, [post.id]: idx }));
+                                    }}
                                     className={`w-2 h-2 rounded-full transition-all ${
                                       (activeImageIndex[post.id] || 0) === idx
                                         ? 'bg-gold w-4'
