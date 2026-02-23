@@ -145,8 +145,11 @@ export default function SecureMessaging() {
       }
     );
 
-    // Mark as read
+    // Mark messages as read
     markMessagesAsRead(selectedConversation.id, currentUser.uid);
+    
+    // Mark message notifications as read for this conversation
+    markMessageNotificationsAsRead(currentUser.uid, selectedConversation.id);
 
     return () => unsubscribe();
   }, [selectedConversation, currentUser, userSecret]);
