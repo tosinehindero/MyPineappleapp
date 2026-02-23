@@ -23,12 +23,8 @@ import {
   getAllUsersForAdmin,
   setUserTier,
   setFounderStatus,
-  type PendingProfile,
-  type UserReport,
-  type AdminStats,
-  type SubscriptionStats,
-  type UserWithSubscription,
 } from '@/lib/admin';
+import type { PendingProfile, UserReport, AdminStats, SubscriptionStats, UserWithSubscription } from '@/lib/admin';
 
 type TabType = 'overview' | 'vetting' | 'reports' | 'users';
 
