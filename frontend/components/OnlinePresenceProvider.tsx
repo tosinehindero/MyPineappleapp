@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 
 export function useOnlinePresence() {
@@ -18,24 +18,43 @@ export function useOnlinePresence() {
       if (now - lastUpdateRef.current < 2 * 60 * 1000) return;
       
       try {
+        // Check if document exists first
+        const userDoc = await getDoc(doc(db, 'members', userId));
+        if (!userDoc.exists()) {
+          // User document doesn't exist yet (registration not complete)
+          return;
+        }
+        
         await updateDoc(doc(db, 'members', userId), {
           isOnline: true,
           lastSeen: serverTimestamp(),
         });
         lastUpdateRef.current = now;
-      } catch (error) {
-        console.error('Error updating presence:', error);
+      } catch (error: any) {
+        // Silently ignore "no document" errors
+        if (!error.message?.includes('No document to update')) {
+          console.error('Error updating presence:', error);
+        }
       }
     };
 
     const setOffline = async (userId: string) => {
       try {
+        // Check if document exists first
+        const userDoc = await getDoc(doc(db, 'members', userId));
+        if (!userDoc.exists()) {
+          return;
+        }
+        
         await updateDoc(doc(db, 'members', userId), {
           isOnline: false,
           lastSeen: serverTimestamp(),
         });
-      } catch (error) {
-        console.error('Error setting offline:', error);
+      } catch (error: any) {
+        // Silently ignore "no document" errors
+        if (!error.message?.includes('No document to update')) {
+          console.error('Error setting offline:', error);
+        }
       }
     };
 
