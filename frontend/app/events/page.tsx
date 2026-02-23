@@ -31,10 +31,27 @@ export default function EventsPage() {
   const [processingRsvp, setProcessingRsvp] = useState<string | null>(null);
 
   // Create event form state
+  const getDefaultDate = () => {
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+    now.setMinutes(0);
+    return now;
+  };
+  
+  const formatDateForInput = (date: Date | undefined): string => {
+    if (!date || isNaN(date.getTime())) {
+      const now = new Date();
+      now.setHours(now.getHours() + 1);
+      now.setMinutes(0);
+      return now.toISOString().slice(0, 16);
+    }
+    return date.toISOString().slice(0, 16);
+  };
+
   const [newEvent, setNewEvent] = useState<CreateEventData>({
     title: '',
     description: '',
-    date: new Date(),
+    date: getDefaultDate(),
     location: '',
     address: '',
     category: 'social',
