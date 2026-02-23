@@ -124,6 +124,10 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
           
           const blockedByTarget = await isBlockedByUser(user.uid, profileId);
           setIsBlockedByTarget(blockedByTarget);
+          
+          // Check circle status
+          const inCircle = await isInCircle(user.uid, profileId);
+          setIsInMyCircle(inCircle);
         }
       }
     });
