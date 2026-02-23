@@ -85,6 +85,14 @@ export default function FeedPage() {
             accountType: data.accountType || 'Member',
           });
         }
+        
+        // Load blocked users for filtering
+        try {
+          const blocked = await getBlockedUsers(user.uid);
+          setBlockedUserIds(blocked);
+        } catch (error) {
+          console.error('Error loading blocked users:', error);
+        }
       }
     });
     return () => unsubscribe();
