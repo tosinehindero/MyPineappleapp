@@ -61,6 +61,9 @@ export default function FeedPage() {
   const [uploadingImages, setUploadingImages] = useState(false);
   const postImageInputRef = useRef<HTMLInputElement>(null);
 
+  // Subscription state
+  const { subscription, canAccess } = useSubscription();
+
   // Sidebar data
   const [upcomingEvents, setUpcomingEvents] = useState<Array<{ id: string; title: string; date: Date; location: string }>>([]);
   const [featuredListings, setFeaturedListings] = useState<Array<{ id: string; title: string; price: number; image: string | null }>>([]);
