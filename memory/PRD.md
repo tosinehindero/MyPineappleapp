@@ -9,28 +9,15 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - **Frontend**: Next.js 16 with TypeScript, Tailwind CSS
 - **Backend**: FastAPI + Firebase (Auth + Firestore + Storage) + MongoDB
 - **Database**: 
-  - Firestore: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`, `profileViews`, `comments`, `postReactions`, `conversations`, `messages`, `conversationKeys`
-  - MongoDB: `marketplace_listings`, `payment_transactions`
+  - Firestore: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`, `profileViews`, `comments`, `postReactions`, `conversations`, `messages`, `conversationKeys`, `circles`, `subscriptions`
+  - MongoDB: `marketplace_listings`, `payment_transactions`, `subscription_transactions`, `subscriptions`
 
-## Current Status (Feb 22, 2026)
-- ✅ Codebase restored from zip file
-- ✅ All code uses `members` collection
-- ✅ App running on Next.js dev server
-- ✅ Fixed Server Actions origin mismatch (allowedOrigins config)
-- ✅ Fixed Firestore permission errors in CommunityPulse.tsx (added auth checks)
-- ✅ Fixed profile page loading (converted to client-side Firebase calls)
-- ✅ Admin UID configured: `48VUvApl8PWC8KhcKEqgfVS87wB2`
-- ✅ **Fixed Profile Page Timeout Bug** (Feb 22, 2026)
-- ✅ **Fixed Messaging Feature - New Conversation UI** (Feb 22, 2026)
-- ✅ **Pineapple Branding Update** - Added user-provided pineapple logo throughout app (Feb 22, 2026)
-- ✅ **My Listings Page** - Marketplace listing management with edit/delete (Feb 22, 2026)
-- ✅ **Mobile Hamburger Menu** - Feed page mobile navigation (Feb 22, 2026)
-- ✅ **Marketplace Image Upload** - Photo upload for listings (Feb 22, 2026)
-- ✅ **Purchase Success Page** - Post-purchase confirmation (Feb 22, 2026)
-- ✅ **Transaction History Page** - Purchases & sales tracking (Feb 22, 2026)
-- ✅ **Messaging Verified** - User confirmed working (Feb 22, 2026)
-- ✅ **FAQ/Help Center Page** - Comprehensive help documentation (Feb 22, 2026)
-- ✅ **Real-time Notifications System** - Full implementation (Feb 22, 2026)
+## Current Status (Feb 23, 2026)
+- ✅ All previous features working
+- ✅ **Inner Circle Feature** - Add/remove members to your circle, circle-only posts (Feb 23, 2026)
+- ✅ **Mobile Circle Row** - Stories-style horizontal scroll for circle members (Feb 23, 2026)
+- ✅ **Settings Persistence** - Privacy & Notification settings save to Firebase (Feb 23, 2026)
+- ✅ **3-Tier Subscription System** - Free/Basic/Premium with Stripe (Feb 23, 2026)
 
 ## Key Fixes Applied This Session (Feb 22, 2026)
 
