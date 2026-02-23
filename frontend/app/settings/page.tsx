@@ -48,12 +48,17 @@ export default function SettingsPage() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<'privacy' | 'notifications' | 'blocked'>('privacy');
+  const [activeTab, setActiveTab] = useState<'privacy' | 'notifications' | 'circle' | 'blocked'>('privacy');
   
   // Blocked users
   const [blockedUsers, setBlockedUsers] = useState<BlockedUser[]>([]);
   const [loadingBlocked, setLoadingBlocked] = useState(false);
   const [unblocking, setUnblocking] = useState<string | null>(null);
+  
+  // Circle members
+  const [circleMembers, setCircleMembers] = useState<CircleMember[]>([]);
+  const [loadingCircle, setLoadingCircle] = useState(false);
+  const [removingFromCircle, setRemovingFromCircle] = useState<string | null>(null);
   
   // Privacy settings
   const [privacy, setPrivacy] = useState<PrivacySettings>({
