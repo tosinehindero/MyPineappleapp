@@ -176,6 +176,41 @@ export default function MarketplacePage() {
         }}
       />
 
+      {/* Premium Access Gate */}
+      {!hasMarketplaceAccess && (
+        <div className="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-md flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-md w-full bg-white/[0.03] border border-gold/30 rounded-2xl p-8 text-center"
+          >
+            <div className="w-20 h-20 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-10 h-10 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-heading text-gold mb-3">Premium Feature</h2>
+            <p className="text-offWhite/70 font-body mb-6">
+              The Marketplace is exclusively available to Premium members. Upgrade now to buy and sell items with our secure escrow protection.
+            </p>
+            <div className="space-y-3">
+              <Link
+                href="/pricing"
+                className="block w-full py-3 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+              >
+                Upgrade to Premium
+              </Link>
+              <Link
+                href="/feed"
+                className="block w-full py-3 bg-white/5 border border-white/10 text-offWhite/70 font-body rounded-full hover:bg-white/10 transition-all"
+              >
+                Back to Feed
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-darkBlue/50 border-b border-gold/20">
         <div className="max-w-7xl mx-auto px-6 py-6">
