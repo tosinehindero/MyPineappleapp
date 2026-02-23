@@ -453,6 +453,9 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   return (
     <PrivacyProtection viewerUsername={viewerUsername} showWarning={!isOwner}>
       <div className="min-h-screen bg-charcoal">
+        {/* Toast notifications */}
+        <div className="fixed top-4 right-4 z-[100]" />
+        
         {/* Large Cover Photo Header */}
         <div className="relative h-72 md:h-96 overflow-hidden">
           {/* Cover Image */}
