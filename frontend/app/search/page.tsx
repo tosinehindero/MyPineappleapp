@@ -98,7 +98,7 @@ function SearchContent() {
       // Search Posts
       if (activeTab === 'all' || activeTab === 'posts') {
         const postsRef = collection(db, 'posts');
-        const postsSnapshot = await getDocs(query(postsRef, orderBy('createdAt', 'desc'), limit(200)));
+        const postsSnapshot = await getDocs(firestoreQuery(postsRef, orderBy('createdAt', 'desc'), limit(200)));
         
         postsSnapshot.docs.forEach((doc) => {
           const data = doc.data();
