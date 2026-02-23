@@ -744,7 +744,7 @@ export default function EventsPage() {
                       handleRsvp(selectedEvent.id, isUserAttending(selectedEvent));
                       setSelectedEvent(null);
                     }}
-                    disabled={processingRsvp === selectedEvent.id || (isEventFull(selectedEvent) && !isUserAttending(selectedEvent))}
+                    disabled={processingRsvp === selectedEvent.id || (!isUserAttending(selectedEvent) && isEventFull(selectedEvent)) || false}
                     className={`w-full py-4 rounded-xl font-semibold transition-all disabled:opacity-50 ${
                       isUserAttending(selectedEvent)
                         ? 'bg-green-500/20 text-green-400 border border-green-500/30'
