@@ -8,7 +8,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import {
   collection,
-  query,
+  query as firestoreQuery,
   orderBy,
   limit,
   getDocs,
