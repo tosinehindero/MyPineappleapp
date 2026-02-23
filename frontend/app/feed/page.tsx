@@ -13,6 +13,7 @@ import NotificationDropdown from '@/components/NotificationDropdown';
 import SearchDropdown from '@/components/SearchDropdown';
 import { getBlockedUsers } from '@/lib/user-safety';
 import { getUsersWhoHaveMeInCircle, getCircleMembers, type CircleMember } from '@/lib/circle';
+import { useSubscription } from '@/lib/subscription';
 import {
   createPost,
   getPosts,
