@@ -439,6 +439,94 @@ function AdminDashboardContent() {
                 </div>
               </div>
             </div>
+
+            {/* Revenue & Subscription Stats */}
+            {subscriptionStats && (
+              <div className="mt-8">
+                <h3 className="text-xl font-heading text-gold mb-4">Revenue & Subscriptions</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Revenue Card */}
+                  <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-500/30 rounded-xl p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-emerald-400" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-offWhite font-body font-semibold">Revenue</h4>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-offWhite/60 text-sm">This Month</span>
+                        <span className="text-emerald-400 font-heading text-xl">${subscriptionStats.monthly_revenue.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-offWhite/60 text-sm">All Time</span>
+                        <span className="text-offWhite font-semibold">${subscriptionStats.total_revenue.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Tier Breakdown Card */}
+                  <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/10 border border-purple-500/30 rounded-xl p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-purple-400" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-offWhite font-body font-semibold">Tier Breakdown</h4>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-offWhite/60 text-sm flex items-center">
+                          <span className="w-2 h-2 rounded-full bg-gold mr-2"></span>
+                          Premium
+                        </span>
+                        <span className="text-gold font-semibold">{subscriptionStats.premium_subscribers}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-offWhite/60 text-sm flex items-center">
+                          <span className="w-2 h-2 rounded-full bg-blue-400 mr-2"></span>
+                          Basic
+                        </span>
+                        <span className="text-blue-400 font-semibold">{subscriptionStats.basic_subscribers}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-offWhite/60 text-sm flex items-center">
+                          <span className="w-2 h-2 rounded-full bg-gray-400 mr-2"></span>
+                          Free
+                        </span>
+                        <span className="text-gray-400 font-semibold">{adminStats.totalUsers - subscriptionStats.total_subscribers}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Active Subscriptions Card */}
+                  <div className="bg-gradient-to-br from-gold/20 to-amber-500/10 border border-gold/30 rounded-xl p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gold/20 rounded-lg flex items-center justify-center">
+                        <svg className="w-5 h-5 text-gold" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <h4 className="text-offWhite font-body font-semibold">Subscribers</h4>
+                    </div>
+                    <div className="text-center mt-4">
+                      <p className="text-4xl font-heading text-gold">{subscriptionStats.total_subscribers}</p>
+                      <p className="text-offWhite/60 text-sm mt-1">Active Paid Members</p>
+                      <div className="mt-4 pt-4 border-t border-white/10">
+                        <p className="text-offWhite/60 text-xs">
+                          {subscriptionStats.total_subscribers > 0 
+                            ? Math.round((subscriptionStats.total_subscribers / adminStats.totalUsers) * 100)
+                            : 0}% conversion rate
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
 
