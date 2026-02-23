@@ -125,6 +125,14 @@ export default function FeedPage() {
         } catch (error) {
           console.error('Error loading blocked users:', error);
         }
+        
+        // Load users who have me in their circle (for seeing their circle posts)
+        try {
+          const circleUsers = await getUsersWhoHaveMeInCircle(user.uid);
+          setUsersWhoHaveMeInCircle(circleUsers);
+        } catch (error) {
+          console.error('Error loading circle users:', error);
+        }
       }
     });
     return () => unsubscribe();
