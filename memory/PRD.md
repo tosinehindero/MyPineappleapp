@@ -114,6 +114,16 @@ Implemented comprehensive notifications feature:
 - ✅ Block/Report button on profile pages
 - ✅ Blocked users' posts filtered from feed
 - ✅ Blocked banner when viewing profile of user who blocked you
+- ✅ **Blocked Users management page** at `/settings/blocked` (NEW)
+
+## Feed Features Status
+- ✅ Post creation with text
+- ✅ **Image upload for posts** (up to 4 images per post) - FIXED
+- ✅ Privacy settings (All / Circle)
+- ✅ Category filtering
+- ✅ Real-time feed updates
+- ✅ Reactions (Fire / Pineapple)
+- ✅ Comments
 
 ## P0 Tasks (Completed)
 - ✅ Real-time notifications system
