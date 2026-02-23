@@ -643,9 +643,25 @@ export default function SecureMessaging() {
                   {messageLimit.remaining === -1 ? (
                     <span>Unlimited messages</span>
                   ) : messageLimit.remaining === 0 ? (
-                    <span>Daily limit reached. <Link href="/pricing" className="underline">Upgrade to Premium</Link> for unlimited.</span>
+                    <div className="flex items-center justify-between">
+                      <span>Daily limit reached. <Link href="/pricing" className="underline">Upgrade to Premium</Link> for unlimited.</span>
+                      <span className="text-xs opacity-70 ml-2 flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Resets in {resetCountdown}
+                      </span>
+                    </div>
                   ) : (
-                    <span>{messageLimit.remaining} of {messageLimit.limit} messages remaining today</span>
+                    <div className="flex items-center justify-between">
+                      <span>{messageLimit.remaining} of {messageLimit.limit} messages remaining today</span>
+                      <span className="text-xs opacity-70 flex items-center">
+                        <svg className="w-3 h-3 mr-1" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Resets in {resetCountdown}
+                      </span>
+                    </div>
                   )}
                 </div>
               )}
