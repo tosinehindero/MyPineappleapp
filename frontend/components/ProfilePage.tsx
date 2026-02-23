@@ -73,6 +73,10 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
   const [isInMyCircle, setIsInMyCircle] = useState(false);
   const [circleLoading, setCircleLoading] = useState(false);
   
+  // Subscription check
+  const { canAccess } = useSubscription();
+  const canAddToCircle = canAccess('add_to_circle');
+  
   // Edit form state
   const [editUsername, setEditUsername] = useState('');
   const [editDescription, setEditDescription] = useState('');
