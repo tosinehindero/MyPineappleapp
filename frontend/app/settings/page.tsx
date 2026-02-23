@@ -503,6 +503,117 @@ export default function SettingsPage() {
           </motion.div>
         )}
 
+        {/* My Circle */}
+        {activeTab === 'circle' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-6"
+          >
+            {/* Info Banner */}
+            <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+              <div className="flex items-start space-x-3">
+                <svg className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <div>
+                  <p className="text-green-400 font-body font-medium mb-1">Your Inner Circle</p>
+                  <p className="text-offWhite/70 text-sm font-body">
+                    People in your circle can see your posts marked as "Circle only". 
+                    Add members by visiting their profile and clicking "Add to Circle".
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Circle Members List */}
+            {loadingCircle ? (
+              <div className="text-center py-12">
+                <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin mx-auto"></div>
+              </div>
+            ) : circleMembers.length === 0 ? (
+              <div className="text-center py-12 bg-white/[0.03] border border-white/10 rounded-xl">
+                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-400/40" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-heading text-offWhite/60 mb-2">Your Circle is Empty</h3>
+                <p className="text-offWhite/40 text-sm font-body mb-4">
+                  Start building your inner circle by adding people from their profile pages.
+                </p>
+                <Link
+                  href="/feed"
+                  className="inline-block px-6 py-2 bg-gold/20 text-gold rounded-full text-sm font-body hover:bg-gold/30 transition-colors"
+                >
+                  Browse Feed
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-offWhite/60 text-sm font-body">
+                  {circleMembers.length} member{circleMembers.length !== 1 ? 's' : ''} in your circle
+                </p>
+                
+                {circleMembers.map((member) => (
+                  <div
+                    key={member.id}
+                    className="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-center justify-between"
+                    data-testid={`circle-member-${member.memberId}`}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <Link href={`/profile/${member.memberId}`}>
+                        {member.photoUrl ? (
+                          <img
+                            src={member.photoUrl}
+                            alt={member.username}
+                            className="w-12 h-12 rounded-full border-2 border-green-500/30 object-cover"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center text-green-400 font-heading">
+                            {member.username[0]?.toUpperCase() || '?'}
+                          </div>
+                        )}
+                      </Link>
+                      <div>
+                        <Link 
+                          href={`/profile/${member.memberId}`}
+                          className="text-offWhite font-body font-semibold hover:text-gold transition-colors"
+                        >
+                          {member.username}
+                        </Link>
+                        <p className="text-offWhite/40 text-xs font-body">
+                          Added {member.addedAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Link
+                        href={`/messages?userId=${member.memberId}`}
+                        className="p-2 bg-white/[0.05] border border-white/10 rounded-full text-offWhite/60 hover:text-gold hover:border-gold/30 transition-all"
+                        title="Send Message"
+                      >
+                        <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                      </Link>
+                      <button
+                        onClick={() => handleRemoveFromCircle(member.memberId)}
+                        disabled={removingFromCircle === member.memberId}
+                        className="px-4 py-2 bg-white/[0.05] border border-white/10 rounded-full text-sm font-body text-offWhite/80 hover:border-red-500/30 hover:text-red-400 transition-all disabled:opacity-50"
+                        data-testid={`remove-circle-btn-${member.memberId}`}
+                      >
+                        {removingFromCircle === member.memberId ? 'Removing...' : 'Remove'}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        )}
+
         {/* Blocked Users */}
         {activeTab === 'blocked' && (
           <motion.div
