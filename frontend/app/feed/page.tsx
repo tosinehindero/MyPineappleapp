@@ -1417,6 +1417,80 @@ export default function FeedPage() {
           </div>
         </div>
       </div>
+      
+      {/* Full-Screen Image Modal */}
+      <AnimatePresence>
+        {fullScreenImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] bg-[#0a0a0a]/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-8"
+            onClick={() => setFullScreenImage(null)}
+            data-testid="fullscreen-image-modal"
+          >
+            {/* Close Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setFullScreenImage(null);
+              }}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-12 h-12 bg-charcoal/60 hover:bg-charcoal border-2 border-gold/40 hover:border-gold rounded-full flex items-center justify-center text-gold transition-all group"
+              data-testid="close-fullscreen-btn"
+            >
+              <svg 
+                className="w-6 h-6 transform group-hover:rotate-90 transition-transform duration-200" 
+                fill="none" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth="2" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Hint Text */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-offWhite/40 text-xs font-body">
+              Press ESC or click outside to close
+            </div>
+            
+            {/* Image Container */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 25,
+                duration: 0.3 
+              }}
+              className="relative max-w-[95vw] max-h-[90vh] sm:max-w-[90vw] sm:max-h-[85vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={fullScreenImage}
+                alt="Full size image"
+                className="max-w-full max-h-[90vh] sm:max-h-[85vh] w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl shadow-black/50"
+                style={{ 
+                  boxShadow: '0 0 60px rgba(212, 175, 55, 0.15), 0 25px 50px -12px rgba(0, 0, 0, 0.8)' 
+                }}
+              />
+              
+              {/* Subtle Gold Border Glow */}
+              <div 
+                className="absolute inset-0 rounded-lg sm:rounded-xl pointer-events-none"
+                style={{
+                  boxShadow: 'inset 0 0 0 1px rgba(212, 175, 55, 0.2)'
+                }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </VettingGuard>
   );
 }
