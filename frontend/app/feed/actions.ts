@@ -57,7 +57,8 @@ export async function createPost(
   content: string,
   images: string[],
   privacy: 'all' | 'circle',
-  category: 'general' | 'travel' | 'events' | 'marketplace'
+  category: 'general' | 'travel' | 'events' | 'marketplace',
+  videos: string[] = []
 ): Promise<{ success: boolean; postId?: string; error?: string }> {
   try {
     // Get user profile
@@ -76,6 +77,7 @@ export async function createPost(
       authorVerified: userData.isVerified === true,
       content,
       images,
+      videos,
       privacy,
       category,
       reactions: {
