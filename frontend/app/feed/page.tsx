@@ -134,6 +134,14 @@ export default function FeedPage() {
         } catch (error) {
           console.error('Error loading circle users:', error);
         }
+        
+        // Load my circle members (for sidebar display)
+        try {
+          const members = await getCircleMembers(user.uid);
+          setCircleMembers(members);
+        } catch (error) {
+          console.error('Error loading circle members:', error);
+        }
       }
     });
     return () => unsubscribe();
