@@ -296,4 +296,16 @@ match /userReports/{reportId} {
   allow read: if request.auth != null && resource.data.reporterId == request.auth.uid;
   allow create: if request.auth != null;
 }
+
+// Circles (Inner Circle / Connections)
+match /circles/{circleId} {
+  allow read: if request.auth != null && 
+                (resource.data.ownerId == request.auth.uid || 
+                 resource.data.memberId == request.auth.uid);
+  allow create: if request.auth != null && 
+                  request.resource.data.ownerId == request.auth.uid;
+  allow delete: if request.auth != null && 
+                  resource.data.ownerId == request.auth.uid;
+  allow update: if false;
+}
 ```
