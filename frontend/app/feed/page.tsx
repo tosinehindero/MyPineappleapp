@@ -1001,6 +1001,26 @@ export default function FeedPage() {
                       <p className="text-offWhite/50 text-xs font-body">Circle</p>
                     </div>
                   </div>
+                  
+                  {/* Who Viewed My Profile - Premium Only */}
+                  {subscription?.tier === 'premium' && (
+                    <Link
+                      href="/profile-views"
+                      className="mt-4 flex items-center justify-between p-3 bg-gold/10 border border-gold/20 rounded-xl hover:bg-gold/20 transition-colors group"
+                      data-testid="profile-views-link"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <svg className="w-4 h-4 text-gold" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span className="text-gold text-sm font-body">Who viewed you</span>
+                      </div>
+                      <svg className="w-4 h-4 text-gold/60 group-hover:translate-x-1 transition-transform" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  )}
                 </motion.div>
                 
                 {/* My Circle */}
