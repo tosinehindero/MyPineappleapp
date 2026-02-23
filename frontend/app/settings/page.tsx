@@ -252,24 +252,26 @@ export default function SettingsPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-6">
         {/* Tabs */}
-        <div className="flex space-x-1 mb-6 bg-white/[0.03] rounded-xl p-1">
+        <div className="flex flex-wrap gap-1 mb-6 bg-white/[0.03] rounded-xl p-1">
           {[
             { key: 'privacy', label: 'Privacy', icon: '🔒' },
             { key: 'notifications', label: 'Notifications', icon: '🔔' },
-            { key: 'blocked', label: 'Blocked Users', icon: '🚫' },
+            { key: 'circle', label: 'My Circle', icon: '👥' },
+            { key: 'blocked', label: 'Blocked', icon: '🚫' },
           ].map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key as any)}
-              className={`flex-1 py-3 px-4 rounded-lg text-sm font-body transition-all ${
+              className={`flex-1 py-3 px-2 sm:px-4 rounded-lg text-xs sm:text-sm font-body transition-all ${
                 activeTab === tab.key
                   ? 'bg-gold/20 text-gold'
                   : 'text-offWhite/60 hover:text-gold'
               }`}
               data-testid={`tab-${tab.key}`}
             >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
+              <span className="mr-1 sm:mr-2">{tab.icon}</span>
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.key === 'notifications' ? 'Notif' : tab.label.split(' ')[0]}</span>
             </button>
           ))}
         </div>
