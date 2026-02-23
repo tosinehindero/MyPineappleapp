@@ -30,11 +30,7 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       
       // Write access: Owner can update their own profile
-      allow update: if isOwner(userId) && 
-                      request.resource.data.diff(resource.data).affectedKeys()
-                        .hasOnly(['description', 'fantasies', 'updatedAt', 'photoUrls', 
-                                 'interests', 'lookingFor', 'location', 'ageRangeMin', 'ageRangeMax',
-                                 'isOnline', 'lastSeen', 'username', 'privacySettings', 'notificationSettings']);
+      allow update: if isOwner(userId);
       
       // Allow any authenticated user to update view counts on profiles
       allow update: if isAuthenticated() && 
@@ -45,7 +41,7 @@ service cloud.firestore {
       allow update: if isAdmin();
       
       // Create: Can only create own profile during registration
-      allow create: if isOwner(userId);
+      allow create: if isAuthenticated() && request.auth.uid == userId;
       
       // Delete: Only admins can delete
       allow delete: if isAdmin();
