@@ -4,11 +4,12 @@ import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { checkPaymentStatus } from '@/lib/subscription';
+import { checkPaymentStatus, useSubscription } from '@/lib/subscription';
 
 function SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { refreshSubscription } = useSubscription();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [planName, setPlanName] = useState<string>('');
   const [tier, setTier] = useState<string>('');
@@ -29,6 +30,9 @@ function SuccessContent() {
           setStatus('success');
           setPlanName(result.plan_name || '');
           setTier(result.tier || '');
+          
+          // Refresh the global subscription state so other pages see the update
+          await refreshSubscription();
         } else if (pollCount < 10) {
           // Continue polling (max 10 attempts = 20 seconds)
           setTimeout(() => setPollCount((c) => c + 1), 2000);
@@ -46,7 +50,7 @@ function SuccessContent() {
     };
 
     pollStatus();
-  }, [searchParams, pollCount]);
+  }, [searchParams, pollCount, refreshSubscription]);
 
   if (status === 'loading') {
     return (
