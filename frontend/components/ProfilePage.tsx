@@ -16,11 +16,13 @@ import {
   removePhotoFromGallery,
 } from '@/lib/profile-client';
 import { isUserBlocked, isBlockedByUser } from '@/lib/user-safety';
+import { isInCircle, addToCircle, removeFromCircle } from '@/lib/circle';
 import { recordProfileView } from '@/app/views/actions';
 import Link from 'next/link';
 import PrivacyProtection from './PrivacyProtection';
 import WatermarkedImage from './WatermarkedImage';
 import BlockReportModal from './BlockReportModal';
+import { toast } from 'sonner';
 
 interface ProfileData {
   id: string;
