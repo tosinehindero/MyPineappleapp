@@ -1321,11 +1321,35 @@ export default function FeedPage() {
                           )}
                           <span className="hidden sm:inline">{newPostImages.length}/4</span>
                         </button>
+                        
+                        {/* Video Upload Button */}
+                        <button
+                          type="button"
+                          onClick={() => postVideoInputRef.current?.click()}
+                          disabled={uploadingVideos || newPostVideos.length >= 2}
+                          className="flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-body bg-white/[0.03] border border-white/10 text-offWhite/60 hover:text-gold hover:border-gold/30 transition-all disabled:opacity-50"
+                          data-testid="add-video-btn"
+                        >
+                          {uploadingVideos ? (
+                            <div className="flex items-center gap-1">
+                              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                              </svg>
+                              <span className="hidden sm:inline">{videoUploadProgress}%</span>
+                            </div>
+                          ) : (
+                            <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                              <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                          <span className="hidden sm:inline">{newPostVideos.length}/2</span>
+                        </button>
                       </div>
 
                       <button
                         onClick={handleCreatePost}
-                        disabled={posting || uploadingImages || !newPostContent.trim()}
+                        disabled={posting || uploadingImages || uploadingVideos || !newPostContent.trim()}
                         className="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                         data-testid="whisper-submit"
                       >
@@ -1368,10 +1392,41 @@ export default function FeedPage() {
                         ))}
                       </div>
                     )}
+                    
+                    {/* Video Preview */}
+                    {newPostVideos.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {newPostVideos.map((videoUrl, index) => (
+                          <div key={index} className="relative group">
+                            <video
+                              src={videoUrl}
+                              className="w-32 h-20 object-cover rounded-lg border border-white/10"
+                              muted
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-8 h-8 bg-charcoal/80 rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M8 5v14l11-7z" />
+                                </svg>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => removePostVideo(index)}
+                              className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              data-testid={`remove-video-${index}`}
+                            >
+                              <svg className="w-3 h-3" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 
-                {/* Hidden File Input */}
+                {/* Hidden File Inputs */}
                 <input
                   ref={postImageInputRef}
                   type="file"
@@ -1380,6 +1435,15 @@ export default function FeedPage() {
                   onChange={handlePostImageUpload}
                   className="hidden"
                   data-testid="post-image-input"
+                />
+                <input
+                  ref={postVideoInputRef}
+                  type="file"
+                  accept="video/*"
+                  multiple
+                  onChange={handlePostVideoUpload}
+                  className="hidden"
+                  data-testid="post-video-input"
                 />
               </motion.div>
 
