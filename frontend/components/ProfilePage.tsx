@@ -110,6 +110,15 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
         if (favResult.success) {
           setIsFavorite(favResult.isFavorite);
         }
+        
+        // Check block status (only for non-owner profiles)
+        if (user.uid !== profileId) {
+          const blocked = await isUserBlocked(user.uid, profileId);
+          setIsBlocked(blocked);
+          
+          const blockedByTarget = await isBlockedByUser(user.uid, profileId);
+          setIsBlockedByTarget(blockedByTarget);
+        }
       }
     });
     return () => unsubscribe();
