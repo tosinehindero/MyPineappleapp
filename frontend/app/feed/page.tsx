@@ -889,6 +889,72 @@ export default function FeedPage() {
                     </div>
                   </motion.div>
                 )}
+                
+                {/* Membership Status */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 }}
+                  className={`backdrop-blur-xl rounded-2xl border p-4 shadow-2xl shadow-black/20 ${
+                    subscription?.tier === 'premium' 
+                      ? 'bg-gradient-to-br from-gold/10 to-gold/5 border-gold/30' 
+                      : subscription?.tier === 'basic'
+                        ? 'bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-blue-500/30'
+                        : 'bg-white/[0.03] border-white/10'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        subscription?.tier === 'premium' 
+                          ? 'bg-gold/20' 
+                          : subscription?.tier === 'basic'
+                            ? 'bg-blue-500/20'
+                            : 'bg-white/10'
+                      }`}>
+                        {subscription?.tier === 'premium' ? (
+                          <svg className="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                          </svg>
+                        ) : subscription?.tier === 'basic' ? (
+                          <svg className="w-5 h-5 text-blue-400" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-5 h-5 text-offWhite/50" fill="none" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        )}
+                      </div>
+                      <div>
+                        <p className={`font-heading text-sm ${
+                          subscription?.tier === 'premium' 
+                            ? 'text-gold' 
+                            : subscription?.tier === 'basic'
+                              ? 'text-blue-400'
+                              : 'text-offWhite/70'
+                        }`}>
+                          {subscription?.tier === 'premium' ? 'Premium' : subscription?.tier === 'basic' ? 'Basic' : 'Free'} Member
+                        </p>
+                        <p className="text-offWhite/40 text-xs font-body">
+                          {subscription?.tier === 'premium' 
+                            ? 'Full access' 
+                            : subscription?.tier === 'basic'
+                              ? 'Limited access'
+                              : 'Upgrade for more'}
+                        </p>
+                      </div>
+                    </div>
+                    {subscription?.tier !== 'premium' && (
+                      <Link
+                        href="/pricing"
+                        className="px-3 py-1.5 bg-gold/20 text-gold text-xs font-body rounded-full hover:bg-gold/30 transition-colors"
+                      >
+                        Upgrade
+                      </Link>
+                    )}
+                  </div>
+                </motion.div>
 
                 {/* Quick Stats */}
                 <motion.div
