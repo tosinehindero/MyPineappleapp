@@ -433,6 +433,7 @@ export default function FeedPage() {
       toast.success('Whisper posted successfully!');
       setNewPostContent('');
       setNewPostImages([]);
+      setNewPostVideos([]);
       setNewPostPrivacy('all');
       setNewPostCategory('all');
       // Real-time subscription will automatically update the posts
