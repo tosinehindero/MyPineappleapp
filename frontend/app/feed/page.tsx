@@ -583,6 +583,16 @@ export default function FeedPage() {
                   </svg>
                   <span className="font-body">Marketplace</span>
                 </Link>
+                <Link
+                  href="/settings/blocked"
+                  className="flex items-center space-x-3 px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                  </svg>
+                  <span className="font-body">Blocked Users</span>
+                </Link>
                 <div className="border-t border-gold/10 mt-2 pt-2">
                   <button
                     onClick={async () => {
