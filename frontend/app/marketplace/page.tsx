@@ -45,6 +45,18 @@ const CONDITIONS = [
 ];
 
 export default function MarketplacePage() {
+  return (
+    <FeatureGate
+      requiredTier="premium"
+      feature="Marketplace"
+      description="Buy and sell exclusive items with verified community members."
+    >
+      <MarketplaceContent />
+    </FeatureGate>
+  );
+}
+
+function MarketplaceContent() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
