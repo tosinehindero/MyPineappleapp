@@ -299,6 +299,8 @@ export default function MapView() {
 
   return (
     <div className="min-h-screen bg-charcoal">
+      <Toaster theme="dark" position="top-right" />
+      
       {/* Top Navigation Bar */}
       <div className="bg-darkBlue/95 backdrop-blur-md border-b border-gold/20 px-6 py-4 sticky top-0 z-[1001]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
