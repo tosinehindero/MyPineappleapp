@@ -1,3 +1,9 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import FeaturesSection from '@/components/FeaturesSection';
@@ -5,6 +11,32 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 
 export default function Home() {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is logged in, redirect to feed
+        router.replace('/feed');
+      } else {
+        // User is not logged in, show landing page
+        setChecking(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  // Show loading while checking auth
+  if (checking) {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gold/30 border-t-gold rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-charcoal">
       <Navbar />
