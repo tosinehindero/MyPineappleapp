@@ -133,8 +133,10 @@ export default function FeedPage() {
     const unsubscribePosts = subscribeToPostsRealtime(
       activeFilter,
       async (newPosts) => {
-        setPosts(newPosts);
-        setHasMore(newPosts.length >= 20);
+        // Filter out posts from blocked users
+        const filteredPosts = newPosts.filter(post => !blockedUserIds.includes(post.authorId));
+        setPosts(filteredPosts);
+        setHasMore(filteredPosts.length >= 20);
         setLoading(false);
 
         // Load user reactions for the posts
