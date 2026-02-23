@@ -445,6 +445,7 @@ export function subscribeToPostsRealtime(
         authorVerified: data.authorVerified || false,
         content: data.content || '',
         images: data.images || [],
+        videos: data.videos || [],
         privacy: data.privacy || 'all',
         category: data.category || 'general',
         reactions: data.reactions || { fire: 0, pineapple: 0 },
