@@ -301,3 +301,50 @@ match /circles/{circleId} {
   allow update: if false;
 }
 ```
+
+## 3-Tier Subscription System (NEW - Feb 23, 2026)
+
+### Pricing Tiers:
+| Tier | Monthly | Yearly | Lifetime |
+|------|---------|--------|----------|
+| Free | $0 | - | - |
+| Basic | $19.99 | $199.99 (17% off) | - |
+| Premium | $34.99 | $349.99 (17% off) | $499 |
+
+### Feature Access by Tier:
+| Feature | Free | Basic | Premium |
+|---------|------|-------|---------|
+| Feed access | ✓ | ✓ | ✓ |
+| Online Now list | ✓ | ✓ | ✓ |
+| Messages/day | 0 | 5 | Unlimited |
+| Online status | ✗ | ✓ | ✓ |
+| Events | ✗ | 1hr preview | Full |
+| Marketplace | ✗ | ✗ | ✓ |
+| Sasha AI Travel | ✗ | ✗ | ✓ |
+| See profile views | ✗ | ✗ | ✓ |
+| Priority search | ✗ | ✗ | ✓ |
+| Add to Circle | ✗ | ✗ | ✓ |
+
+### Files Created:
+- `/app/frontend/lib/subscription.ts` - Subscription API functions & types
+- `/app/frontend/components/SubscriptionProvider.tsx` - Global subscription state
+- `/app/frontend/components/SubscriptionGuard.tsx` - Feature gating component
+- `/app/frontend/app/pricing/page.tsx` - Pricing page with plan selection
+- `/app/frontend/app/subscription/success/page.tsx` - Post-payment success page
+
+### Backend Endpoints (server.py):
+- `GET /api/subscriptions/plans` - Get all plans & tier features
+- `POST /api/subscriptions/checkout` - Create Stripe checkout session
+- `GET /api/subscriptions/status/{session_id}` - Check payment status
+- `GET /api/subscriptions/user/{user_id}` - Get user's current subscription
+- `POST /api/subscriptions/cancel/{user_id}` - Cancel subscription
+
+### MongoDB Collections:
+- `subscription_transactions` - Payment records
+- `subscriptions` - Active user subscriptions
+
+### Integration Points:
+- SubscriptionProvider added to ClientProviders.tsx
+- useSubscription hook available app-wide
+- SubscriptionGuard component for feature gating
+- Upgrade banner shown to free users in feed sidebar
