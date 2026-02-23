@@ -645,3 +645,142 @@ export async function getAdminStats(): Promise<AdminStats> {
     };
   }
 }
+
+// ============================================
+// SUBSCRIPTION & TIER MANAGEMENT
+// ============================================
+
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+
+/**
+ * Get subscription statistics from MongoDB
+ */
+export async function getSubscriptionStats(): Promise<SubscriptionStats> {
+  try {
+    const response = await fetch(`${API_URL}/api/admin/subscription-stats`);
+    const data = await response.json();
+    
+    if (data.success) {
+      return data.stats;
+    }
+    
+    return {
+      total_subscribers: 0,
+      basic_subscribers: 0,
+      premium_subscribers: 0,
+      active_subscriptions: 0,
+      total_revenue: 0,
+      monthly_revenue: 0,
+      free_users: 0,
+    };
+  } catch (error) {
+    console.error('Error fetching subscription stats:', error);
+    return {
+      total_subscribers: 0,
+      basic_subscribers: 0,
+      premium_subscribers: 0,
+      active_subscriptions: 0,
+      total_revenue: 0,
+      monthly_revenue: 0,
+      free_users: 0,
+    };
+  }
+}
+
+/**
+ * Set a user's subscription tier via admin API
+ */
+export async function setUserTier(
+  userId: string, 
+  tier: 'free' | 'basic' | 'premium'
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await fetch(`${API_URL}/api/admin/set-tier`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, tier }),
+    });
+    
+    const data = await response.json();
+    return { success: data.success || false, error: data.detail };
+  } catch (error: any) {
+    console.error('Error setting user tier:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Set founder status for a user (updates Firestore)
+ */
+export async function setFounderStatus(
+  userId: string, 
+  isFounder: boolean
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Update the user's Firestore document directly
+    const userRef = doc(db, 'members', userId);
+    await updateDoc(userRef, {
+      isFounder: isFounder,
+      updatedAt: serverTimestamp(),
+    });
+    
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error setting founder status:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Get all users for admin management (from Firestore + subscription data)
+ */
+export async function getAllUsersForAdmin(): Promise<{
+  success: boolean;
+  data: UserWithSubscription[];
+  error?: string;
+}> {
+  try {
+    // First get subscription data from MongoDB
+    const subscriptionResponse = await fetch(`${API_URL}/api/admin/search-users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: '', limit: 500 }),
+    });
+    
+    const subscriptionData = await subscriptionResponse.json();
+    const subscriptionMap = subscriptionData.subscription_map || {};
+    
+    // Get all users from Firestore
+    const membersQuery = query(
+      collection(db, 'members'),
+      orderBy('createdAt', 'desc')
+    );
+    
+    const snapshot = await getDocs(membersQuery);
+    const users: UserWithSubscription[] = [];
+    
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const userId = docSnap.id;
+      const subscription = subscriptionMap[userId];
+      
+      users.push({
+        id: userId,
+        username: data.username || 'Unknown',
+        email: data.email || '',
+        photoUrl: data.photoUrls?.[0] || data.photoUrl,
+        role: data.role || 'member',
+        isVerified: data.isVerified === true,
+        isFounder: data.isFounder === true,
+        tier: subscription?.tier || 'free',
+        subscriptionStatus: subscription?.status,
+        createdAt: data.createdAt?.toDate(),
+      });
+    });
+    
+    return { success: true, data: users };
+  } catch (error: any) {
+    console.error('Error fetching users for admin:', error);
+    return { success: false, data: [], error: error.message };
+  }
+}
