@@ -173,8 +173,22 @@ export default function FeedPage() {
     const unsubscribePosts = subscribeToPostsRealtime(
       activeFilter,
       async (newPosts) => {
-        // Filter out posts from blocked users
-        const filteredPosts = newPosts.filter(post => !blockedUserIds.includes(post.authorId));
+        // Filter out posts from blocked users and circle-only posts from users who don't have me in their circle
+        const filteredPosts = newPosts.filter(post => {
+          // Filter blocked users
+          if (blockedUserIds.includes(post.authorId)) return false;
+          
+          // For circle-only posts, only show if:
+          // 1. It's the current user's own post, OR
+          // 2. The post author has the current user in their circle
+          if (post.privacy === 'circle') {
+            const isOwnPost = post.authorId === currentUser?.uid;
+            const authorHasMeInCircle = usersWhoHaveMeInCircle.includes(post.authorId);
+            return isOwnPost || authorHasMeInCircle;
+          }
+          
+          return true;
+        });
         setPosts(filteredPosts);
         setHasMore(filteredPosts.length >= 20);
         setLoading(false);
@@ -207,7 +221,7 @@ export default function FeedPage() {
       unsubscribePosts();
       clearTimeout(timeoutId);
     };
-  }, [currentUser, activeFilter, blockedUserIds]);
+  }, [currentUser, activeFilter, blockedUserIds, usersWhoHaveMeInCircle]);
 
   // Infinite scroll observer
   useEffect(() => {
