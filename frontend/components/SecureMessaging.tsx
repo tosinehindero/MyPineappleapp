@@ -53,6 +53,20 @@ export default function SecureMessaging() {
   const [messageToDelete, setMessageToDelete] = useState<DecryptedMessage | null>(null);
   const [conversationToDelete, setConversationToDelete] = useState<Conversation | null>(null);
   const [deletingConversation, setDeletingConversation] = useState(false);
+  
+  // Message limit state
+  const [messageLimit, setMessageLimit] = useState<{ canSend: boolean; remaining: number; limit: number; reason?: string } | null>(null);
+
+  // Check message limits when subscription or user changes
+  useEffect(() => {
+    const checkLimits = async () => {
+      if (currentUser && subscription) {
+        const limits = await canSendMessage(currentUser.uid, subscription.tier);
+        setMessageLimit(limits);
+      }
+    };
+    checkLimits();
+  }, [currentUser, subscription]);
 
   // Auth state
   useEffect(() => {
