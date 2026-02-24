@@ -103,8 +103,8 @@ test.describe('Registration - Consent Pledges Interaction', () => {
     const consentCard = consentHeading.locator('..').locator('..');
     await consentCard.click();
     
-    // Check if the checkbox indicator shows green after clicking
-    // The checkbox circle should have green background
-    await expect(consentCard.locator('div.bg-green-500')).toBeVisible();
+    // Check if the card has green border styling (border-green-500)
+    // The component adds border-green-500/50 when selected
+    await expect(consentCard).toHaveClass(/border-green/);
   });
 });
