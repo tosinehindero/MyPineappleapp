@@ -216,6 +216,7 @@ export default function FeedPage() {
         setPosts(filteredPosts);
         setHasMore(filteredPosts.length >= 20);
         setLoading(false);
+        clearTimeout(loadingTimeout);
 
         // Load user reactions for the posts
         if (newPosts.length > 0 && currentUser) {
@@ -233,17 +234,9 @@ export default function FeedPage() {
       20
     );
 
-    // Add timeout to prevent infinite loading
-    const timeoutId = setTimeout(() => {
-      if (loading) {
-        console.log('Feed loading timeout - forcing load complete');
-        setLoading(false);
-      }
-    }, 8000);
-
     return () => {
       unsubscribePosts();
-      clearTimeout(timeoutId);
+      clearTimeout(loadingTimeout);
     };
   }, [currentUser, activeFilter, blockedUserIds, usersWhoHaveMeInCircle]);
 
