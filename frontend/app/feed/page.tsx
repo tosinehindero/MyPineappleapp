@@ -165,21 +165,26 @@ export default function FeedPage() {
     }
 
     setLoading(true);
+    
+    // Set a timeout to prevent infinite loading
+    const loadingTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 8000); // 8 second max loading time
 
-    // Load sidebar data (events and listings) - one time
+    // Load sidebar data (events and listings) - one time, with timeout
     const loadSidebarData = async () => {
       try {
-        const [eventsResult, listingsResult] = await Promise.all([
+        const [eventsResult, listingsResult] = await Promise.allSettled([
           getUpcomingEvents(),
           getFeaturedListings(),
         ]);
 
-        if (eventsResult.success) {
-          setUpcomingEvents(eventsResult.events);
+        if (eventsResult.status === 'fulfilled' && eventsResult.value.success) {
+          setUpcomingEvents(eventsResult.value.events);
         }
 
-        if (listingsResult.success) {
-          setFeaturedListings(listingsResult.listings);
+        if (listingsResult.status === 'fulfilled' && listingsResult.value.success) {
+          setFeaturedListings(listingsResult.value.listings);
         }
       } catch (error) {
         console.error('Error loading sidebar data:', error);
