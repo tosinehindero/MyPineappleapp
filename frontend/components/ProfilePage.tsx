@@ -872,45 +872,11 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                 </div>
               </div>
 
-              {/* Experience Level */}
-              <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6" data-testid="experience-section">
-                <h2 className="text-lg font-heading text-gold mb-4 flex items-center space-x-2">
-                  <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-                  <span>Experience Level</span>
-                </h2>
-                <span className={`inline-block px-4 py-2 border rounded-full text-sm font-semibold ${getExperienceBadgeColor(profile.experienceLevel)}`}>
-                  {profile.experienceLevel}
-                </span>
-              </div>
-
-              {/* Desired Age Range */}
-              {profile.ageRangeMin && profile.ageRangeMax && (
-                <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6" data-testid="age-range-section">
-                  <h2 className="text-lg font-heading text-gold mb-4 flex items-center space-x-2">
-                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                      <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span>Desired Age Range</span>
-                  </h2>
-                  <div className="flex items-center space-x-3">
-                    <span className="px-4 py-2 bg-gold/10 text-gold rounded-lg font-body text-lg font-semibold border border-gold/30">
-                      {profile.ageRangeMin}
-                    </span>
-                    <span className="text-offWhite/50">to</span>
-                    <span className="px-4 py-2 bg-gold/10 text-gold rounded-lg font-body text-lg font-semibold border border-gold/30">
-                      {profile.ageRangeMax}
-                    </span>
-                  </div>
-                </div>
-              )}
-
               {/* Interests - Tag Cloud */}
               <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6" data-testid="interests-section">
                 <h2 className="text-lg font-heading text-gold mb-4 flex items-center space-x-2">
                   <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                   <span>Interests</span>
                 </h2>
