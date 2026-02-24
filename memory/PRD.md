@@ -89,6 +89,9 @@ Complete revamp of the registration flow into a comprehensive 3-step vetting pro
   hasSecondaryUser: boolean,
   secondaryName?: string,
   secondaryAge?: number,
+  city: string,
+  state: string,
+  country: string,
   travelStatus: string,
   experienceLevel: string,
   communityTenure: string,
@@ -102,6 +105,16 @@ Complete revamp of the registration flow into a comprehensive 3-step vetting pro
   verifiedPineapple: boolean
 }
 ```
+
+### Profile Page Updates (Feb 24, 2026):
+Added new "Profile Details" card displaying:
+- Account Type
+- Display Name
+- Location (City, State)
+- Travel Willingness
+- Experience Level
+- How Long in Community (Community Tenure)
+- Interests (existing section enhanced with heart icon)
 
 ## Groups (Inner Circles) Feature (NEW - Feb 23, 2026)
 
