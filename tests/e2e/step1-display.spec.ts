@@ -17,9 +17,10 @@ test.describe('Registration Form - Step 1', () => {
 
   test('displays progress bar with 3 steps', async ({ page }) => {
     await expect(page.getByText('Join PineapplePlay')).toBeVisible();
-    await expect(page.getByText('Account & Logistics')).toBeVisible();
-    await expect(page.getByText('Lifestyle Profile')).toBeVisible();
-    await expect(page.getByText('Safety & Media')).toBeVisible();
+    // Use exact match to avoid duplicate text issues
+    await expect(page.getByText('Account & Logistics', { exact: true })).toBeVisible();
+    await expect(page.getByText('Lifestyle Profile', { exact: true })).toBeVisible();
+    await expect(page.getByText('Safety & Media', { exact: true })).toBeVisible();
   });
 
   test('Step 1 shows all account type options', async ({ page }) => {
