@@ -130,29 +130,28 @@ export default function FeedPage() {
           setIsAdmin(data.role === 'admin');
         }
         
-        // Load blocked users for filtering
-        try {
-          const blocked = await getBlockedUsers(user.uid);
-          setBlockedUserIds(blocked);
-        } catch (error) {
-          console.error('Error loading blocked users:', error);
-        }
+        // Load all user-specific data in parallel with error handling
+        const loadUserData = async () => {
+          const results = await Promise.allSettled([
+            getBlockedUsers(user.uid),
+            getUsersWhoHaveMeInCircle(user.uid),
+            getCircleMembers(user.uid),
+          ]);
+          
+          // Handle results individually
+          if (results[0].status === 'fulfilled') {
+            setBlockedUserIds(results[0].value);
+          }
+          if (results[1].status === 'fulfilled') {
+            setUsersWhoHaveMeInCircle(results[1].value);
+          }
+          if (results[2].status === 'fulfilled') {
+            setCircleMembers(results[2].value);
+          }
+        };
         
-        // Load users who have me in their circle (for seeing their circle posts)
-        try {
-          const circleUsers = await getUsersWhoHaveMeInCircle(user.uid);
-          setUsersWhoHaveMeInCircle(circleUsers);
-        } catch (error) {
-          console.error('Error loading circle users:', error);
-        }
-        
-        // Load my circle members (for sidebar display)
-        try {
-          const members = await getCircleMembers(user.uid);
-          setCircleMembers(members);
-        } catch (error) {
-          console.error('Error loading circle members:', error);
-        }
+        // Don't block auth state on data loading
+        loadUserData();
       }
     });
     return () => unsubscribe();
