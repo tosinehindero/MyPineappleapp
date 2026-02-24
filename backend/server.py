@@ -315,10 +315,11 @@ async def get_listings(
             else:
                 query["price"] = {"$lte": max_price}
         
+        # Sort by featured first, then by created_at
         listings = await db.marketplace_listings.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).limit(limit).to_list(limit)
+        ).sort([("featured", -1), ("featured_at", -1), ("created_at", -1)]).limit(limit).to_list(limit)
         
         return {"success": True, "listings": listings}
     except Exception as e:
