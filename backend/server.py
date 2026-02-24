@@ -434,36 +434,26 @@ class ToggleFeaturedRequest(BaseModel):
 async def toggle_featured(listing_id: str, request: ToggleFeaturedRequest):
     """Toggle featured status of a listing (only by owner)"""
     try:
-        logger.info(f"Toggle featured request - listing_id: {listing_id}, seller_id: {request.seller_id}")
-        
         # First get the current listing to check ownership and current featured status
-        # Include listing_id in projection to ensure we get a non-empty result
         listing = await db.marketplace_listings.find_one(
             {"listing_id": listing_id, "seller_id": request.seller_id, "status": "active"},
             {"_id": 0, "listing_id": 1, "featured": 1}
         )
         
-        logger.info(f"Found listing: {listing}")
-        
         if not listing or not listing.get("listing_id"):
-            # Debug: check if listing exists at all
-            any_listing = await db.marketplace_listings.find_one({"listing_id": listing_id}, {"_id": 0, "seller_id": 1, "status": 1})
-            logger.error(f"Listing not found. Any match for listing_id: {any_listing}")
             raise HTTPException(status_code=404, detail="Listing not found, unauthorized, or not active")
         
         # Toggle the featured status
-        new_featured_status = not listing.get("featured", False)
+        current_featured = listing.get("featured", False)
+        new_featured_status = not current_featured
         
-        result = await db.marketplace_listings.update_one(
+        await db.marketplace_listings.update_one(
             {"listing_id": listing_id, "seller_id": request.seller_id},
             {"$set": {
                 "featured": new_featured_status,
                 "featured_at": datetime.now(timezone.utc).isoformat() if new_featured_status else None,
             }}
         )
-        
-        if result.modified_count == 0:
-            raise HTTPException(status_code=500, detail="Failed to update featured status")
         
         return {"success": True, "featured": new_featured_status}
     except HTTPException:
