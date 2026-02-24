@@ -217,7 +217,7 @@ export default function MapView() {
           // Only add users who have valid coordinates
           if (coordinates) {
             fetchedUsers.push({
-              id: doc.id,
+              id: docSnap.id,
               username: data.username || 'Anonymous',
               accountType: data.accountType || 'Single',
               location: data.location || 'Unknown',
@@ -239,7 +239,7 @@ export default function MapView() {
     };
 
     fetchUsers();
-  }, [userLocation]);
+  }, [userLocation, locationShared]);
 
   // Calculate distance between two coordinates (Haversine formula)
   const calculateDistance = (
