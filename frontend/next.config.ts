@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       ],
     },
   },
+  // Allow dev origins for cross-origin requests
+  allowedDevOrigins: [
+    'localhost:3000',
+    '*.preview.emergentagent.com',
+    '*.preview.emergentcf.cloud',
+    '*.cluster-0.preview.emergentcf.cloud',
+    '*.cluster-5.preview.emergentcf.cloud',
+  ],
   images: {
     remotePatterns: [
       {
