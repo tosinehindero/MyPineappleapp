@@ -280,6 +280,8 @@ async def create_listing(request: CreateListingRequest):
             "created_at": datetime.now(timezone.utc).isoformat(),
             "views": 0,
             "reports": [],
+            "featured": False,
+            "featured_at": None,
         }
         await db.marketplace_listings.insert_one(listing_doc)
         
