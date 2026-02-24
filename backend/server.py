@@ -434,13 +434,20 @@ class ToggleFeaturedRequest(BaseModel):
 async def toggle_featured(listing_id: str, request: ToggleFeaturedRequest):
     """Toggle featured status of a listing (only by owner)"""
     try:
+        logger.info(f"Toggle featured request - listing_id: {listing_id}, seller_id: {request.seller_id}")
+        
         # First get the current listing to check ownership and current featured status
         listing = await db.marketplace_listings.find_one(
             {"listing_id": listing_id, "seller_id": request.seller_id, "status": "active"},
             {"_id": 0, "featured": 1}
         )
         
+        logger.info(f"Found listing: {listing}")
+        
         if not listing:
+            # Debug: check if listing exists at all
+            any_listing = await db.marketplace_listings.find_one({"listing_id": listing_id}, {"_id": 0})
+            logger.error(f"Listing not found. Any match for listing_id: {any_listing}")
             raise HTTPException(status_code=404, detail="Listing not found, unauthorized, or not active")
         
         # Toggle the featured status
