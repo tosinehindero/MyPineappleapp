@@ -19,14 +19,23 @@ export default function LoginPage() {
 
   // Redirect if already logged in
   useEffect(() => {
+    // Set a timeout to stop checking auth after 5 seconds
+    const authTimeout = setTimeout(() => {
+      setCheckingAuth(false);
+    }, 5000);
+    
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(authTimeout);
       if (user) {
         router.replace('/feed');
       } else {
         setCheckingAuth(false);
       }
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      clearTimeout(authTimeout);
+    };
   }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
