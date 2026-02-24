@@ -557,13 +557,18 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   {/* Username */}
                   <h1 className="text-3xl md:text-4xl font-heading text-offWhite" data-testid="profile-username">
-                    {profile.username}
+                    {profile.primaryName || profile.username}
                   </h1>
                   
-                  {/* Verified Text Badge */}
-                  {profile.isVerified && (
-                    <span className="px-3 py-1 bg-gold/20 text-gold text-sm font-body rounded-full border border-gold/40">
-                      Verified Member
+                  {/* Verified Pineapple Badge */}
+                  {(profile.isVerified || profile.verifiedPineapple) && (
+                    <span className="px-3 py-1 bg-gold/20 text-gold text-sm font-body rounded-full border border-gold/40 flex items-center gap-1.5">
+                      <img 
+                        src="https://customer-assets.emergentagent.com/job_39fcce0e-8a43-4eb6-8e28-bbef7a6f13d0/artifacts/9covy5o5_699c0962-7918-40f8-96bc-0b8c0e41e321.png"
+                        alt="Verified"
+                        className="w-4 h-4 rounded-full"
+                      />
+                      Verified
                     </span>
                   )}
                 </div>
@@ -581,15 +586,28 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                       <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span>{profile.location}</span>
+                    <span>{profile.city && profile.state ? `${profile.city}, ${profile.state}` : profile.location}</span>
                   </span>
+                  {profile.travelStatus && (
+                    <span className="flex items-center space-x-1" data-testid="profile-travel-status">
+                      <svg className="w-4 h-4 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                      <span>{profile.travelStatus}</span>
+                    </span>
+                  )}
                 </div>
 
-                {/* Experience Level & Age Range */}
+                {/* Experience Level & Community Tenure */}
                 <div className="flex flex-wrap items-center gap-3">
                   <span className={`px-4 py-1.5 border rounded-full text-sm font-semibold ${getExperienceBadgeColor(profile.experienceLevel)}`} data-testid="profile-experience">
                     {profile.experienceLevel}
                   </span>
+                  {profile.communityTenure && (
+                    <span className="px-4 py-1.5 bg-purple-500/20 text-purple-400 rounded-full text-sm font-body border border-purple-500/40" data-testid="profile-community-tenure">
+                      {profile.communityTenure}
+                    </span>
+                  )}
                   {profile.ageRangeMin && profile.ageRangeMax && (
                     <span className="px-4 py-1.5 bg-offWhite/10 text-offWhite/80 rounded-full text-sm font-body border border-offWhite/20" data-testid="profile-age-range">
                       Age Range: {profile.ageRangeMin} - {profile.ageRangeMax}
