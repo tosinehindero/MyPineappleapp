@@ -56,11 +56,12 @@ test.describe('Registration - Step 3 Safety & Media', () => {
   });
 
   test('Step 3 shows all 5 consent pledges', async ({ page }) => {
-    await expect(page.getByText('Consent Pledge')).toBeVisible();
-    await expect(page.getByText('Privacy Agreement')).toBeVisible();
-    await expect(page.getByText('Health & Safety Standards')).toBeVisible();
-    await expect(page.getByText('Video Vetting Agreement')).toBeVisible();
-    await expect(page.getByText('Age Verification')).toBeVisible();
+    // Use exact match to avoid partial matches
+    await expect(page.getByRole('heading', { name: 'Consent Pledge', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Privacy Agreement', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Health & Safety Standards', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Video Vetting Agreement', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Age Verification', exact: true })).toBeVisible();
   });
 
   test('Step 3 shows photo upload area', async ({ page }) => {
@@ -96,12 +97,14 @@ test.describe('Registration - Consent Pledges Interaction', () => {
     await navigateToStep3(page);
   });
 
-  test('can click and toggle consent pledge', async ({ page }) => {
-    // Find consent pledge container and click
-    const consentPledge = page.locator('div').filter({ hasText: /^Consent PledgeI pledge to always respect/ });
-    await consentPledge.first().click();
+  test('consent pledges can be clicked to accept', async ({ page }) => {
+    // Click on the consent pledge card - the parent div that contains the heading
+    const consentHeading = page.getByRole('heading', { name: 'Consent Pledge', exact: true });
+    const consentCard = consentHeading.locator('..').locator('..');
+    await consentCard.click();
     
-    // Should show green styling after click
-    await expect(consentPledge.first()).toHaveClass(/border-green|bg-green/);
+    // Check if the checkbox indicator shows green after clicking
+    // The checkbox circle should have green background
+    await expect(consentCard.locator('div.bg-green-500')).toBeVisible();
   });
 });
