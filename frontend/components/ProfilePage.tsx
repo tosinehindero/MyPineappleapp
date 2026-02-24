@@ -608,11 +608,6 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                       {profile.communityTenure}
                     </span>
                   )}
-                  {profile.ageRangeMin && profile.ageRangeMax && (
-                    <span className="px-4 py-1.5 bg-offWhite/10 text-offWhite/80 rounded-full text-sm font-body border border-offWhite/20" data-testid="profile-age-range">
-                      Age Range: {profile.ageRangeMin} - {profile.ageRangeMax}
-                    </span>
-                  )}
                 </div>
               </div>
 
