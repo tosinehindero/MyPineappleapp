@@ -15,7 +15,13 @@ export default function Home() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
+    // Set a timeout to stop checking auth after 5 seconds (prevents infinite loading)
+    const authTimeout = setTimeout(() => {
+      setChecking(false);
+    }, 5000);
+    
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(authTimeout);
       if (user) {
         // User is logged in, redirect to feed
         router.replace('/feed');
@@ -25,7 +31,10 @@ export default function Home() {
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      clearTimeout(authTimeout);
+    };
   }, [router]);
 
   // Show loading while checking auth
