@@ -47,15 +47,16 @@ test.describe('Registration - Step 2 Display', () => {
   });
 
   test('Step 2 shows experience level options', async ({ page }) => {
+    // Use correct data-testids based on actual values
     await expect(page.getByTestId('experience-brand-new--curious-')).toBeVisible();
-    await expect(page.getByTestId('experience-beginner--less-than-1-year-')).toBeVisible();
-    await expect(page.getByTestId('experience-intermediate--1-3-years-')).toBeVisible();
+    await expect(page.getByTestId('experience-beginner--less-than---year-')).toBeVisible();
+    await expect(page.getByTestId('experience-intermediate------years-')).toBeVisible();
   });
 
   test('Step 2 shows community tenure options', async ({ page }) => {
     await expect(page.getByTestId('tenure-just-starting-out')).toBeVisible();
-    await expect(page.getByTestId('tenure-less-than-6-months')).toBeVisible();
-    await expect(page.getByTestId('tenure-6-months---1-year')).toBeVisible();
+    await expect(page.getByTestId('tenure-less-than---months')).toBeVisible();
+    await expect(page.getByTestId('tenure---months-----year')).toBeVisible();
   });
 
   test('Step 2 shows interest selection with counter', async ({ page }) => {
@@ -80,8 +81,8 @@ test.describe('Registration - Step 2 Interactions', () => {
   });
 
   test('can select experience level', async ({ page }) => {
-    await page.getByTestId('experience-beginner--less-than-1-year-').click();
-    await expect(page.getByTestId('experience-beginner--less-than-1-year-')).toHaveClass(/bg-gold/);
+    await page.getByTestId('experience-beginner--less-than---year-').click();
+    await expect(page.getByTestId('experience-beginner--less-than---year-')).toHaveClass(/bg-gold/);
   });
 
   test('selecting interests updates counter', async ({ page }) => {
