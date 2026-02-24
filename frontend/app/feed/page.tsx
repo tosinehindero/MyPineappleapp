@@ -71,7 +71,7 @@ export default function FeedPage() {
 
   // Sidebar data
   const [upcomingEvents, setUpcomingEvents] = useState<Array<{ id: string; title: string; date: Date; location: string }>>([]);
-  const [featuredListings, setFeaturedListings] = useState<Array<{ id: string; title: string; price: number; image: string | null }>>([]);
+  const [featuredListings, setFeaturedListings] = useState<Array<{ id: string; title: string; price: number; image: string | null; featured?: boolean }>>([]);
 
   // Comments state
   const [expandedComments, setExpandedComments] = useState<{ [postId: string]: boolean }>({});
