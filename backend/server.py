@@ -426,6 +426,45 @@ async def update_listing(listing_id: str, request: UpdateListingRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class ToggleFeaturedRequest(BaseModel):
+    seller_id: str
+
+
+@api_router.put("/marketplace/listings/{listing_id}/toggle-featured")
+async def toggle_featured(listing_id: str, request: ToggleFeaturedRequest):
+    """Toggle featured status of a listing (only by owner)"""
+    try:
+        # First get the current listing to check ownership and current featured status
+        listing = await db.marketplace_listings.find_one(
+            {"listing_id": listing_id, "seller_id": request.seller_id, "status": "active"},
+            {"_id": 0, "featured": 1}
+        )
+        
+        if not listing:
+            raise HTTPException(status_code=404, detail="Listing not found, unauthorized, or not active")
+        
+        # Toggle the featured status
+        new_featured_status = not listing.get("featured", False)
+        
+        result = await db.marketplace_listings.update_one(
+            {"listing_id": listing_id, "seller_id": request.seller_id},
+            {"$set": {
+                "featured": new_featured_status,
+                "featured_at": datetime.now(timezone.utc).isoformat() if new_featured_status else None,
+            }}
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=500, detail="Failed to update featured status")
+        
+        return {"success": True, "featured": new_featured_status}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error toggling featured status: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/marketplace/purchase")
 async def initiate_purchase(request: PurchaseRequest, http_request: Request):
     """Initiate a purchase with Stripe checkout"""
