@@ -39,6 +39,19 @@ interface ProfileData {
   isVerified?: boolean;
   ageRangeMin?: number;
   ageRangeMax?: number;
+  // New registration fields
+  primaryName?: string;
+  primaryAge?: number;
+  secondaryName?: string;
+  secondaryAge?: number;
+  city?: string;
+  state?: string;
+  country?: string;
+  travelStatus?: string;
+  communityTenure?: string;
+  preferenceType?: string;
+  aboutYou?: string;
+  verifiedPineapple?: boolean;
 }
 
 interface ProfilePageProps {
