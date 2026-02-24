@@ -234,7 +234,7 @@ export default function MyListingsPage() {
 
         {/* Stats Summary */}
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
             <div className="bg-darkBlue/50 rounded-xl border border-gold/20 p-4 text-center">
               <p className="text-3xl font-heading text-gold">{listings.length}</p>
               <p className="text-offWhite/60 text-sm font-body">Total Listings</p>
@@ -244,6 +244,12 @@ export default function MyListingsPage() {
                 {listings.filter(l => l.status === 'active').length}
               </p>
               <p className="text-offWhite/60 text-sm font-body">Active</p>
+            </div>
+            <div className="bg-darkBlue/50 rounded-xl border border-yellow-500/30 p-4 text-center">
+              <p className="text-3xl font-heading text-yellow-400">
+                {listings.filter(l => l.featured).length}
+              </p>
+              <p className="text-offWhite/60 text-sm font-body">Featured</p>
             </div>
             <div className="bg-darkBlue/50 rounded-xl border border-gold/20 p-4 text-center">
               <p className="text-3xl font-heading text-blue-400">
