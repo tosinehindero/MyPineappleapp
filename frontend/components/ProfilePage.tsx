@@ -884,6 +884,23 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                 </div>
               </div>
 
+              {/* Fantasies & Desires Section */}
+              {profile.fantasies && (
+                <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-pink-500/20 p-6" data-testid="fantasies-section">
+                  <h2 className="text-lg font-heading text-pink-400 mb-4 flex items-center space-x-2">
+                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <span>Fantasies & Desires</span>
+                  </h2>
+                  <div className={shouldBlur ? 'filter blur-md select-none' : ''}>
+                    <p className="text-offWhite/90 font-body leading-relaxed">
+                      {profile.fantasies}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Interests - Tag Cloud */}
               <div className="bg-darkBlue/60 backdrop-blur-md rounded-2xl border border-gold/20 p-6" data-testid="interests-section">
                 <h2 className="text-lg font-heading text-gold mb-4 flex items-center space-x-2">
