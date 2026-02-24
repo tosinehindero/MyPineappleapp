@@ -12,7 +12,7 @@ Restore existing codebase from fork EMTba46ab and ensure:
   - Firestore: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`, `profileViews`, `comments`, `postReactions`, `conversations`, `messages`, `conversationKeys`, `circles`, `subscriptions`
   - MongoDB: `marketplace_listings`, `payment_transactions`, `subscription_transactions`, `subscriptions`
 
-## Current Status (Feb 23, 2026)
+## Current Status (Feb 24, 2026)
 - ✅ All previous features working
 - ✅ **Inner Circle Feature** - Add/remove members to your circle, circle-only posts (Feb 23, 2026)
 - ✅ **Mobile Circle Row** - Stories-style horizontal scroll for circle members (Feb 23, 2026)
@@ -21,6 +21,87 @@ Restore existing codebase from fork EMTba46ab and ensure:
 - ✅ **Admin Dashboard Enhancements** - Revenue stats, tier overrides, founder toggle (Feb 23, 2026)
 - ✅ **Subscription Feature Gating** - Route protection, message limits, event blur (Feb 23, 2026)
 - ✅ **Groups (Inner Circles)** - Create/join groups, group feed with video, media vault (Feb 23, 2026)
+- ✅ **3-Step Registration & Vetting Form Revamp** - Complete multi-step onboarding flow (Feb 24, 2026)
+
+## 3-Step Registration & Vetting Form (NEW - Feb 24, 2026)
+
+### Overview:
+Complete revamp of the registration flow into a comprehensive 3-step vetting process with progress bar, animated transitions, and "Verified Pineapple" badge system.
+
+### Step 1: Account & Logistics
+- **Account Type**: 9 options (Single Male/Female, Couples M/F/M/M/F/F, Poly Triad, Poly Quad+, Non-Binary, Other)
+- **Primary User**: Display name and age (21+ required)
+- **Partner Details**: Auto-shows for couple/poly account types (name & age)
+- **Credentials**: Username (letters/numbers/underscores), email, password with confirmation
+- **Location**: City, state/province, country
+- **Travel Status**: Local Only, Within State, Domestic, International, Frequent Traveler
+
+### Step 2: Lifestyle Profile
+- **Experience Level**: Brand New → Veteran (5 levels)
+- **Community Tenure**: Just starting → 5+ years (6 options)
+- **External Verification** (Optional): SLS, Kasidie, SDC, FetLife handles
+- **Interests**: Categorized selection (min 3 required)
+  - Social & Dating: Casual Dating, Friendship First, Event Companions, Travel Partners
+  - Lifestyle: Soft Swap, Full Swap, Same Room, Separate Room, Voyeurism, Exhibitionism
+  - Kink & BDSM: Light BDSM, Bondage, D/s, Role Play
+  - Relationship Styles: Polyamory, Open Relationship, Hotwife/Cuckold, Stag/Vixen
+  - Events & Social: House Parties, Club Events, Resort Takeovers, Luxury Travel, Workshops
+- **Preferences**: Singles/Couples/Both, Gender preferences
+- **Age Range**: Slider for min/max (21-99)
+- **About You**: Textarea with rotating "Vibe" hints (min 100 chars)
+- **Fantasies**: Textarea with rotating "Vibe" hints (min 50 chars)
+
+### Step 3: Safety, Professionalism & Media
+- **Consent Pledges** (All 5 required):
+  1. Consent Pledge - Respect boundaries and enthusiastic consent
+  2. Privacy Agreement - No sharing of photos/info without consent
+  3. Health & Safety - Commit to regular testing and honest communication
+  4. Video Vetting Agreement - Agree to verification call for badge
+  5. Age Verification - Confirm 21+ years old
+- **Photo Upload**: 3-10 photos required (JPG/PNG/WebP, max 15MB each)
+- **Video Intro** (Optional): MP4/MOV/WebM, max 50MB
+- **Verified Pineapple Badge Info**: Display explaining badge benefits (3x more profile views)
+
+### Technical Implementation:
+- **Components**:
+  - `/components/RegistrationForm.tsx` - Main orchestrator
+  - `/components/steps/AccountStep.tsx` - Step 1
+  - `/components/steps/ProfileStep.tsx` - Step 2
+  - `/components/steps/SafetyMediaStep.tsx` - Step 3
+  - `/components/VerifiedPineappleBadge.tsx` - Reusable badge component
+- **Schemas**: `/lib/registration-schemas.ts` - Zod validation schemas
+- **Features**:
+  - Animated step transitions (framer-motion)
+  - Progress bar with step indicators
+  - Green checkmarks for completed steps
+  - Data preserved on back navigation
+  - Form validation on each step
+  - Character counters for text fields
+  - Drag-and-drop photo upload with preview
+  - Responsive design (mobile/desktop)
+
+### Firestore Member Document (New Fields):
+```typescript
+{
+  accountType: string,
+  primaryName: string,
+  primaryAge: number,
+  hasSecondaryUser: boolean,
+  secondaryName?: string,
+  secondaryAge?: number,
+  travelStatus: string,
+  experienceLevel: string,
+  communityTenure: string,
+  verificationHandles?: { sls?, kasidie?, sdc?, fetlife?, other? },
+  interests: string[],
+  preferenceType: string,
+  aboutYou: string,
+  fantasies: string,
+  status: 'pending' | 'approved' | 'rejected',
+  isVerified: boolean,
+  verifiedPineapple: boolean
+}
+```
 
 ## Groups (Inner Circles) Feature (NEW - Feb 23, 2026)
 
