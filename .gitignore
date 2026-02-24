@@ -160,3 +160,7 @@ frontend/.next/dev/cache/turbopack/23c46498/00006304.sst
 # Environment files
 *.env
 *.env.*
+-e 
+# Environment files
+*.env
+*.env.*
