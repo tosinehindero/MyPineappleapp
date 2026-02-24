@@ -22,6 +22,8 @@ interface Listing {
   status: string;
   created_at: string;
   views: number;
+  featured?: boolean;
+  featured_at?: string;
 }
 
 const CATEGORIES = [
