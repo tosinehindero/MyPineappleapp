@@ -866,6 +866,21 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                       </div>
                     </div>
                   )}
+
+                  {/* Looking For (Preference Type) */}
+                  {profile.preferenceType && (
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-4 h-4 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-offWhite/50 text-xs font-body uppercase tracking-wide">Looking For</p>
+                        <p className="text-green-400 font-body">{profile.preferenceType}</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
