@@ -781,18 +781,20 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                     </div>
                   </div>
 
-                  {/* Display Name */}
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-4 h-4 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
+                  {/* Age */}
+                  {profile.primaryAge && (
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-4 h-4 text-gold" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-offWhite/50 text-xs font-body uppercase tracking-wide">Age</p>
+                        <p className="text-offWhite font-body">{profile.primaryAge}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-offWhite/50 text-xs font-body uppercase tracking-wide">Display Name</p>
-                      <p className="text-offWhite font-body">{profile.primaryName || profile.username}</p>
-                    </div>
-                  </div>
+                  )}
 
                   {/* Location */}
                   <div className="flex items-start gap-3">
@@ -851,6 +853,21 @@ export default function ProfilePage({ profileId }: ProfilePageProps) {
                       <div>
                         <p className="text-offWhite/50 text-xs font-body uppercase tracking-wide">In Community</p>
                         <p className="text-purple-400 font-body">{profile.communityTenure}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Desired Age Range */}
+                  {profile.ageRangeMin && profile.ageRangeMax && (
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-4 h-4 text-pink-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-offWhite/50 text-xs font-body uppercase tracking-wide">Desired Age Range</p>
+                        <p className="text-pink-400 font-body">{profile.ageRangeMin} - {profile.ageRangeMax}</p>
                       </div>
                     </div>
                   )}
