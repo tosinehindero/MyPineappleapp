@@ -112,6 +112,37 @@ export default function MyListingsPage() {
     }
   };
 
+  const handleToggleFeatured = async (listing: Listing) => {
+    if (!currentUser) return;
+
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/marketplace/listings/${listing.listing_id}/toggle-featured`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seller_id: currentUser.uid }),
+        }
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        // Update local state
+        setListings(listings.map(l => 
+          l.listing_id === listing.listing_id 
+            ? { ...l, featured: data.featured } 
+            : l
+        ));
+        toast.success(data.featured ? 'Listing marked as featured!' : 'Listing unfeatured');
+      } else {
+        toast.error(data.detail || 'Failed to update featured status');
+      }
+    } catch (error) {
+      console.error('Error toggling featured:', error);
+      toast.error('Failed to update featured status');
+    }
+  };
+
   const getConditionStyle = (condition: string) => {
     const cond = CONDITIONS.find(c => c.value === condition);
     return cond?.color || 'text-offWhite/60';
