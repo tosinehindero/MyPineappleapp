@@ -380,31 +380,33 @@ export async function getUpcomingEvents(): Promise<{
 // Get featured marketplace items
 export async function getFeaturedListings(): Promise<{
   success: boolean;
-  listings: Array<{ id: string; title: string; price: number; image: string | null }>;
+  listings: Array<{ id: string; title: string; price: number; image: string | null; featured: boolean }>;
 }> {
   try {
-    const listingsQuery = query(
-      collection(db, 'marketplace_listings'),
-      where('status', '==', 'active'),
-      orderBy('createdAt', 'desc'),
-      limit(3)
-    );
-
-    const snapshot = await getDocs(listingsQuery);
-    const listings: Array<{ id: string; title: string; price: number; image: string | null }> = [];
-
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      listings.push({
-        id: docSnap.id,
-        title: data.title,
-        price: data.price,
-        image: data.images?.[0] || null,
-      });
-    });
-
-    return { success: true, listings };
+    // Fetch from backend API (MongoDB) instead of Firebase
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+    const response = await fetch(`${BACKEND_URL}/api/marketplace/listings?limit=10`);
+    const data = await response.json();
+    
+    if (data.success && data.listings) {
+      // Filter to only featured items, then take top 5
+      const featuredListings = data.listings
+        .filter((listing: any) => listing.featured === true)
+        .slice(0, 5)
+        .map((listing: any) => ({
+          id: listing.listing_id,
+          title: listing.title,
+          price: listing.price,
+          image: listing.images?.[0] || null,
+          featured: true,
+        }));
+      
+      return { success: true, listings: featuredListings };
+    }
+    
+    return { success: true, listings: [] };
   } catch (error) {
+    console.error('Error fetching featured listings:', error);
     return { success: true, listings: [] };
   }
 }
