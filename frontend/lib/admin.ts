@@ -463,6 +463,55 @@ export async function unbanUser(userId: string): Promise<{ success: boolean; err
   }
 }
 
+// Delete user account permanently
+export async function deleteUserAccount(
+  userId: string,
+  deleteContent: boolean = false
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Delete user's content if requested
+    if (deleteContent) {
+      // Delete user's posts
+      const postsQuery = query(collection(db, 'posts'), where('authorId', '==', userId));
+      const postsSnapshot = await getDocs(postsQuery);
+      const postDeletePromises = postsSnapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(postDeletePromises);
+
+      // Delete user's comments
+      const commentsQuery = query(collection(db, 'comments'), where('authorId', '==', userId));
+      const commentsSnapshot = await getDocs(commentsQuery);
+      const commentDeletePromises = commentsSnapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(commentDeletePromises);
+
+      // Delete user's notifications
+      const notificationsQuery = query(collection(db, 'notifications'), where('userId', '==', userId));
+      const notificationsSnapshot = await getDocs(notificationsQuery);
+      const notificationDeletePromises = notificationsSnapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(notificationDeletePromises);
+
+      // Delete user's messages (as sender)
+      const messagesSentQuery = query(collection(db, 'messages'), where('senderId', '==', userId));
+      const messagesSentSnapshot = await getDocs(messagesSentQuery);
+      const messagesSentDeletePromises = messagesSentSnapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(messagesSentDeletePromises);
+
+      // Note: Marketplace listings are in MongoDB, handled separately via backend API
+    }
+
+    // Delete the user's member document from Firestore
+    await deleteDoc(doc(db, 'members', userId));
+
+    // Note: Firebase Auth user deletion requires Admin SDK (server-side)
+    // The user won't be able to log in since their member document is deleted
+    // For full deletion, a backend endpoint with Firebase Admin SDK would be needed
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error deleting user account:', error);
+    return { success: false, error: error.message };
+  }
+}
+
 // ============================================
 // CONTENT MODERATION
 // ============================================
