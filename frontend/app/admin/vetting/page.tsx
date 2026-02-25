@@ -426,7 +426,8 @@ function AdminDashboardContent() {
               { key: 'overview', label: 'Overview', icon: '📊' },
               { key: 'vetting', label: 'Vetting', icon: '👤', badge: stats.pending },
               { key: 'reports', label: 'Reports', icon: '🚨', badge: adminStats?.pendingReports || 0 },
-              { key: 'users', label: 'User Management', icon: '⚙️' },
+              { key: 'users', label: 'Users', icon: '⚙️' },
+              { key: 'circles', label: 'Circles', icon: '🔵', badge: allGroups.length || undefined },
             ].map((tab) => (
               <button
                 key={tab.key}
@@ -440,7 +441,7 @@ function AdminDashboardContent() {
                 <span>{tab.icon}</span>
                 <span>{tab.label}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                  <span className="ml-2 px-2 py-0.5 bg-blue-500 text-white text-xs rounded-full">
                     {tab.badge}
                   </span>
                 )}
