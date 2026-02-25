@@ -86,6 +86,14 @@ function AdminDashboardContent() {
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
+  // Circles/Groups state
+  const [allGroups, setAllGroups] = useState<AdminGroup[]>([]);
+  const [groupsLoading, setGroupsLoading] = useState(false);
+  const [showDeleteGroupModal, setShowDeleteGroupModal] = useState(false);
+  const [deleteGroupTarget, setDeleteGroupTarget] = useState<AdminGroup | null>(null);
+  const [deleteGroupConfirmText, setDeleteGroupConfirmText] = useState('');
+  const [deletingGroup, setDeletingGroup] = useState(false);
+
   // Check for initialization success message
   useEffect(() => {
     if (searchParams.get('initialized') === 'true') {
