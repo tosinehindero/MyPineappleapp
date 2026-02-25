@@ -81,13 +81,21 @@ const vibeColors: Record<string, string> = {
 };
 
 export default function MemberDirectoryPage() {
-  const { currentUser } = useAuth();
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedAccountType, setSelectedAccountType] = useState('All Types');
   const [selectedExperience, setSelectedExperience] = useState('All Levels');
+
+  // Auth listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const fetchMembers = async () => {
