@@ -541,6 +541,108 @@ export async function deleteUserAccount(
 }
 
 // ============================================
+// GROUPS/CIRCLES ADMIN MANAGEMENT
+// ============================================
+
+export interface AdminGroup {
+  id: string;
+  name: string;
+  description: string;
+  coverImage?: string;
+  privacy: 'public' | 'private' | 'secret';
+  ownerId: string;
+  ownerUsername?: string;
+  memberCount: number;
+  postCount: number;
+  createdAt: Date;
+}
+
+// Get all groups for admin management
+export async function getAllGroupsForAdmin(): Promise<AdminGroup[]> {
+  try {
+    const groupsSnapshot = await getDocs(collection(db, 'groups'));
+    const groups: AdminGroup[] = [];
+
+    for (const groupDoc of groupsSnapshot.docs) {
+      const data = groupDoc.data();
+      
+      // Get member count
+      const membersQuery = query(
+        collection(db, 'groupMembers'),
+        where('groupId', '==', groupDoc.id)
+      );
+      const membersSnap = await getDocs(membersQuery);
+      
+      // Get post count
+      const postsQuery = query(
+        collection(db, 'groupPosts'),
+        where('groupId', '==', groupDoc.id)
+      );
+      const postsSnap = await getDocs(postsQuery);
+      
+      // Get owner username
+      let ownerUsername = 'Unknown';
+      try {
+        const ownerDoc = await getDoc(doc(db, 'members', data.ownerId));
+        if (ownerDoc.exists()) {
+          ownerUsername = ownerDoc.data().username || 'Unknown';
+        }
+      } catch (e) {
+        console.log('Could not get owner username');
+      }
+
+      groups.push({
+        id: groupDoc.id,
+        name: data.name || 'Unnamed Group',
+        description: data.description || '',
+        coverImage: data.coverImage,
+        privacy: data.privacy || 'public',
+        ownerId: data.ownerId,
+        ownerUsername,
+        memberCount: membersSnap.size,
+        postCount: postsSnap.size,
+        createdAt: data.createdAt?.toDate() || new Date(),
+      });
+    }
+
+    // Sort by creation date (newest first)
+    groups.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    return groups;
+  } catch (error) {
+    console.error('Error fetching groups for admin:', error);
+    return [];
+  }
+}
+
+// Admin delete group (bypasses owner check)
+export async function adminDeleteGroup(groupId: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Delete all members
+    const membersQuery = query(collection(db, 'groupMembers'), where('groupId', '==', groupId));
+    const membersSnap = await getDocs(membersQuery);
+    for (const memberDoc of membersSnap.docs) {
+      await deleteDoc(memberDoc.ref);
+    }
+
+    // Delete all posts
+    const postsQuery = query(collection(db, 'groupPosts'), where('groupId', '==', groupId));
+    const postsSnap = await getDocs(postsQuery);
+    for (const postDoc of postsSnap.docs) {
+      await deleteDoc(postDoc.ref);
+    }
+
+    // Delete group
+    await deleteDoc(doc(db, 'groups', groupId));
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error deleting group:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+// ============================================
 // CONTENT MODERATION
 // ============================================
 
