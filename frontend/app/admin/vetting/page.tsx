@@ -1103,10 +1103,10 @@ function AdminDashboardContent() {
       <AnimatePresence>
         {showBanModal && banTargetId && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-charcoal/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowBanModal(false)}>
-            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-darkBlue rounded-2xl border border-red-500/30 p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-              <h3 className="text-xl font-heading text-red-400 mb-4">Ban User</h3>
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-darkBlue rounded-2xl border border-orange-500/30 p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-xl font-heading text-orange-400 mb-4">Ban User</h3>
               <p className="text-offWhite/60 font-body mb-4">
-                You are about to ban <span className="text-red-400">{banTargetUsername}</span>. This will prevent them from accessing the platform.
+                You are about to ban <span className="text-orange-400">{banTargetUsername}</span>. This will prevent them from accessing the platform.
               </p>
               
               <div className="space-y-4 mb-6">
@@ -1119,7 +1119,7 @@ function AdminDashboardContent() {
                         onClick={() => setBanDuration(duration)}
                         className={`flex-1 py-2 rounded-lg text-sm transition-all ${
                           banDuration === duration
-                            ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
                             : 'bg-white/[0.03] text-offWhite/60 border border-white/10'
                         }`}
                       >
@@ -1135,15 +1135,100 @@ function AdminDashboardContent() {
                     value={banReason}
                     onChange={(e) => setBanReason(e.target.value)}
                     placeholder="Explain why this user is being banned..."
-                    className="w-full p-3 bg-charcoal border border-red-500/20 rounded-lg text-offWhite font-body focus:outline-none focus:border-red-500/50 resize-none h-24"
+                    className="w-full p-3 bg-charcoal border border-orange-500/20 rounded-lg text-offWhite font-body focus:outline-none focus:border-orange-500/50 resize-none h-24"
                   />
                 </div>
               </div>
               
               <div className="flex space-x-4">
                 <button onClick={() => { setShowBanModal(false); setBanReason(''); }} className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors">Cancel</button>
-                <button onClick={handleBanUser} disabled={!banReason} className="flex-1 py-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-colors disabled:opacity-50">
+                <button onClick={handleBanUser} disabled={!banReason} className="flex-1 py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-500 transition-colors disabled:opacity-50">
                   Confirm Ban
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Account Modal */}
+      <AnimatePresence>
+        {showDeleteModal && deleteTargetId && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-charcoal/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowDeleteModal(false)}>
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-darkBlue rounded-2xl border border-red-500/30 p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-red-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-heading text-red-400">Delete Account</h3>
+                  <p className="text-red-400/60 text-sm">This action cannot be undone</p>
+                </div>
+              </div>
+              
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
+                <p className="text-offWhite/80 font-body text-sm">
+                  You are about to <strong className="text-red-400">permanently delete</strong> the account of <span className="text-red-400 font-semibold">{deleteTargetUsername}</span>.
+                </p>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id="deleteContent"
+                    checked={deleteContent}
+                    onChange={(e) => setDeleteContent(e.target.checked)}
+                    className="w-4 h-4 rounded border-red-500/30 bg-charcoal text-red-500 focus:ring-red-500/50"
+                  />
+                  <label htmlFor="deleteContent" className="text-offWhite/70 text-sm">
+                    Also delete all user's posts, comments, and messages
+                  </label>
+                </div>
+                
+                <div>
+                  <label className="text-offWhite/60 text-sm mb-2 block">
+                    Type <span className="text-red-400 font-mono">DELETE</span> to confirm
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value.toUpperCase())}
+                    placeholder="DELETE"
+                    className="w-full p-3 bg-charcoal border border-red-500/20 rounded-lg text-offWhite font-mono focus:outline-none focus:border-red-500/50 uppercase"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button 
+                  onClick={() => { 
+                    setShowDeleteModal(false); 
+                    setDeleteConfirmText(''); 
+                    setDeleteContent(true);
+                  }} 
+                  className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleDeleteUser} 
+                  disabled={deleteConfirmText !== 'DELETE' || deleting} 
+                  className="flex-1 py-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                >
+                  {deleting ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Deleting...</span>
+                    </>
+                  ) : (
+                    <span>Delete Permanently</span>
+                  )}
                 </button>
               </div>
             </motion.div>
