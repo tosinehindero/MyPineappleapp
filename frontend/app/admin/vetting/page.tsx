@@ -259,6 +259,33 @@ function AdminDashboardContent() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    if (!deleteTargetId || deleteConfirmText !== 'DELETE') return;
+    
+    setDeleting(true);
+    try {
+      const result = await deleteUserAccount(deleteTargetId, deleteContent);
+      
+      if (result.success) {
+        toast.success('User account permanently deleted');
+        setShowDeleteModal(false);
+        setDeleteTargetId(null);
+        setDeleteTargetUsername('');
+        setDeleteConfirmText('');
+        setDeleteContent(true);
+        // Remove user from local state
+        setAllUsers(allUsers.filter(u => u.id !== deleteTargetId));
+        await loadAllData();
+      } else {
+        toast.error('Failed to delete user', { description: result.error });
+      }
+    } catch (error) {
+      toast.error('Failed to delete user');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const handleCreateTestUser = async () => {
     const result = await createTestPendingUser();
     if (result.success) {
