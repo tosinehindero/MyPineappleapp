@@ -18,6 +18,7 @@ import {
   updateReportStatus,
   banUser,
   unbanUser,
+  deleteUserAccount,
   getAdminStats,
   getSubscriptionStats,
   getAllUsersForAdmin,
