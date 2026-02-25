@@ -24,14 +24,17 @@ import {
   getAllUsersForAdmin,
   setUserTier,
   setFounderStatus,
+  getAllGroupsForAdmin,
+  adminDeleteGroup,
   PendingProfile,
   UserReport,
   AdminStats,
   SubscriptionStats,
   UserWithSubscription,
+  AdminGroup,
 } from '@/lib/admin';
 
-type TabType = 'overview' | 'vetting' | 'reports' | 'users';
+type TabType = 'overview' | 'vetting' | 'reports' | 'users' | 'circles';
 
 function AdminDashboardContent() {
   const router = useRouter();
