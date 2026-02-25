@@ -6,7 +6,6 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/lib/AuthContext';
 import Link from 'next/link';
-import BottomNav from '@/components/BottomNav';
 import { Search, Filter, MapPin, X, ChevronDown, Users, Sparkles } from 'lucide-react';
 
 interface Member {
