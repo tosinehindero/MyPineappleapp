@@ -388,6 +388,18 @@ async def delete_listing(listing_id: str, seller_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.delete("/marketplace/listings/user/{user_id}")
+async def delete_user_listings(user_id: str):
+    """Delete all listings for a user (admin action for account deletion)"""
+    try:
+        result = await db.marketplace_listings.delete_many({"seller_id": user_id})
+        logger.info(f"Deleted {result.deleted_count} listings for user {user_id}")
+        return {"success": True, "deleted_count": result.deleted_count}
+    except Exception as e:
+        logger.error(f"Error deleting user listings: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 class UpdateListingRequest(BaseModel):
     title: str
     description: str
