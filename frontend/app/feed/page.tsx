@@ -1847,6 +1847,30 @@ export default function FeedPage() {
             {/* Right Sidebar */}
             <aside className="hidden lg:block lg:col-span-3">
               <div className="sticky top-24 space-y-6">
+                {/* Member Directory Quick Access */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="bg-gradient-to-br from-gold/10 to-gold/5 backdrop-blur-xl rounded-2xl border border-gold/30 p-6 shadow-2xl shadow-black/20"
+                >
+                  <h3 className="text-gold font-heading text-lg mb-3 flex items-center space-x-2">
+                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span>Member Directory</span>
+                  </h3>
+                  <p className="text-offWhite/60 text-sm font-body mb-4">
+                    Browse and connect with all members in the community
+                  </p>
+                  <Link
+                    href="/members"
+                    className="block w-full py-3 bg-gold text-charcoal text-center rounded-xl font-body font-semibold hover:bg-gold/90 transition-colors"
+                    data-testid="member-directory-link"
+                  >
+                    Browse Members
+                  </Link>
+                </motion.div>
+
                 {/* Upcoming VIP Events */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
