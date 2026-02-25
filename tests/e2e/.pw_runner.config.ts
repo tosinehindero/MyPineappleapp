@@ -11,7 +11,7 @@ export default defineConfig({
     ['json', { outputFile: '/root/.emergent/automation_output/20260224_164919/results.json' }],
   ],
   use: {
-    baseURL: 'https://vibe-verify.preview.emergentagent.com',
+    baseURL: 'https://marketplace-featured.preview.emergentagent.com',
     screenshot: 'only-on-failure',
     trace: 'off',
     headless: true,

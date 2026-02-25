@@ -163,7 +163,7 @@ Your current setup auto-scales:
 
 | Item | Value |
 |------|-------|
-| Preview URL | https://vibe-verify.preview.emergentagent.com |
+| Preview URL | https://marketplace-featured.preview.emergentagent.com |
 | GoDaddy DNS | https://dcc.godaddy.com/manage/dns |
 | Firebase Console | https://console.firebase.google.com |
 | Stripe Dashboard | https://dashboard.stripe.com |

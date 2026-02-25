@@ -12,7 +12,7 @@ import requests
 import os
 
 # Base URL for API testing
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://vibe-verify.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://marketplace-featured.preview.emergentagent.com').rstrip('/')
 
 
 class TestHealthCheck:
