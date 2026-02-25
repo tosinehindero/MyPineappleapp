@@ -440,9 +440,6 @@ export default function MemberDirectoryPage() {
           </motion.div>
         )}
       </div>
-
-      {/* Bottom Navigation */}
-      <BottomNav />
     </div>
   );
 }
