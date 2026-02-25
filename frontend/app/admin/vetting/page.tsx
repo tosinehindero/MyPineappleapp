@@ -1157,6 +1157,115 @@ function AdminDashboardContent() {
             )}
           </motion.div>
         )}
+
+        {/* Circles Tab */}
+        {activeTab === 'circles' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <div className="bg-darkBlue/50 border border-gold/20 rounded-xl overflow-hidden">
+              <div className="p-4 border-b border-gold/10 flex items-center justify-between">
+                <h2 className="text-lg font-heading text-gold">All Circles ({allGroups.length})</h2>
+                <button
+                  onClick={loadGroups}
+                  disabled={groupsLoading}
+                  className="px-4 py-2 bg-gold/10 text-gold text-sm rounded-lg hover:bg-gold/20 transition-colors disabled:opacity-50"
+                >
+                  {groupsLoading ? 'Loading...' : 'Refresh'}
+                </button>
+              </div>
+
+              {groupsLoading ? (
+                <div className="p-8 text-center">
+                  <div className="w-8 h-8 border-2 border-gold/30 border-t-gold rounded-full animate-spin mx-auto mb-4"></div>
+                  <p className="text-offWhite/60 font-body">Loading circles...</p>
+                </div>
+              ) : allGroups.length === 0 ? (
+                <div className="p-8 text-center">
+                  <p className="text-offWhite/60 font-body">No circles found</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-charcoal/50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Circle</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Owner</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Privacy</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Members</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Posts</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Created</th>
+                        <th className="px-4 py-3 text-left text-xs font-body text-offWhite/60 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gold/10">
+                      {allGroups.map((group) => (
+                        <tr key={group.id} className="hover:bg-white/[0.02]">
+                          <td className="px-4 py-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-lg overflow-hidden bg-charcoal flex-shrink-0">
+                                {group.coverImage ? (
+                                  <img src={group.coverImage} alt={group.name} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-gold/40">
+                                    <svg className="w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                              <div>
+                                <p className="text-offWhite font-body font-medium">{group.name}</p>
+                                <p className="text-offWhite/40 text-xs truncate max-w-[200px]">{group.description || 'No description'}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4">
+                            <Link href={`/profile/${group.ownerId}`} className="text-gold hover:underline text-sm">
+                              {group.ownerUsername}
+                            </Link>
+                          </td>
+                          <td className="px-4 py-4">
+                            <span className={`px-2 py-1 rounded-full text-xs font-body ${
+                              group.privacy === 'public' ? 'bg-green-500/20 text-green-400' :
+                              group.privacy === 'private' ? 'bg-yellow-500/20 text-yellow-400' :
+                              'bg-red-500/20 text-red-400'
+                            }`}>
+                              {group.privacy}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 text-offWhite/80 text-sm">{group.memberCount}</td>
+                          <td className="px-4 py-4 text-offWhite/80 text-sm">{group.postCount}</td>
+                          <td className="px-4 py-4 text-offWhite/60 text-xs">
+                            {group.createdAt.toLocaleDateString()}
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="flex items-center space-x-2">
+                              <Link
+                                href={`/groups/${group.id}`}
+                                className="px-3 py-1.5 bg-gold/10 text-gold text-xs rounded-lg hover:bg-gold/20 transition-colors"
+                              >
+                                View
+                              </Link>
+                              <button
+                                onClick={() => {
+                                  setDeleteGroupTarget(group);
+                                  setShowDeleteGroupModal(true);
+                                }}
+                                className="px-3 py-1.5 bg-red-500/10 text-red-400 text-xs rounded-lg hover:bg-red-500/20 transition-colors"
+                                data-testid={`delete-circle-${group.id}`}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
       </div>
 
       {/* Reject Modal */}
