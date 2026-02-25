@@ -75,6 +75,14 @@ function AdminDashboardContent() {
   const [banReason, setBanReason] = useState('');
   const [banDuration, setBanDuration] = useState<'7days' | '30days' | 'permanent'>('7days');
 
+  // Delete modal state
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleteTargetUsername, setDeleteTargetUsername] = useState<string>('');
+  const [deleteContent, setDeleteContent] = useState(true);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
   // Check for initialization success message
   useEffect(() => {
     if (searchParams.get('initialized') === 'true') {
