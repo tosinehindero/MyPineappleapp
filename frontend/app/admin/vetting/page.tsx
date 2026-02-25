@@ -1430,6 +1430,82 @@ function AdminDashboardContent() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Delete Circle Modal */}
+      <AnimatePresence>
+        {showDeleteGroupModal && deleteGroupTarget && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-charcoal/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowDeleteGroupModal(false)}>
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }} className="bg-darkBlue rounded-2xl border border-red-500/30 p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-red-500" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xl font-heading text-red-400">Delete Circle</h3>
+                  <p className="text-red-400/60 text-sm">This action cannot be undone</p>
+                </div>
+              </div>
+              
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
+                <p className="text-offWhite/80 font-body text-sm">
+                  You are about to <strong className="text-red-400">permanently delete</strong> the circle <span className="text-red-400 font-semibold">"{deleteGroupTarget.name}"</span>.
+                </p>
+                <ul className="mt-3 text-sm text-offWhite/60 space-y-1">
+                  <li>• {deleteGroupTarget.memberCount} members will be removed</li>
+                  <li>• {deleteGroupTarget.postCount} posts will be deleted</li>
+                  <li>• All media in the vault will be removed</li>
+                </ul>
+              </div>
+              
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="text-offWhite/60 text-sm mb-2 block">
+                    Type <span className="text-red-400 font-mono">DELETE</span> to confirm
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteGroupConfirmText}
+                    onChange={(e) => setDeleteGroupConfirmText(e.target.value.toUpperCase())}
+                    placeholder="DELETE"
+                    className="w-full p-3 bg-charcoal border border-red-500/20 rounded-lg text-offWhite font-mono focus:outline-none focus:border-red-500/50 uppercase"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex space-x-4">
+                <button 
+                  onClick={() => { 
+                    setShowDeleteGroupModal(false); 
+                    setDeleteGroupConfirmText(''); 
+                  }} 
+                  className="flex-1 py-3 border border-gold/30 text-offWhite/80 rounded-xl hover:border-gold/60 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleDeleteGroup} 
+                  disabled={deleteGroupConfirmText !== 'DELETE' || deletingGroup} 
+                  className="flex-1 py-3 bg-red-600 text-white rounded-xl hover:bg-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                >
+                  {deletingGroup ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Deleting...</span>
+                    </>
+                  ) : (
+                    <span>Delete Circle</span>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
