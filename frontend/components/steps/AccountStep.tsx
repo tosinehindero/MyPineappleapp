@@ -12,9 +12,27 @@ import {
 } from '@/lib/registration-schemas';
 import { Eye, EyeOff, MapPin, Plane, Users, User } from 'lucide-react';
 
+// Form input type (before refinements)
+type Step1FormInput = {
+  accountType: typeof accountTypes[number];
+  primaryName: string;
+  primaryAge: number;
+  hasSecondaryUser: boolean;
+  secondaryName?: string;
+  secondaryAge?: number;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  city: string;
+  state: string;
+  country: string;
+  travelStatus: typeof travelStatusOptions[number];
+};
+
 interface AccountStepProps {
   onSubmit: (data: Step1Data) => void;
-  initialData: Partial<Step1Data> | null;
+  initialData: Partial<Step1FormInput> | null;
   isLoading: boolean;
 }
 
@@ -33,8 +51,8 @@ export default function AccountStep({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<Step1Data>({
-    resolver: zodResolver(step1Schema),
+  } = useForm<Step1FormInput>({
+    resolver: zodResolver(step1Schema) as any,
     defaultValues: {
       accountType: initialData?.accountType || undefined,
       primaryName: initialData?.primaryName || '',
