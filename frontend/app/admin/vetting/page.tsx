@@ -262,13 +262,17 @@ function AdminDashboardContent() {
   const handleDeleteUser = async () => {
     if (!deleteTargetId || deleteConfirmText !== 'DELETE') return;
     
+    // Get the user's tier before deletion for stats update
+    const userToDelete = allUsers.find(u => u.id === deleteTargetId);
+    const userTier = userToDelete?.tier || 'free';
+    
     setDeleting(true);
     try {
       const result = await deleteUserAccount(deleteTargetId, deleteContent);
       
       if (result.success) {
         toast.success('User account permanently deleted', {
-          description: result.deletedTier ? `Removed from ${result.deletedTier} tier` : undefined
+          description: `Removed from ${userTier} tier`
         });
         setShowDeleteModal(false);
         setDeleteTargetId(null);
@@ -276,15 +280,39 @@ function AdminDashboardContent() {
         setDeleteConfirmText('');
         setDeleteContent(true);
         
-        // Remove user from local state
-        setAllUsers(allUsers.filter(u => u.id !== deleteTargetId));
+        // Immediately update local user list
+        setAllUsers(prev => prev.filter(u => u.id !== deleteTargetId));
         
-        // Refresh all stats to sync subscribers and tier breakdown
-        await loadAllData();
+        // Immediately update admin stats
+        setAdminStats(prev => prev ? {
+          ...prev,
+          totalUsers: prev.totalUsers - 1,
+          verifiedUsers: userToDelete?.isVerified ? prev.verifiedUsers - 1 : prev.verifiedUsers,
+          pendingUsers: !userToDelete?.isVerified ? prev.pendingUsers - 1 : prev.pendingUsers,
+        } : null);
         
-        // Also refresh subscription stats specifically
-        const newSubStats = await getSubscriptionStats();
-        setSubscriptionStats(newSubStats);
+        // Immediately update subscription stats based on deleted user's tier
+        setSubscriptionStats(prev => {
+          if (!prev) return null;
+          const newStats = { ...prev };
+          
+          if (userTier === 'premium') {
+            newStats.premium_subscribers = Math.max(0, newStats.premium_subscribers - 1);
+            newStats.total_subscribers = Math.max(0, newStats.total_subscribers - 1);
+            newStats.active_subscriptions = Math.max(0, newStats.active_subscriptions - 1);
+          } else if (userTier === 'basic') {
+            newStats.basic_subscribers = Math.max(0, newStats.basic_subscribers - 1);
+            newStats.total_subscribers = Math.max(0, newStats.total_subscribers - 1);
+            newStats.active_subscriptions = Math.max(0, newStats.active_subscriptions - 1);
+          } else {
+            newStats.free_users = Math.max(0, newStats.free_users - 1);
+          }
+          
+          return newStats;
+        });
+        
+        // Also refresh from server to ensure accuracy
+        loadAllData();
       } else {
         toast.error('Failed to delete user', { description: result.error });
       }
