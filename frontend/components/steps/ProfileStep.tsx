@@ -39,7 +39,7 @@ export default function ProfileStep({
     watch,
     formState: { errors },
   } = useForm<Step2Data>({
-    resolver: zodResolver(step2Schema),
+    resolver: zodResolver(step2Schema) as any,
     defaultValues: {
       experienceLevel: initialData?.experienceLevel || undefined,
       communityTenure: initialData?.communityTenure || undefined,
