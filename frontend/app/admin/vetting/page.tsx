@@ -267,15 +267,24 @@ function AdminDashboardContent() {
       const result = await deleteUserAccount(deleteTargetId, deleteContent);
       
       if (result.success) {
-        toast.success('User account permanently deleted');
+        toast.success('User account permanently deleted', {
+          description: result.deletedTier ? `Removed from ${result.deletedTier} tier` : undefined
+        });
         setShowDeleteModal(false);
         setDeleteTargetId(null);
         setDeleteTargetUsername('');
         setDeleteConfirmText('');
         setDeleteContent(true);
+        
         // Remove user from local state
         setAllUsers(allUsers.filter(u => u.id !== deleteTargetId));
+        
+        // Refresh all stats to sync subscribers and tier breakdown
         await loadAllData();
+        
+        // Also refresh subscription stats specifically
+        const newSubStats = await getSubscriptionStats();
+        setSubscriptionStats(newSubStats);
       } else {
         toast.error('Failed to delete user', { description: result.error });
       }
