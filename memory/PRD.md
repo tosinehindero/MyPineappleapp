@@ -1,553 +1,100 @@
-# PineapplePlay - Luxury Social Platform
+# PineapplePlay - Product Requirements Document
 
-## Original Problem Statement
-Restore existing codebase from fork EMTba46ab and ensure:
-- Collection name uses `members` (NOT profiles)
-- Admin UID set to: `48VUvApl8PWC8KhcKEqgfVS87wB2`
+## Overview
+PineapplePlay is a lifestyle community platform for adults (21+) featuring social networking, marketplace, groups/circles, and event discovery. Built with Next.js 16, FastAPI, MongoDB, and Firebase.
 
-## Architecture
-- **Frontend**: Next.js 16 with TypeScript, Tailwind CSS
-- **Backend**: FastAPI + Firebase (Auth + Firestore + Storage) + MongoDB
-- **Database**: 
-  - Firestore: `members`, `posts`, `favorites`, `notifications`, `verificationRequests`, `profileViews`, `comments`, `postReactions`, `conversations`, `messages`, `conversationKeys`, `circles`, `subscriptions`
-  - MongoDB: `marketplace_listings`, `payment_transactions`, `subscription_transactions`, `subscriptions`
+## Core Features (Implemented)
 
-## Current Status (Feb 24, 2026)
-- ✅ All previous features working
-- ✅ **Inner Circle Feature** - Add/remove members to your circle, circle-only posts (Feb 23, 2026)
-- ✅ **Mobile Circle Row** - Stories-style horizontal scroll for circle members (Feb 23, 2026)
-- ✅ **Settings Persistence** - Privacy & Notification settings save to Firebase (Feb 23, 2026)
-- ✅ **3-Tier Subscription System** - Free/Basic/Premium with Stripe (Feb 23, 2026)
-- ✅ **Admin Dashboard Enhancements** - Revenue stats, tier overrides, founder toggle (Feb 23, 2026)
-- ✅ **Subscription Feature Gating** - Route protection, message limits, event blur (Feb 23, 2026)
-- ✅ **Groups (Inner Circles)** - Create/join groups, group feed with video, media vault (Feb 23, 2026)
-- ✅ **3-Step Registration & Vetting Form Revamp** - Complete multi-step onboarding flow (Feb 24, 2026)
+### Authentication & Registration
+- ✅ 3-step registration flow with detailed vetting
+- ✅ Firebase Authentication integration
+- ✅ Multi-tier subscription system (Voyager, Insider, Elite)
 
-## 3-Step Registration & Vetting Form (NEW - Feb 24, 2026)
+### Social Features
+- ✅ Main Feed with posts and interactions
+- ✅ Inner Circles (Groups) - create, join, manage
+- ✅ Member Directory with search/filter
+- ✅ Direct Messaging
+- ✅ Profile Views tracking
 
-### Overview:
-Complete revamp of the registration flow into a comprehensive 3-step vetting process with progress bar, animated transitions, and "Verified Pineapple" badge system.
+### Marketplace
+- ✅ Product listings with images
+- ✅ Featured items system
+- ✅ Stripe payment integration
+- ✅ Transaction history
 
-### Step 1: Account & Logistics
-- **Account Type**: 9 options (Single Male/Female, Couples M/F/M/M/F/F, Poly Triad, Poly Quad+, Non-Binary, Other)
-- **Primary User**: Display name and age (21+ required)
-- **Partner Details**: Auto-shows for couple/poly account types (name & age)
-- **Credentials**: Username (letters/numbers/underscores), email, password with confirmation
-- **Location**: City, state/province, country
-- **Travel Status**: Local Only, Within State, Domestic, International, Frequent Traveler
+### Admin Panel
+- ✅ User management (ban, delete, set tier)
+- ✅ Group/Circle management
+- ✅ Vetting queue for new users
+- ✅ Statistics dashboard
 
-### Step 2: Lifestyle Profile
-- **Experience Level**: Brand New → Veteran (5 levels)
-- **Community Tenure**: Just starting → 5+ years (6 options)
-- **External Verification** (Optional): SLS, Kasidie, SDC, FetLife handles
-- **Interests**: Categorized selection (min 3 required)
-  - Social & Dating: Casual Dating, Friendship First, Event Companions, Travel Partners
-  - Lifestyle: Soft Swap, Full Swap, Same Room, Separate Room, Voyeurism, Exhibitionism
-  - Kink & BDSM: Light BDSM, Bondage, D/s, Role Play
-  - Relationship Styles: Polyamory, Open Relationship, Hotwife/Cuckold, Stag/Vixen
-  - Events & Social: House Parties, Club Events, Resort Takeovers, Luxury Travel, Workshops
-- **Preferences**: Singles/Couples/Both, Gender preferences
-- **Age Range**: Slider for min/max (21-99)
-- **About You**: Textarea with rotating "Vibe" hints (min 100 chars)
-- **Fantasies**: Textarea with rotating "Vibe" hints (min 50 chars)
+## Technical Stack
+- **Frontend**: Next.js 16.1.6, React 19, Tailwind CSS, Framer Motion
+- **Backend**: FastAPI, Motor (async MongoDB)
+- **Database**: MongoDB (Firestore for user profiles)
+- **Auth/Storage**: Firebase (Auth, Firestore, Cloud Storage)
+- **Payments**: Stripe
 
-### Step 3: Safety, Professionalism & Media
-- **Consent Pledges** (All 5 required):
-  1. Consent Pledge - Respect boundaries and enthusiastic consent
-  2. Privacy Agreement - No sharing of photos/info without consent
-  3. Health & Safety - Commit to regular testing and honest communication
-  4. Video Vetting Agreement - Agree to verification call for badge
-  5. Age Verification - Confirm 21+ years old
-- **Photo Upload**: 3-10 photos required (JPG/PNG/WebP, max 15MB each)
-- **Video Intro** (Optional): MP4/MOV/WebM, max 50MB
-- **Verified Pineapple Badge Info**: Display explaining badge benefits (3x more profile views)
+## Deployment Status
 
-### Technical Implementation:
-- **Components**:
-  - `/components/RegistrationForm.tsx` - Main orchestrator
-  - `/components/steps/AccountStep.tsx` - Step 1
-  - `/components/steps/ProfileStep.tsx` - Step 2
-  - `/components/steps/SafetyMediaStep.tsx` - Step 3
-  - `/components/VerifiedPineappleBadge.tsx` - Reusable badge component
-- **Schemas**: `/lib/registration-schemas.ts` - Zod validation schemas
-- **Features**:
-  - Animated step transitions (framer-motion)
-  - Progress bar with step indicators
-  - Green checkmarks for completed steps
-  - Data preserved on back navigation
-  - Form validation on each step
-  - Character counters for text fields
-  - Drag-and-drop photo upload with preview
-  - Responsive design (mobile/desktop)
+### Fixed Issues (Dec 2025)
+- ✅ ESLint version incompatibility resolved (downgraded to 8.57.0)
+- ✅ Added `.npmrc` and `.yarnrc` for engine compatibility
+- ✅ Created frontend `.env` with backend URL
+- ✅ Fixed TypeScript resolver types in registration steps
 
-### Firestore Member Document (New Fields):
-```typescript
-{
-  accountType: string,
-  primaryName: string,
-  primaryAge: number,
-  hasSecondaryUser: boolean,
-  secondaryName?: string,
-  secondaryAge?: number,
-  city: string,
-  state: string,
-  country: string,
-  travelStatus: string,
-  experienceLevel: string,
-  communityTenure: string,
-  verificationHandles?: { sls?, kasidie?, sdc?, fetlife?, other? },
-  interests: string[],
-  preferenceType: string,
-  aboutYou: string,
-  fantasies: string,
-  status: 'pending' | 'approved' | 'rejected',
-  isVerified: boolean,
-  verifiedPineapple: boolean
-}
+### Known Technical Debt
+- 🟡 Backend `server.py` is monolithic (~1300 lines) - needs refactoring
+- 🟢 Settings page toggles are UI-only (not connected to backend)
+- 🟢 Firebase config hardcoded (should use env variables)
+
+## API Endpoints
+
+### Authentication
+- POST `/api/auth/register` - User registration
+- POST `/api/auth/login` - User login
+
+### Marketplace
+- GET `/api/marketplace/listings` - Get all listings
+- GET `/api/marketplace/listings/featured` - Get featured listings
+- POST `/api/marketplace/listings` - Create listing
+- POST `/api/marketplace/listings/{id}/toggle-featured` - Toggle featured status
+
+### Admin
+- GET `/api/admin/users` - Get all users
+- DELETE `/api/admin/users/{id}` - Delete user account
+- DELETE `/api/admin/groups/{id}` - Delete group/circle
+- PUT `/api/admin/users/{id}/tier` - Update user tier
+
+## Environment Variables
+
+### Backend (.env)
+```
+MONGO_URL=mongodb://...
+DB_NAME=pineappleplay
+CORS_ORIGINS=*
+EMERGENT_LLM_KEY=sk-emergent-...
+STRIPE_API_KEY=sk_test_...
 ```
 
-### Profile Page Updates (Feb 24, 2026):
-Added new "Profile Details" card displaying:
-- Account Type
-- Display Name
-- Location (City, State)
-- Travel Willingness
-- Experience Level
-- How Long in Community (Community Tenure)
-- Interests (existing section enhanced with heart icon)
-
-## Groups (Inner Circles) Feature (NEW - Feb 23, 2026)
-
-### Access Control:
-- **Create Groups**: Premium tier OR Founder status required
-- **Join Groups**: Basic tier OR above required
-- **Members must be**: At least Basic plan (Free users cannot join)
-
-### Features:
-1. **Group Discovery** (`/groups`)
-   - Browse public/private groups
-   - Search functionality
-   - Join requests with approval workflow
-   - My Circles tab for joined groups
-
-2. **Group Creation** (`/groups/create`)
-   - Cover image upload
-   - Name and description
-   - Privacy settings: Public, Private, Secret
-   - Vetting toggle for manual member approval
-
-3. **Group Detail** (`/groups/[groupId]`)
-   - Hero cover image with glassmorphic navigation
-   - Premium UI design with backdrop blur effects
-   - Tabbed interface: Feed, Members, Media Vault
-   
-4. **Group Feed**
-   - Create posts with text, images (4 max), videos (2 max, 100MB each)
-   - Video upload progress indicator
-   - Reactions (fire, pineapple)
-   - Delete posts (author, admin, owner)
-
-5. **Member Management**
-   - View all members with role badges
-   - Pending member approval (owner/admin)
-   - Promote to admin / Remove members
-   - Leave group functionality
-
-6. **Media Vault**
-   - Aggregates all photos/videos from group posts
-   - Filter by media type (All, Photos, Videos)
-   - Grid layout with hover author info
-
-### Database Collections:
-- `groups` - Group metadata
-- `groupMembers` - Membership records
-- `groupPosts` - Posts within groups
-- `groupPostReactions` - Reactions to group posts
-
-## Subscription Feature Gating (NEW - Feb 23, 2026)
-
-### Tier Access Matrix:
-| Feature | Free | Basic | Premium |
-|---------|------|-------|---------|
-| Feed & Online Now | ✅ | ✅ | ✅ |
-| Messages | ❌ | 5/day | Unlimited |
-| Events | ❌ | Partial (1hr blur) | Full |
-| Marketplace | ❌ | ❌ | ✅ |
-| Travel (Sasha AI) | ❌ | ❌ | ✅ |
-| Who Viewed Profile | ❌ | ❌ | ✅ |
-| Add to Circle | ❌ | ❌ | ✅ |
-
-### Implementation Details:
-1. **FeatureGate Component** (`/app/frontend/components/FeatureGate.tsx`)
-   - Wraps protected pages to show upgrade prompts
-   - Supports `requiredTier: 'basic' | 'premium'`
-   - Shows tier-specific feature benefits
-
-2. **Message Limits** (`/app/frontend/lib/message-limits.ts`)
-   - Tracks daily messages sent per user in Firestore `messageTracking` collection
-   - Format: `{userId}_{YYYY-MM-DD}` document ID
-   - Basic: 5/day, Premium: unlimited, Free: 0
-
-3. **Event Blur** (`/app/frontend/app/events/page.tsx`)
-   - Basic users see blur overlay on events older than 1 hour
-   - Overlay includes "Upgrade to Premium" CTA
-
-4. **Profile Views Page** (`/app/frontend/app/profile-views/page.tsx`)
-   - Premium-only page showing who viewed your profile
-   - Redirects non-premium users to /pricing
-
-5. **Protected Routes**:
-   - `/events` - Requires Basic or higher
-   - `/marketplace` - Requires Premium
-   - `/travel` - Requires Premium
-   - `/messages` - Requires Basic or higher
-   - `/profile-views` - Requires Premium
-
-## Key Fixes Applied This Session (Feb 22, 2026)
-
-### Real-time Notifications System (NEW)
-Implemented comprehensive notifications feature:
-
-**Components Created/Modified:**
-- `/app/frontend/components/NotificationDropdown.tsx` - Dropdown UI with bell icon
-- `/app/frontend/lib/notifications.ts` - Firebase notifications helper functions
-- `/app/frontend/app/feed/page.tsx` - Integrated notification bell in header (desktop & mobile)
-
-**Notification Triggers Implemented:**
-1. **New Message Notifications**: 
-   - File: `/app/frontend/components/SecureMessaging.tsx`
-   - Triggers when user sends a message (both existing and new conversations)
-   - Uses `notifyNewMessage()` helper function
-
-2. **Sale Notifications**:
-   - File: `/app/frontend/app/marketplace/success/page.tsx`
-   - Triggers when buyer completes a purchase
-   - Notifies seller about the sale with item details
-   - Uses `notifyNewPurchase()` helper function
-
-3. **New Follower Notifications**:
-   - File: `/app/frontend/lib/profile-client.ts`
-   - Triggers when someone favorites (follows) a profile
-   - Uses direct Firestore addDoc to notifications collection
-
-**UI Features:**
-- Bell icon in header (both desktop and mobile navigation)
-- Red badge showing unread count
-- Dropdown with smooth animation
-- Different icons and colors for each notification type
-- Mark as read (individual and bulk)
-- Links to relevant pages (messages, transactions, profiles)
-
-**Firebase Firestore Collection:**
-- Collection: `notifications`
-- Fields: `type`, `title`, `message`, `toUserId`, `fromUserId`, `fromUsername`, `fromPhoto`, `read`, `link`, `metadata`, `createdAt`
-
-## Key Files Modified (This Session)
-- `/app/frontend/app/feed/page.tsx` - Added notification bell to header (desktop & mobile)
-- `/app/frontend/components/SecureMessaging.tsx` - Added message notification trigger
-- `/app/frontend/lib/profile-client.ts` - Added follow notification trigger
-- `/app/frontend/app/marketplace/success/page.tsx` - Added sale notification trigger
-- `/app/frontend/components/NotificationDropdown.tsx` - Added follow icon and color
-- `/app/backend/server.py` - Added seller_id to payment status response
-
-## Marketplace Features Status
-- ✅ Main marketplace page with listings grid
-- ✅ Category filtering
-- ✅ Create listing modal with image upload
-- ✅ Purchase flow with Stripe checkout
-- ✅ Report listing functionality
-- ✅ My Listings page (edit/delete with image management)
-- ✅ Image upload for listings (up to 5 per listing)
-- ✅ Success/confirmation page after purchase
-- ✅ Transaction history page (purchases & sales)
-
-## Notifications Feature Status
-- ✅ Notification bell icon in header
-- ✅ Real-time notification updates via Firebase
-- ✅ Message notifications
-- ✅ Sale notifications  
-- ✅ Follow notifications
-- ✅ Mark as read functionality
-- ✅ Unread badge counter
-
-## Search Feature Status (NEW - Feb 22, 2026)
-- ✅ Search bar in feed page header (desktop)
-- ✅ Real-time dropdown results with debouncing
-- ✅ Search across members, posts, and marketplace listings
-- ✅ Filter tabs (All, Members, Posts, Listings)
-- ✅ Dedicated search page at /search
-- ✅ Blocked users filtered from search results
-
-## Settings Page (NEW - Feb 22, 2026)
-- ✅ **Consolidated Settings Page** at `/settings`
-- ✅ **Privacy Settings**:
-  - Profile visibility (Public / Members Only / Connections Only)
-  - Who can message you (Everyone / Connections / No One)
-  - Show online status toggle
-  - Show last active toggle
-- ✅ **Notification Settings**:
-  - Messages notifications toggle
-  - Likes & reactions notifications toggle
-  - Comments notifications toggle
-  - New followers notifications toggle
-  - Marketplace notifications toggle
-  - Email digest frequency (Daily / Weekly / Never)
-- ✅ **Blocked Users Management**:
-  - View all blocked users with avatars and block dates
-  - One-click unblock functionality
-- ✅ **Account Actions**:
-  - Link to Help & FAQ
-  - Sign Out button
-
-## Block/Report Feature Status (Feb 22, 2026)
-- ✅ Block user functionality
-- ✅ Unblock user functionality
-- ✅ Report user with multiple reasons
-- ✅ Block/Report button on profile pages
-- ✅ Blocked users' posts filtered from feed
-- ✅ Blocked banner when viewing profile of user who blocked you
-- ✅ **Blocked Users management page** at `/settings/blocked` (NEW)
-
-## Feed Features Status
-- ✅ Post creation with text
-- ✅ **Image upload for posts** (up to 4 images per post) - FIXED
-- ✅ Privacy settings (All / Circle)
-- ✅ Category filtering
-- ✅ Real-time feed updates
-- ✅ Reactions (Fire / Pineapple)
-- ✅ Comments
-
-## Events Feature (NEW - Feb 22, 2026)
-Located at `/events` - Full community events management system
-
-### Features:
-- **Events Listing Page**:
-  - Grid view of all public events with image cards
-  - Filter by: Upcoming, My RSVPs, Hosting
-  - Event categories: Social, Travel, Dining, Wellness, Nightlife, Other
-  - RSVP directly from card or detail view
-
-- **Create Event**:
-  - Image upload support
-  - Title, description, category selection
-  - Date/time with optional end time
-  - Location and address
-  - Max attendees limit (optional)
-  - Price setting (optional)
-  - Private event toggle
-
-- **Event Detail Modal**:
-  - Full event information
-  - Host profile with message button
-  - Attendee count
-  - RSVP/Cancel RSVP button
-
-- **RSVP System**:
-  - One-click RSVP
-  - Automatic notification to host
-  - Cancel RSVP option
-  - Max attendees enforcement
-
-- **Event Management**:
-  - Cancel event (notifies all attendees)
-  - Delete event
-  - Edit event (host only)
-
-### Files Created:
-- `/app/frontend/lib/events.ts` - All event CRUD operations
-- `/app/frontend/app/events/page.tsx` - Events listing and creation UI
-
-### Navigation:
-- Mobile menu: Events link with calendar icon
-- Feed sidebar: VIP Events section links to events page
-
-### Firestore Collection: `events`
-Fields: `title`, `description`, `date`, `endDate`, `location`, `address`, `imageUrl`, `category`, `hostId`, `hostUsername`, `hostPhotoUrl`, `attendees`, `attendeeCount`, `maxAttendees`, `isPrivate`, `price`, `status`, `createdAt`
-
-## Admin Dashboard (ENHANCED - Feb 23, 2026)
-Located at `/admin/vetting` - requires admin role (`role: "admin"` in members document)
-
-### Features:
-- **Overview Tab**: 
-  - Platform statistics (total users, verified, pending, banned)
-  - Content overview (posts, reported posts, pending reports)
-  - Quick action cards for vetting, reports, and test user creation
-  - **NEW: Revenue & Subscription Statistics Card**
-    - Monthly revenue and total revenue
-    - Subscriber counts by tier (Premium, Basic, Free)
-    - Conversion rate percentage
-  
-- **Vetting Tab**:
-  - Pending user applications list with quick approve/deny buttons
-  - Detailed profile review with photos, interests, and description
-  - Approve to verify user and send welcome notification
-  - Reject with custom reason (sends notification to user)
-  
-- **Reports Tab**:
-  - Filter by status (pending, resolved, dismissed, all)
-  - View reporter and reported user details
-  - Add admin notes to reports
-  - Mark as resolved, dismiss, or ban user directly
-  - Quick ban with duration options (7 days, 30 days, permanent)
-  
-- **User Management Tab (NEW - Feb 23, 2026)**:
-  - Search users by username or email
-  - User table with avatar, status badges, and tier information
-  - **Subscription Tier Dropdown**: Manually override user's tier (Free/Basic/Premium)
-  - **Founder Status Toggle**: Grant or revoke founder badge
-  - Quick actions: View profile, Ban user
-  - Filtering and pagination
-
-### Admin Functions (lib/admin.ts):
-- `getUserReports()` - Fetch user reports by status
-- `updateReportStatus()` - Update report with admin notes
-- `banUser()` - Ban user with reason and duration
-- `unbanUser()` - Restore banned user access
-- `getAdminStats()` - Get comprehensive platform statistics
-- `deletePost()` - Remove reported posts
-- `clearPostReports()` - Approve reported posts
-- **NEW: `getSubscriptionStats()`** - Get revenue and tier statistics
-- **NEW: `setUserTier()`** - Admin override for user subscription tier
-- **NEW: `setFounderStatus()`** - Grant/revoke founder badge
-- **NEW: `getAllUsersForAdmin()`** - Fetch users with subscription data
-
-### Backend Admin Endpoints (NEW - Feb 23, 2026):
-- `GET /api/admin/subscription-stats` - Revenue and subscription statistics
-- `POST /api/admin/set-tier` - Override user's subscription tier
-- `POST /api/admin/set-founder` - Set founder status (Firestore update)
-- `POST /api/admin/search-users` - Get subscription data for all users
-
-## P0 Tasks (Completed)
-- ✅ Real-time notifications system
-- ✅ Search feature (members, posts, listings)
-- ✅ Block/Report users safety features
-- ✅ **Inner Circle Feature** (Feb 23, 2026)
-
-## Inner Circle Feature (NEW - Feb 23, 2026)
-The "Circle" feature allows users to create an exclusive group of connections who can see their private posts.
-
-### How It Works:
-1. **Adding to Circle**: Visit a user's profile and click "Add to Circle" button
-2. **Circle Posts**: When creating a post, select "Circle" privacy to make it visible only to your circle members
-3. **Managing Circle**: Go to Settings > My Circle tab to view and remove members
-4. **Feed Visibility**: Posts marked as "Circle only" will only appear in feeds of users who have the author in their circle
-
-### Files Created/Modified:
-- `/app/frontend/lib/circle.ts` - Circle management functions (add, remove, get members, check status)
-- `/app/frontend/components/ProfilePage.tsx` - Added "Add to Circle" button on profile pages
-- `/app/frontend/app/settings/page.tsx` - Added "My Circle" tab with member management
-- `/app/frontend/app/feed/page.tsx` - Updated feed filtering for circle-only posts
-
-### Firestore Collection: `circles`
-Fields: `ownerId`, `memberId`, `memberUsername`, `memberPhotoUrl`, `createdAt`
-
-### Firebase Rules Required:
+### Frontend (.env)
 ```
-match /circles/{circleId} {
-  allow read: if request.auth != null && 
-                (resource.data.ownerId == request.auth.uid || 
-                 resource.data.memberId == request.auth.uid);
-  allow create: if request.auth != null && 
-                  request.resource.data.ownerId == request.auth.uid;
-  allow delete: if request.auth != null && 
-                  resource.data.ownerId == request.auth.uid;
-  allow update: if false;
-}
+NEXT_PUBLIC_BACKEND_URL=https://...
 ```
 
-## P1 Tasks (Next Priority)
-- ✅ **Privacy & Notification Settings Persistence** (Feb 23, 2026)
-  - Settings now save to Firebase when user clicks "Save Changes"
-  - Visual indicator shows when there are unsaved changes (green pulsing dot)
-  - Button state changes: "Saved" (grey) → "Save Changes" (gold with indicator)
-  - Settings load from user's `members` document on page load
-- Admin vetting dashboard testing
-- Backend refactoring (break down server.py into modular routers)
+## Backlog
 
-## P2 Tasks (Backlog)
-- Performance optimization
-- Security review of Firestore rules
-- UI/UX polish
+### P1 (High Priority)
+- [ ] Refactor backend into modular routers
+- [ ] Move Firebase config to environment variables
 
-## Firestore Security Rules Needed
-For features to work, ensure these rules are in Firebase Console:
-```
-// Notifications
-match /notifications/{notificationId} {
-  allow read: if request.auth != null && resource.data.toUserId == request.auth.uid;
-  allow create: if request.auth != null;
-  allow update: if request.auth != null && resource.data.toUserId == request.auth.uid;
-}
+### P2 (Medium Priority)
+- [ ] Connect settings toggles to backend
+- [ ] Add loading states and micro-animations
+- [ ] Improve mobile responsiveness
 
-// Blocked Users
-match /blockedUsers/{blockId} {
-  allow read: if request.auth != null;
-  allow create: if request.auth != null;
-  allow delete: if request.auth != null && resource.data.blockerId == request.auth.uid;
-}
-
-// User Reports
-match /userReports/{reportId} {
-  allow read: if request.auth != null && resource.data.reporterId == request.auth.uid;
-  allow create: if request.auth != null;
-}
-
-// Circles (Inner Circle / Connections)
-match /circles/{circleId} {
-  allow read: if request.auth != null && 
-                (resource.data.ownerId == request.auth.uid || 
-                 resource.data.memberId == request.auth.uid);
-  allow create: if request.auth != null && 
-                  request.resource.data.ownerId == request.auth.uid;
-  allow delete: if request.auth != null && 
-                  resource.data.ownerId == request.auth.uid;
-  allow update: if false;
-}
-```
-
-## 3-Tier Subscription System (NEW - Feb 23, 2026)
-
-### Pricing Tiers:
-| Tier | Monthly | Yearly | Lifetime |
-|------|---------|--------|----------|
-| Free | $0 | - | - |
-| Basic | $19.99 | $199.99 (17% off) | - |
-| Premium | $34.99 | $349.99 (17% off) | $499 |
-
-### Feature Access by Tier:
-| Feature | Free | Basic | Premium |
-|---------|------|-------|---------|
-| Feed access | ✓ | ✓ | ✓ |
-| Online Now list | ✓ | ✓ | ✓ |
-| Messages/day | 0 | 5 | Unlimited |
-| Online status | ✗ | ✓ | ✓ |
-| Events | ✗ | 1hr preview | Full |
-| Marketplace | ✗ | ✗ | ✓ |
-| Sasha AI Travel | ✗ | ✗ | ✓ |
-| See profile views | ✗ | ✗ | ✓ |
-| Priority search | ✗ | ✗ | ✓ |
-| Add to Circle | ✗ | ✗ | ✓ |
-
-### Files Created:
-- `/app/frontend/lib/subscription.ts` - Subscription API functions & types
-- `/app/frontend/components/SubscriptionProvider.tsx` - Global subscription state
-- `/app/frontend/components/SubscriptionGuard.tsx` - Feature gating component
-- `/app/frontend/app/pricing/page.tsx` - Pricing page with plan selection
-- `/app/frontend/app/subscription/success/page.tsx` - Post-payment success page
-
-### Backend Endpoints (server.py):
-- `GET /api/subscriptions/plans` - Get all plans & tier features
-- `POST /api/subscriptions/checkout` - Create Stripe checkout session
-- `GET /api/subscriptions/status/{session_id}` - Check payment status
-- `GET /api/subscriptions/user/{user_id}` - Get user's current subscription
-- `POST /api/subscriptions/cancel/{user_id}` - Cancel subscription
-
-### MongoDB Collections:
-- `subscription_transactions` - Payment records
-- `subscriptions` - Active user subscriptions
-
-### Integration Points:
-- SubscriptionProvider added to ClientProviders.tsx
-- useSubscription hook available app-wide
-- SubscriptionGuard component for feature gating
-- Upgrade banner shown to free users in feed sidebar
+### P3 (Low Priority)
+- [ ] Add pagination to database queries
+- [ ] Implement notification system
+- [ ] Add analytics dashboard
