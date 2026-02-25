@@ -344,6 +344,33 @@ function AdminDashboardContent() {
     }
   };
 
+  const handleDeleteGroup = async () => {
+    if (!deleteGroupTarget || deleteGroupConfirmText !== 'DELETE') return;
+    
+    setDeletingGroup(true);
+    try {
+      const result = await adminDeleteGroup(deleteGroupTarget.id);
+      
+      if (result.success) {
+        toast.success('Circle deleted permanently', {
+          description: `"${deleteGroupTarget.name}" and all its content has been removed`
+        });
+        setShowDeleteGroupModal(false);
+        setDeleteGroupTarget(null);
+        setDeleteGroupConfirmText('');
+        
+        // Immediately update local groups list
+        setAllGroups(prev => prev.filter(g => g.id !== deleteGroupTarget.id));
+      } else {
+        toast.error('Failed to delete circle', { description: result.error });
+      }
+    } catch (error) {
+      toast.error('Failed to delete circle');
+    } finally {
+      setDeletingGroup(false);
+    }
+  };
+
   const handleCreateTestUser = async () => {
     const result = await createTestPendingUser();
     if (result.success) {
