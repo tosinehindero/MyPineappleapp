@@ -468,8 +468,20 @@ export async function unbanUser(userId: string): Promise<{ success: boolean; err
 export async function deleteUserAccount(
   userId: string,
   deleteContent: boolean = false
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; deletedTier?: string }> {
   try {
+    // First, get the user's current tier for stats sync
+    let userTier = 'free';
+    try {
+      const memberDoc = await getDoc(doc(db, 'members', userId));
+      if (memberDoc.exists()) {
+        const memberData = memberDoc.data();
+        userTier = memberData.tier || 'free';
+      }
+    } catch (e) {
+      console.log('Could not get user tier, defaulting to free');
+    }
+
     // Delete user's content if requested
     if (deleteContent) {
       // Delete user's posts
@@ -495,8 +507,23 @@ export async function deleteUserAccount(
       const messagesSentSnapshot = await getDocs(messagesSentQuery);
       const messagesSentDeletePromises = messagesSentSnapshot.docs.map(doc => deleteDoc(doc.ref));
       await Promise.all(messagesSentDeletePromises);
+    }
 
-      // Note: Marketplace listings are in MongoDB, handled separately via backend API
+    // Delete user's subscription document from Firestore
+    try {
+      await deleteDoc(doc(db, 'subscriptions', userId));
+    } catch (e) {
+      console.log('No subscription document to delete or error:', e);
+    }
+
+    // Delete user's marketplace listings via backend API
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+      await fetch(`${API_URL}/api/marketplace/listings/user/${userId}`, {
+        method: 'DELETE',
+      });
+    } catch (e) {
+      console.log('Could not delete marketplace listings:', e);
     }
 
     // Delete the user's member document from Firestore
@@ -506,7 +533,7 @@ export async function deleteUserAccount(
     // The user won't be able to log in since their member document is deleted
     // For full deletion, a backend endpoint with Firebase Admin SDK would be needed
 
-    return { success: true };
+    return { success: true, deletedTier: userTier };
   } catch (error: any) {
     console.error('Error deleting user account:', error);
     return { success: false, error: error.message };
