@@ -1029,9 +1029,20 @@ function AdminDashboardContent() {
                                     setBanTargetUsername(user.username);
                                     setShowBanModal(true);
                                   }}
-                                  className="px-3 py-1.5 bg-red-500/10 text-red-400 text-xs rounded-lg hover:bg-red-500/20 transition-colors"
+                                  className="px-3 py-1.5 bg-orange-500/10 text-orange-400 text-xs rounded-lg hover:bg-orange-500/20 transition-colors"
                                 >
                                   Ban
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setDeleteTargetId(user.id);
+                                    setDeleteTargetUsername(user.username);
+                                    setShowDeleteModal(true);
+                                  }}
+                                  className="px-3 py-1.5 bg-red-500/10 text-red-400 text-xs rounded-lg hover:bg-red-500/20 transition-colors"
+                                  data-testid={`delete-user-${user.id}`}
+                                >
+                                  Delete
                                 </button>
                               </div>
                             </td>
