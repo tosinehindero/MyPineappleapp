@@ -157,11 +157,21 @@ function AdminDashboardContent() {
     setUsersLoading(false);
   };
 
+  const loadGroups = async () => {
+    setGroupsLoading(true);
+    const groups = await getAllGroupsForAdmin();
+    setAllGroups(groups);
+    setGroupsLoading(false);
+  };
+
   // Load users when switching to users tab
   useEffect(() => {
     console.log('🍍 Tab changed to:', activeTab, '| Users loaded:', allUsers.length);
     if (activeTab === 'users') {
       loadUsers();
+    }
+    if (activeTab === 'circles') {
+      loadGroups();
     }
   }, [activeTab]);
 
