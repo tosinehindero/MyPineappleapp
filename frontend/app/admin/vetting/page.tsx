@@ -1055,7 +1055,7 @@ function AdminDashboardContent() {
                             <td className="px-4 py-4">
                               <div className="flex items-center space-x-2">
                                 <Link
-                                  href={`/profile/${user.username}`}
+                                  href={`/profile/${user.id}`}
                                   className="px-3 py-1.5 bg-gold/10 text-gold text-xs rounded-lg hover:bg-gold/20 transition-colors"
                                 >
                                   View
