@@ -59,6 +59,7 @@ export default function MapView() {
   const [locationShared, setLocationShared] = useState(false);
   const [sharingLocation, setSharingLocation] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   // Check authentication and load user's saved location
   useEffect(() => {
