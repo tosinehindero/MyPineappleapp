@@ -43,6 +43,11 @@ PineapplePlay is a lifestyle community platform for adults (21+) featuring socia
 - ✅ Added `.npmrc` and `.yarnrc` for engine compatibility
 - ✅ Created frontend `.env` with backend URL
 - ✅ Fixed TypeScript resolver types in registration steps
+- ✅ Fixed mobile navbar responsiveness
+- ✅ Fixed marketplace header mobile responsiveness
+- ✅ Fixed feed page mobile dropdown (added Members/Map links)
+- ✅ Fixed admin user management JSON parsing error
+- ✅ Fixed map page mobile sidebar blocking map view (Feb 2025)
 
 ### Known Technical Debt
 - 🟡 Backend `server.py` is monolithic (~1300 lines) - needs refactoring
