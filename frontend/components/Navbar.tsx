@@ -356,6 +356,7 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+              </>
             ) : (
               /* Logged Out State */
               <>
