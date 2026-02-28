@@ -926,7 +926,15 @@ export async function getAllUsersForAdmin(): Promise<{
       body: JSON.stringify({ query: '', limit: 500 }),
     });
     
-    const subscriptionData = await subscriptionResponse.json();
+    // Check if response is valid JSON
+    const responseText = await subscriptionResponse.text();
+    let subscriptionData;
+    try {
+      subscriptionData = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse subscription response:', responseText.substring(0, 100));
+      subscriptionData = { subscription_map: {} };
+    }
     const subscriptionMap = subscriptionData.subscription_map || {};
     
     // Get all users from Firestore - use simple query without orderBy to avoid index issues
