@@ -227,41 +227,41 @@ function MarketplaceContent() {
 
       {/* Header */}
       <div className="bg-darkBlue/50 border-b border-gold/20">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gold/60 hover:text-gold transition-colors">
+              <Link href="/feed" className="text-gold/60 hover:text-gold transition-colors">
                 <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                   <path d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
               </Link>
               <div>
-                <h1 className="text-3xl font-heading text-gold">Lifestyle Gear</h1>
-                <p className="text-offWhite/60 font-body">Member Marketplace</p>
+                <h1 className="text-2xl sm:text-3xl font-heading text-gold">Lifestyle Gear</h1>
+                <p className="text-offWhite/60 font-body text-sm sm:text-base">Member Marketplace</p>
               </div>
             </div>
 
             {currentUser && (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
                 <Link
                   href="/marketplace/transactions"
-                  className="px-4 py-2 border border-gold/30 text-gold rounded-full hover:bg-gold/10 transition-colors font-body text-sm flex items-center gap-2"
+                  className="px-3 sm:px-4 py-2 border border-gold/30 text-gold rounded-full hover:bg-gold/10 transition-colors font-body text-xs sm:text-sm flex items-center gap-1 sm:gap-2"
                   data-testid="transactions-link"
                 >
                   <svg className="w-4 h-4" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                     <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
-                  History
+                  <span className="hidden sm:inline">History</span>
                 </Link>
                 <Link
                   href="/marketplace/my-listings"
-                  className="px-4 py-2 border border-gold/30 text-gold rounded-full hover:bg-gold/10 transition-colors font-body text-sm"
+                  className="px-3 sm:px-4 py-2 border border-gold/30 text-gold rounded-full hover:bg-gold/10 transition-colors font-body text-xs sm:text-sm"
                 >
                   My Listings
                 </Link>
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all"
+                  className="px-4 sm:px-6 py-2 bg-gold text-charcoal font-semibold rounded-full hover:shadow-gold-glow transition-all text-xs sm:text-sm whitespace-nowrap"
                   data-testid="create-listing-btn"
                 >
                   + Sell Item
