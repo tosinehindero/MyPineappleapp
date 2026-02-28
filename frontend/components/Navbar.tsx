@@ -202,32 +202,51 @@ export default function Navbar() {
           <div className="flex items-center space-x-2 sm:space-x-4">
             {currentUser ? (
               /* Logged In State */
-              <div className="relative">
+              <>
+                {/* Mobile hamburger for logged-in users */}
                 <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 rounded-full border border-gold/30 hover:border-gold/60 transition-all"
-                  data-testid="user-menu-btn"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="md:hidden p-2 text-gold hover:bg-gold/10 rounded-lg transition-colors"
+                  data-testid="mobile-menu-btn-logged-in"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
-                    <span className="text-gold font-heading text-sm">
-                      {currentUser.email?.[0]?.toUpperCase() || 'U'}
-                    </span>
-                  </div>
-                  <span className="hidden sm:block text-offWhite/80 font-body text-sm max-w-[120px] truncate">
-                    {currentUser.email}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 text-gold transition-transform ${showUserMenu ? 'rotate-180' : ''}`}
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M19 9l-7 7-7-7" />
-                  </svg>
+                  {mobileMenuOpen ? (
+                    <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                      <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  )}
                 </button>
+
+                {/* User menu button */}
+                <div className="relative">
+                  <button
+                    onClick={() => setShowUserMenu(!showUserMenu)}
+                    className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 rounded-full border border-gold/30 hover:border-gold/60 transition-all"
+                    data-testid="user-menu-btn"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
+                      <span className="text-gold font-heading text-sm">
+                        {currentUser.email?.[0]?.toUpperCase() || 'U'}
+                      </span>
+                    </div>
+                    <span className="hidden sm:block text-offWhite/80 font-body text-sm max-w-[120px] truncate">
+                      {currentUser.email}
+                    </span>
+                    <svg
+                      className={`hidden sm:block w-4 h-4 text-gold transition-transform ${showUserMenu ? 'rotate-180' : ''}`}
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
 
                 {/* Dropdown Menu */}
                 {showUserMenu && (
