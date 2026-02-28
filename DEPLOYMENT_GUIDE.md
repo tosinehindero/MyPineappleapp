@@ -163,7 +163,7 @@ Your current setup auto-scales:
 
 | Item | Value |
 |------|-------|
-| Preview URL | https://marketplace-featured.preview.emergentagent.com |
+| Preview URL | https://map-mobile-fix.preview.emergentagent.com |
 | GoDaddy DNS | https://dcc.godaddy.com/manage/dns |
 | Firebase Console | https://console.firebase.google.com |
 | Stripe Dashboard | https://dashboard.stripe.com |
