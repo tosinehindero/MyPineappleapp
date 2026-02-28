@@ -97,7 +97,7 @@ NEXT_PUBLIC_BACKEND_URL=https://...
 ### P2 (Medium Priority)
 - [ ] Connect settings toggles to backend
 - [ ] Add loading states and micro-animations
-- [ ] Improve mobile responsiveness
+- [x] Improve mobile responsiveness (Map page fixed Feb 2025)
 
 ### P3 (Low Priority)
 - [ ] Add pagination to database queries
