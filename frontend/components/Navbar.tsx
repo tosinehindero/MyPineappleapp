@@ -399,7 +399,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu Dropdown - Logged Out */}
         {mobileMenuOpen && !currentUser && (
           <div className="sm:hidden bg-charcoal/95 backdrop-blur-md border-t border-gold/10 py-4 space-y-2">
             <Link
@@ -432,6 +432,61 @@ export default function Navbar() {
                 Apply for Membership
               </Link>
             </div>
+          </div>
+        )}
+
+        {/* Mobile Menu Dropdown - Logged In */}
+        {mobileMenuOpen && currentUser && (
+          <div className="md:hidden bg-charcoal/95 backdrop-blur-md border-t border-gold/10 py-4 space-y-2">
+            <Link
+              href="/feed"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Feed
+            </Link>
+            <Link
+              href="/groups"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Groups
+            </Link>
+            <Link
+              href="/members"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Members
+            </Link>
+            <Link
+              href="/map"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Discover Map
+            </Link>
+            <Link
+              href="/events"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Events
+            </Link>
+            <Link
+              href="/marketplace"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Marketplace
+            </Link>
+            <Link
+              href="/messages"
+              className="block px-4 py-3 text-offWhite/80 hover:text-gold hover:bg-gold/10 transition-colors font-body"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Messages
+            </Link>
           </div>
         )}
       </div>
